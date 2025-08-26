@@ -8,14 +8,14 @@
     <div class="header-content-left">
 
         <!-- Start::header-element -->
-        <div class="header-element">
+        {{-- <div class="header-element">
             <div class="horizontal-logo">
                 <a href="{{url('index')}}" class="header-logo">
                     <img src="{{asset('build/assets/images/brand-logos/toggle-logo.png')}}" alt="logo" class="toggle-logo">
                     <img src="{{asset('build/assets/images/brand-logos/toggle-dark.png')}}" alt="logo" class="toggle-dark">
                 </a>
             </div>
-        </div>
+        </div> --}}
         <!-- End::header-element -->
 
         <!-- Start::header-element -->

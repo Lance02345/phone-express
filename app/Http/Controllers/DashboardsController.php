@@ -8,7 +8,7 @@ class DashboardsController extends Controller
 {
     public function index()
     {
-        return view('pages.index');
+        return view('pages.landing');
     }
 
     public function index2()
