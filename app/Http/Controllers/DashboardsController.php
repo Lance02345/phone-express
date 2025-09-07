@@ -3,12 +3,17 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Phone;
 
 class DashboardsController extends Controller
 {
     public function index()
     {
-        return view('pages.landing');
+        // Pick 6 random phones for each tab
+        $fullPhones = Phone::inRandomOrder()->take(6)->get();
+        $lipaPhones = Phone::inRandomOrder()->take(6)->get();
+
+        return view('pages.landing', compact('fullPhones', 'lipaPhones'));
     }
 
     public function index2()
@@ -65,5 +70,5 @@ class DashboardsController extends Controller
     {
         return view('pages.index12');
     }
-    
+
 }

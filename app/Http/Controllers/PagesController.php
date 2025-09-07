@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Phone;
 
 class PagesController extends Controller
 {
@@ -148,7 +149,13 @@ class PagesController extends Controller
 
     public function pricing()
     {
-        return view('pages.pricing');
+        // Full payment phones
+        $fullPhones = Phone::paginate(12, ['*'], 'full_page');
+
+        // Lipa Mdogo Mdogo phones
+        $lipaPhones = Phone::paginate(12, ['*'], 'lipa_page');
+
+        return view('pages.pricing', compact('fullPhones', 'lipaPhones'));
     }
 
     public function profile()

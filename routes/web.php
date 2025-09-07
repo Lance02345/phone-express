@@ -79,7 +79,7 @@ Route::get('invoice-list', [PagesController::class, 'invoice_list']);
 Route::get('landing', [PagesController::class, 'landing']);
 Route::get('landing-jobs', [PagesController::class, 'landing_jobs']);
 Route::get('notifications', [PagesController::class, 'notifications']);
-Route::get('pricing', [PagesController::class, 'pricing']);
+Route::get('pricing', [PagesController::class, 'pricing'])->name('pricing');
 Route::get('profile', [PagesController::class, 'profile']);
 Route::get('reviews', [PagesController::class, 'reviews']);
 Route::get('teams', [PagesController::class, 'teams']);

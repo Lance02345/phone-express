@@ -27,7 +27,7 @@
                                 with our <strong>Lipa Mdogo Mdogo</strong> option and take home your phone today without
                                 breaking the bank.
                             </div>
-                            <a href="{{url('index')}}" class="m-1 btn btn-primary">
+                            <a href="{{ route('pricing') }}" class="m-1 btn btn-primary">
                                 Shop Now
                                 <i class="ri-shopping-bag-line ms-2 align-middle"></i>
                             </a>
@@ -44,7 +44,105 @@
         </section>
     </div>
     <!-- End:: Section-1 -->
+    <!-- Top-End Smartphones Pricing Section -->
+    <section class="section" id="pricing">
+        <div class="container text-center">
+            <p class="fs-12 fw-semibold text-success mb-1">
+                <span class="landing-section-heading">PRICING</span>
+            </p>
+            <h3 class="fw-semibold mb-2">Get your favorite smartphone at the most affordable rates.</h3>
+            <div class="row justify-content-center mb-4">
+                <div class="col-xl-9">
+                    <p class="text-muted fs-15 mb-5 fw-normal">
+                        Choose your smartphone and payment method — Full Payment or Lipa PolePole (installments).
+                    </p>
+                </div>
+            </div>
 
+            <!-- Payment Method Tabs -->
+            <div class="d-flex justify-content-center mb-4">
+                <ul class="nav nav-tabs mb-3 tab-style-6 bg-primary-transparent" id="paymentMethodTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="full-payment-tab" data-bs-toggle="tab"
+                            data-bs-target="#full-payment" type="button" role="tab" aria-controls="full-payment"
+                            aria-selected="true">Full Payment</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="lipa-tab" data-bs-toggle="tab" data-bs-target="#lipa-polepole"
+                            type="button" role="tab" aria-controls="lipa-polepole" aria-selected="false">Lipa
+                            PolePole</button>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Tab Content -->
+            <div class="tab-content" id="paymentMethodContent">
+
+                <!-- Full Payment -->
+                <div class="tab-pane show active p-0" id="full-payment" role="tabpanel" aria-labelledby="full-payment-tab"
+                    tabindex="0">
+                    <div class="row justify-content-center">
+                        @foreach($fullPhones as $phone)
+                            <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-4">
+                                <div class="p-4 text-center border rounded-3">
+                                    <img src="{{ asset($phone->image_path) }}" alt="{{ $phone->name }}"
+                                        class="img-fluid mb-3 rounded-3" style="height:220px; object-fit:cover;">
+                                    <h6 class="fw-semibold">{{ $phone->name }}</h6>
+                                    <p class="fs-25 fw-semibold mb-1">KES {{ number_format($phone->price) }}</p>
+                                    <p class="text-muted fs-11 fw-semibold mb-3">Full Payment</p>
+                                    <ul class="list-unstyled fs-12 mb-3">
+                                        <li>Storage: (check specs)</li>
+                                        <li>Dual/Triple Camera</li>
+                                        <li>Face ID</li>
+                                        <li>Multiple Colors</li>
+                                    </ul>
+                                    <button class="btn btn-primary-light btn-wave">Buy Now</button>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                    <div class="mt-4">
+                        <a href="{{ route('pricing') }}" class="btn btn-primary">Show More</a>
+                    </div>
+                </div>
+
+                <!-- Lipa PolePole -->
+                <div class="tab-pane p-0" id="lipa-polepole" role="tabpanel" aria-labelledby="lipa-tab" tabindex="0">
+                    <div class="row justify-content-center">
+                        @foreach($lipaPhones as $phone)
+                            @php
+                                $months = 10;
+                                $interestRate = 1.1; // 10% extra
+                                $monthlyInstallment = ceil(($phone->price * $interestRate) / $months);
+                            @endphp
+
+                            <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-4">
+                                <div class="p-4 text-center border rounded-3">
+                                    <img src="{{ asset($phone->image_path) }}" alt="{{ $phone->name }}"
+                                        class="img-fluid mb-3 rounded-3" style="height:220px; object-fit:cover;">
+                                    <h6 class="fw-semibold">{{ $phone->name }}</h6>
+                                    <p class="fs-25 fw-semibold mb-1">KES {{ number_format($monthlyInstallment) }} x
+                                        {{ $months }} months</p>
+                                    <p class="text-muted fs-11 fw-semibold mb-3">Lipa PolePole</p>
+                                    <ul class="list-unstyled fs-12 mb-3">
+                                        <li>Storage: (check specs)</li>
+                                        <li>Dual/Triple Camera</li>
+                                        <li>Face ID</li>
+                                        <li>Multiple Colors</li>
+                                    </ul>
+                                    <button class="btn btn-primary-light btn-wave">Buy Now</button>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                    <div class="mt-4">
+                        <a href="{{ route('pricing') }}" class="btn btn-primary">Show More</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
     <!-- Start:: Section-2 -->
     <section class="section section-bg" id="statistics">
         <div class="container text-center position-relative">
@@ -497,169 +595,6 @@
     </section>
     <!-- End:: Section-6 -->
 
-    <!-- Top-End Smartphones Pricing Section -->
-    <section class="section" id="pricing">
-        <div class="container text-center">
-            <p class="fs-12 fw-semibold text-success mb-1">
-                <span class="landing-section-heading">PRICING</span>
-            </p>
-            <h3 class="fw-semibold mb-2">Get your favorite smartphone at the most affordable rates.</h3>
-            <div class="row justify-content-center mb-4">
-                <div class="col-xl-9">
-                    <p class="text-muted fs-15 mb-5 fw-normal">
-                        Choose your smartphone and payment method — Full Payment or Lipa PolePole (installments).
-                    </p>
-                </div>
-            </div>
-
-            <!-- Payment Method Tabs -->
-            <div class="d-flex justify-content-center mb-4">
-                <ul class="nav nav-tabs mb-3 tab-style-6 bg-primary-transparent" id="paymentMethodTab" role="tablist">
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link active" id="full-payment-tab" data-bs-toggle="tab"
-                            data-bs-target="#full-payment" type="button" role="tab" aria-controls="full-payment"
-                            aria-selected="true">Full Payment</button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="lipa-tab" data-bs-toggle="tab" data-bs-target="#lipa-polepole"
-                            type="button" role="tab" aria-controls="lipa-polepole" aria-selected="false">Lipa
-                            PolePole</button>
-                    </li>
-                </ul>
-            </div>
-
-            <!-- Tab Content -->
-            <div class="tab-content" id="paymentMethodContent">
-
-                <!-- Full Payment -->
-                <div class="tab-pane show active p-0" id="full-payment" role="tabpanel" aria-labelledby="full-payment-tab"
-                    tabindex="0">
-                    <div class="row justify-content-center">
-
-                        <!-- iPhone 13 -->
-                        <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-6 col-sm-12">
-                            <div class="p-4 text-center">
-                                <img src="{{ asset('Images/iphone13.jpg') }}" alt="iPhone 13"
-                                    class="img-fluid mb-3 rounded-3" style="height:220px; object-fit:cover;">
-                                <h6 class="fw-semibold">iPhone 13</h6>
-                                <p class="fs-25 fw-semibold mb-1">KES 100,000</p>
-                                <p class="text-muted fs-11 fw-semibold mb-3">Full Payment</p>
-                                <ul class="list-unstyled fs-12 mb-3">
-                                    <li>128GB Storage</li>
-                                    <li>Dual Camera</li>
-                                    <li>Face ID</li>
-                                    <li>Multiple Colors</li>
-                                </ul>
-                                <button class="btn btn-primary-light btn-wave">Buy Now</button>
-                            </div>
-                        </div>
-
-                        <!-- iPhone 14 -->
-                        <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-6 col-sm-12">
-                            <div class="p-4 text-center">
-                                <img src="{{ asset('Images/iphone12.jpg') }}" alt="iPhone 14"
-                                    class="img-fluid mb-3 rounded-3" style="height:220px; object-fit:cover;">
-                                <h6 class="fw-semibold">iPhone 14</h6>
-                                <p class="fs-25 fw-semibold mb-1">KES 130,000</p>
-                                <p class="text-muted fs-11 fw-semibold mb-3">Full Payment</p>
-                                <ul class="list-unstyled fs-12 mb-3">
-                                    <li>128GB Storage</li>
-                                    <li>Dual Camera</li>
-                                    <li>Face ID</li>
-                                    <li>Multiple Colors</li>
-                                </ul>
-                                <button class="btn btn-primary-light btn-wave">Buy Now</button>
-                            </div>
-                        </div>
-
-                        <!-- Samsung Galaxy S23 -->
-                        <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-6 col-sm-12">
-                            <div class="p-4 text-center">
-                                <img src="{{ asset('Images/iphone11pro.jpg') }}" alt="Samsung Galaxy S23"
-                                    class="img-fluid mb-3 rounded-3" style="height:220px; object-fit:cover;">
-                                <h6 class="fw-semibold">Samsung Galaxy S23</h6>
-                                <p class="fs-25 fw-semibold mb-1">KES 120,000</p>
-                                <p class="text-muted fs-11 fw-semibold mb-3">Full Payment</p>
-                                <ul class="list-unstyled fs-12 mb-3">
-                                    <li>256GB Storage</li>
-                                    <li>Triple Camera</li>
-                                    <li>Fingerprint & Face Unlock</li>
-                                    <li>Multiple Colors</li>
-                                </ul>
-                                <button class="btn btn-primary-light btn-wave">Buy Now</button>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-
-                <!-- Lipa PolePole -->
-                <div class="tab-pane p-0" id="lipa-polepole" role="tabpanel" aria-labelledby="lipa-tab" tabindex="0">
-                    <div class="row justify-content-center">
-
-                        <!-- iPhone 13 -->
-                        <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-6 col-sm-12">
-                            <div class="p-4 text-center">
-                                <img src="{{ asset('Images/alexander-andrews-Wzs4-QEmCUQ-unsplash.jpg') }}" alt="iPhone 13"
-                                    class="img-fluid mb-3 rounded-3" style="height:220px; object-fit:cover;">
-                                <h6 class="fw-semibold">iPhone 13</h6>
-                                <p class="fs-25 fw-semibold mb-1">KES 10,000 x 10 months</p>
-                                <p class="text-muted fs-11 fw-semibold mb-3">Lipa PolePole</p>
-                                <ul class="list-unstyled fs-12 mb-3">
-                                    <li>128GB Storage</li>
-                                    <li>Dual Camera</li>
-                                    <li>Face ID</li>
-                                    <li>Multiple Colors</li>
-                                </ul>
-                                <button class="btn btn-primary-light btn-wave">Buy Now</button>
-                            </div>
-                        </div>
-
-                        <!-- iPhone 14 -->
-                        <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-6 col-sm-12">
-                            <div class="p-4 text-center">
-                                <img src="{{ asset('Images/filip-baotic-DV0mB2uJM34-unsplash.jpg') }}" alt="iPhone 14"
-                                    class="img-fluid mb-3 rounded-3" style="height:220px; object-fit:cover;">
-                                <h6 class="fw-semibold">iPhone 14</h6>
-                                <p class="fs-25 fw-semibold mb-1">KES 13,000 x 10 months</p>
-                                <p class="text-muted fs-11 fw-semibold mb-3">Lipa PolePole</p>
-                                <ul class="list-unstyled fs-12 mb-3">
-                                    <li>128GB Storage</li>
-                                    <li>Dual Camera</li>
-                                    <li>Face ID</li>
-                                    <li>Multiple Colors</li>
-                                </ul>
-                                <button class="btn btn-primary-light btn-wave">Buy Now</button>
-                            </div>
-                        </div>
-
-                        <!-- Samsung Galaxy S23 -->
-                        <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-6 col-sm-12">
-                            <div class="p-4 text-center">
-                                <img src="{{ asset('Images/omid-armin-B2w4rdIihEo-unsplash.jpg') }}"
-                                    alt="Samsung Galaxy S23" class="img-fluid mb-3 rounded-3"
-                                    style="height:220px; object-fit:cover;">
-                                <h6 class="fw-semibold">Samsung Galaxy S23</h6>
-                                <p class="fs-25 fw-semibold mb-1">KES 12,000 x 10 months</p>
-                                <p class="text-muted fs-11 fw-semibold mb-3">Lipa PolePole</p>
-                                <ul class="list-unstyled fs-12 mb-3">
-                                    <li>256GB Storage</li>
-                                    <li>Triple Camera</li>
-                                    <li>Fingerprint & Face Unlock</li>
-                                    <li>Multiple Colors</li>
-                                </ul>
-                                <button class="btn btn-primary-light btn-wave">Buy Now</button>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-
     <!-- Start:: Section-9 -->
     <section class="section section-bg" id="faq">
         <div class="container text-center">
@@ -901,84 +836,89 @@
 
     <!-- End:: Section-10 -->
 
-<!-- Start:: Section-11 -->
-<section class="section landing-footer text-fixed-white">
-    <div class="container">
-        <div class="row">
-            <!-- Logo & About -->
-            <div class="col-md-4 col-sm-6 col-12 mb-md-0 mb-3">
-                <div class="px-4">
-                    <p class="fw-semibold mb-3">
-                        <a href="{{ url('index') }}">
-                            <img src="{{ asset('Images/logo-removebg-preview.png') }}" alt="Phone Express Kenya" class="img-fluid" style="max-height: 60px;">
-                        </a>
-                    </p>
-                    <p class="mb-2 op-6 fw-normal">
-                        At Phone Express Kenya, we bring you the latest iPhones, Samsungs, and other premium smartphones at unbeatable prices. Choose between paying in full or using our flexible <strong>Lipa PolePole</strong> plan.
-                    </p>
-                    <p class="mb-0 op-6 fw-normal">Trusted by thousands of happy customers across Kenya.</p>
+    <!-- Start:: Section-11 -->
+    <section class="section landing-footer text-fixed-white">
+        <div class="container">
+            <div class="row">
+                <!-- Logo & About -->
+                <div class="col-md-4 col-sm-6 col-12 mb-md-0 mb-3">
+                    <div class="px-4">
+                        <p class="fw-semibold mb-3">
+                            <a href="{{ url('index') }}">
+                                <img src="{{ asset('Images/logo-removebg-preview.png') }}" alt="Phone Express Kenya"
+                                    class="img-fluid" style="max-height: 60px;">
+                            </a>
+                        </p>
+                        <p class="mb-2 op-6 fw-normal">
+                            At Phone Express Kenya, we bring you the latest iPhones, Samsungs, and other premium smartphones
+                            at unbeatable prices. Choose between paying in full or using our flexible <strong>Lipa
+                                PolePole</strong> plan.
+                        </p>
+                        <p class="mb-0 op-6 fw-normal">Trusted by thousands of happy customers across Kenya.</p>
+                    </div>
                 </div>
-            </div>
 
-            <!-- Pages -->
-            <div class="col-md-2 col-sm-6 col-12">
-                <div class="px-4">
-                    <h6 class="fw-semibold mb-3 text-fixed-white">PAGES</h6>
-                    <ul class="list-unstyled op-6 fw-normal landing-footer-list">
-                        <li><a href="{{ url('shop') }}" class="text-fixed-white">Shop</a></li>
-                        <li><a href="{{ url('about') }}" class="text-fixed-white">About Us</a></li>
-                        <li><a href="{{ url('contact') }}" class="text-fixed-white">Contact</a></li>
-                        <li><a href="{{ url('faq') }}" class="text-fixed-white">FAQs</a></li>
-                        <li><a href="{{ url('terms') }}" class="text-fixed-white">Terms & Conditions</a></li>
-                    </ul>
+                <!-- Pages -->
+                <div class="col-md-2 col-sm-6 col-12">
+                    <div class="px-4">
+                        <h6 class="fw-semibold mb-3 text-fixed-white">PAGES</h6>
+                        <ul class="list-unstyled op-6 fw-normal landing-footer-list">
+                            <li><a href="{{ url('shop') }}" class="text-fixed-white">Shop</a></li>
+                            <li><a href="{{ url('about') }}" class="text-fixed-white">About Us</a></li>
+                            <li><a href="{{ url('contact') }}" class="text-fixed-white">Contact</a></li>
+                            <li><a href="{{ url('faq') }}" class="text-fixed-white">FAQs</a></li>
+                            <li><a href="{{ url('terms') }}" class="text-fixed-white">Terms & Conditions</a></li>
+                        </ul>
+                    </div>
                 </div>
-            </div>
 
-            <!-- Info -->
-            <div class="col-md-2 col-sm-6 col-12">
-                <div class="px-4">
-                    <h6 class="fw-semibold text-fixed-white">INFO</h6>
-                    <ul class="list-unstyled op-6 fw-normal landing-footer-list">
-                        <li><a href="{{ url('lipapolepole') }}" class="text-fixed-white">Lipa PolePole</a></li>
-                        <li><a href="{{ url('testimonials') }}" class="text-fixed-white">Testimonials</a></li>
-                        <li><a href="{{ url('blog') }}" class="text-fixed-white">Blog</a></li>
-                        <li><a href="{{ url('support') }}" class="text-fixed-white">Support</a></li>
-                    </ul>
+                <!-- Info -->
+                <div class="col-md-2 col-sm-6 col-12">
+                    <div class="px-4">
+                        <h6 class="fw-semibold text-fixed-white">INFO</h6>
+                        <ul class="list-unstyled op-6 fw-normal landing-footer-list">
+                            <li><a href="{{ url('lipapolepole') }}" class="text-fixed-white">Lipa PolePole</a></li>
+                            <li><a href="{{ url('testimonials') }}" class="text-fixed-white">Testimonials</a></li>
+                            <li><a href="{{ url('blog') }}" class="text-fixed-white">Blog</a></li>
+                            <li><a href="{{ url('support') }}" class="text-fixed-white">Support</a></li>
+                        </ul>
+                    </div>
                 </div>
-            </div>
 
-            <!-- Contact -->
-            <div class="col-md-4 col-sm-6 col-12">
-                <div class="px-4">
-                    <h6 class="fw-semibold text-fixed-white">CONTACT</h6>
-                    <ul class="list-unstyled fw-normal landing-footer-list">
-                        <li>
-                            <a href="tel:+254721920545" class="text-fixed-white op-6">
-                                <i class="ri-phone-line me-1 align-middle"></i> Call/WhatsApp: 0721920545
-                            </a>
-                        </li>
-                        <li>
-                            <a href="https://www.instagram.com/phoneexpresskenya._" target="_blank" class="text-fixed-white op-6">
-                                <i class="ri-instagram-line me-1 align-middle"></i> Instagram: @phoneexpresskenya._
-                            </a>
-                        </li>
-                        <li>
-                            <a href="https://www.tiktok.com/@phoneexpresskenya" target="_blank" class="text-fixed-white op-6">
-                                <i class="ri-tiktok-line me-1 align-middle"></i> TikTok: @phoneexpresskenya
-                            </a>
-                        </li>
-                        <li>
-                            <a href="https://twitter.com/PhoneExpressKe" target="_blank" class="text-fixed-white op-6">
-                                <i class="ri-twitter-line me-1 align-middle"></i> Twitter: @PhoneExpressKe
-                            </a>
-                        </li>
-                    </ul>
+                <!-- Contact -->
+                <div class="col-md-4 col-sm-6 col-12">
+                    <div class="px-4">
+                        <h6 class="fw-semibold text-fixed-white">CONTACT</h6>
+                        <ul class="list-unstyled fw-normal landing-footer-list">
+                            <li>
+                                <a href="tel:+254721920545" class="text-fixed-white op-6">
+                                    <i class="ri-phone-line me-1 align-middle"></i> Call/WhatsApp: 0721920545
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://www.instagram.com/phoneexpresskenya._" target="_blank"
+                                    class="text-fixed-white op-6">
+                                    <i class="ri-instagram-line me-1 align-middle"></i> Instagram: @phoneexpresskenya._
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://www.tiktok.com/@phoneexpresskenya" target="_blank"
+                                    class="text-fixed-white op-6">
+                                    <i class="ri-tiktok-line me-1 align-middle"></i> TikTok: @phoneexpresskenya
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://twitter.com/PhoneExpressKe" target="_blank" class="text-fixed-white op-6">
+                                    <i class="ri-twitter-line me-1 align-middle"></i> Twitter: @PhoneExpressKe
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
-<!-- End:: Section-11 -->
+    </section>
+    <!-- End:: Section-11 -->
 
 
 @endsection

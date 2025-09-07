@@ -39,14 +39,14 @@
                         <!-- Start::header-element -->
                         <div class="header-element align-items-center">
                             <!-- Start::header-link|switcher-icon -->
-                            <div class="btn-list d-lg-none d-block">
+                            {{-- <div class="btn-list d-lg-none d-block">
                                 <a href="{{url('signup-basic')}}" class="btn btn-primary-light">
                                     Sign Up
                                 </a>
                                 <button class="btn btn-icon btn-success switcher-icon" data-bs-toggle="offcanvas" data-bs-target="#switcher-canvas">
                                     <i class="ri-settings-3-line"></i>
                                 </button>
-                            </div>
+                            </div> --}}
                             <!-- End::header-link|switcher-icon -->
                         </div>
                         <!-- End::header-element -->
