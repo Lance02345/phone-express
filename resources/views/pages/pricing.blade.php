@@ -58,18 +58,17 @@
                         <div class="row">
                             @foreach($fullPhones as $phone)
                                 <div class="col-xxl-3 col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-4">
-                                    <div class="p-3 p-md-4 text-center border rounded-3 h-100">
+                                    <div class="p-4 text-center border rounded-3 h-100">
                                         <img src="{{ asset($phone->image_path) }}" alt="{{ $phone->name }}"
-                                             class="img-fluid mb-3 rounded-3 w-100"
-                                             style="max-height:220px; object-fit:cover;">
-                                        <h6 class="fw-semibold text-truncate">{{ $phone->name }}</h6>
-                                        <p class="fs-5 fw-semibold mb-1">KES {{ number_format($phone->price) }}</p>
+                                            class="img-fluid mb-3 rounded-3" style="height:220px; object-fit:cover;">
+                                        <h6 class="fw-semibold">{{ $phone->name }}</h6>
+                                        <p class="fs-25 fw-semibold mb-1">KES {{ number_format($phone->price) }}</p>
                                         <p class="text-muted fs-11 fw-semibold mb-3">Full Payment</p>
-                                        <a href="https://wa.me/254721920545?text=Hello,%20I%20am%20interested%20in%20{{ urlencode($phone->name) }}"
-                                           target="_blank"
-                                           class="btn btn-primary-light btn-wave w-100">
-                                           Buy Now
-                                        </a>
+<a href="https://wa.me/254721920545?text=Hello,%20I%20am%20interested%20in%20{{ urlencode($phone->name) }}"
+   target="_blank"
+   class="btn btn-primary-light btn-wave">
+   Buy Now
+</a>
                                     </div>
                                 </div>
                             @endforeach
@@ -89,20 +88,17 @@
                                     $monthlyInstallment = ceil(($phone->price * $interestRate) / $months);
                                 @endphp
                                 <div class="col-xxl-3 col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-4">
-                                    <div class="p-3 p-md-4 text-center border rounded-3 h-100">
+                                    <div class="p-4 text-center border rounded-3 h-100">
                                         <img src="{{ asset($phone->image_path) }}" alt="{{ $phone->name }}"
-                                             class="img-fluid mb-3 rounded-3 w-100"
-                                             style="max-height:220px; object-fit:cover;">
-                                        <h6 class="fw-semibold text-truncate">{{ $phone->name }}</h6>
-                                        <p class="fs-5 fw-semibold mb-1">
-                                            KES {{ number_format($monthlyInstallment) }} x {{ $months }} months
-                                        </p>
+                                            class="img-fluid mb-3 rounded-3" style="height:220px; object-fit:cover;">
+                                        <h6 class="fw-semibold">{{ $phone->name }}</h6>
+                                        <p class="fs-25 fw-semibold mb-1">KES {{ number_format($monthlyInstallment) }} x {{ $months }} months</p>
                                         <p class="text-muted fs-11 fw-semibold mb-3">Lipa Mdogo Mdogo</p>
-                                        <a href="https://wa.me/254721920545?text=Hello,%20I%20am%20interested%20in%20{{ urlencode($phone->name) }}"
-                                           target="_blank"
-                                           class="btn btn-primary-light btn-wave w-100">
-                                           Buy Now
-                                        </a>
+<a href="https://wa.me/254721920545?text=Hello,%20I%20am%20interested%20in%20{{ urlencode($phone->name) }}"
+   target="_blank"
+   class="btn btn-primary-light btn-wave">
+   Buy Now
+</a>
                                     </div>
                                 </div>
                             @endforeach
