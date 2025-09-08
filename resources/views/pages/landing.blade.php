@@ -96,7 +96,11 @@
                                         <li>Face ID</li>
                                         <li>Multiple Colors</li>
                                     </ul>
-                                    <button class="btn btn-primary-light btn-wave">Buy Now</button>
+<a href="https://wa.me/254721920545?text=Hello,%20I%20am%20interested%20in%20{{ urlencode($phone->name) }}"
+   target="_blank"
+   class="btn btn-primary-light btn-wave">
+   Buy Now
+</a>
                                 </div>
                             </div>
                         @endforeach
@@ -130,7 +134,11 @@
                                         <li>Face ID</li>
                                         <li>Multiple Colors</li>
                                     </ul>
-                                    <button class="btn btn-primary-light btn-wave">Buy Now</button>
+<a href="https://wa.me/254721920545?text=Hello,%20I%20am%20interested%20in%20{{ urlencode($phone->name) }}"
+   target="_blank"
+   class="btn btn-primary-light btn-wave">
+   Buy Now
+</a>
                                 </div>
                             </div>
                         @endforeach

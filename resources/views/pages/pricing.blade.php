@@ -64,7 +64,11 @@
                                         <h6 class="fw-semibold">{{ $phone->name }}</h6>
                                         <p class="fs-25 fw-semibold mb-1">KES {{ number_format($phone->price) }}</p>
                                         <p class="text-muted fs-11 fw-semibold mb-3">Full Payment</p>
-                                        <button class="btn btn-primary-light btn-wave">Buy Now</button>
+<a href="https://wa.me/254721920545?text=Hello,%20I%20am%20interested%20in%20{{ urlencode($phone->name) }}"
+   target="_blank"
+   class="btn btn-primary-light btn-wave">
+   Buy Now
+</a>
                                     </div>
                                 </div>
                             @endforeach
@@ -90,7 +94,11 @@
                                         <h6 class="fw-semibold">{{ $phone->name }}</h6>
                                         <p class="fs-25 fw-semibold mb-1">KES {{ number_format($monthlyInstallment) }} x {{ $months }} months</p>
                                         <p class="text-muted fs-11 fw-semibold mb-3">Lipa Mdogo Mdogo</p>
-                                        <button class="btn btn-primary-light btn-wave">Buy Now</button>
+<a href="https://wa.me/254721920545?text=Hello,%20I%20am%20interested%20in%20{{ urlencode($phone->name) }}"
+   target="_blank"
+   class="btn btn-primary-light btn-wave">
+   Buy Now
+</a>
                                     </div>
                                 </div>
                             @endforeach
