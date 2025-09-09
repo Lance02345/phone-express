@@ -149,11 +149,13 @@ class PagesController extends Controller
 
     public function pricing()
     {
-        // Full payment phones
-        $fullPhones = Phone::paginate(12, ['*'], 'full_page');
+        // Full payment phones - randomized
+        $fullPhones = Phone::inRandomOrder()->paginate(12, ['*'], 'full_page');
 
-        // Lipa Mdogo Mdogo phones
-        $lipaPhones = Phone::paginate(12, ['*'], 'lipa_page');
+        // Lipa Mdogo Mdogo phones - randomized and only iPhones
+        $lipaPhones = Phone::where(function ($query) {
+            $query->where('name', 'like', '%iPhone%');
+        })->inRandomOrder()->paginate(12, ['*'], 'lipa_page');
 
         return view('pages.pricing', compact('fullPhones', 'lipaPhones'));
     }
