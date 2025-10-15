@@ -7,14 +7,14 @@ use App\Models\Phone;
 
 class DashboardsController extends Controller
 {
-    public function index()
-    {
-        // Pick 6 random phones for each tab
-        $fullPhones = Phone::inRandomOrder()->take(6)->get();
-        $lipaPhones = Phone::inRandomOrder()->take(6)->get();
+public function index()
+{
+    // Pick 6 random phones for each tab
+    $fullPhones = Phone::inRandomOrder()->take(6)->get();
+    $lipaPhones = Phone::where('name', 'like', '%iPhone%')->inRandomOrder()->take(6)->get();
 
-        return view('pages.landing', compact('fullPhones', 'lipaPhones'));
-    }
+    return view('pages.landing', compact('fullPhones', 'lipaPhones'));
+}
 
     public function index2()
     {
