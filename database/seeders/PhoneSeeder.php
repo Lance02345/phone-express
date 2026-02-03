@@ -49,6 +49,36 @@ class PhoneSeeder extends Seeder
             ["name" => "iPhone 16 Plus", "price" => 0, "image_path" => "Images/iphone16plus.jpg"],
             ["name" => "iPhone 16 Pro", "price" => 0, "image_path" => "Images/iphone16pro.jpg"],
             ["name" => "iPhone 16 Pro Max", "price" => 0, "image_path" => "Images/iphone16promax.jpg"],
+            
+            // iPhone 17 Series - Sim Card + E-Sim models
+            ["name" => "iPhone 17 256GB", "price" => 127000, "image_path" => "Images/iphone17.jpg"],
+            ["name" => "iPhone 17 Pro 256GB (Orange)", "price" => 178000, "image_path" => "Images/iphone17pro.jpg"],
+            ["name" => "iPhone 17 Pro 256GB (Blue)", "price" => 179000, "image_path" => "Images/iphone17pro.jpg"],
+            ["name" => "iPhone 17 Pro 256GB (Silver)", "price" => 179000, "image_path" => "Images/iphone17pro.jpg"],
+            ["name" => "iPhone 17 Pro 512GB (Orange)", "price" => 210000, "image_path" => "Images/iphone17pro.jpg"],
+            ["name" => "iPhone 17 Pro 512GB (Blue)", "price" => 210000, "image_path" => "Images/iphone17pro.jpg"],
+            ["name" => "iPhone 17 Pro 512GB (Silver)", "price" => 210000, "image_path" => "Images/iphone17pro.jpg"],
+            ["name" => "iPhone 17 Pro Max 256GB (Orange)", "price" => 200000, "image_path" => "Images/iphone17promax.jpg"],
+            ["name" => "iPhone 17 Pro Max 256GB (Blue)", "price" => 200000, "image_path" => "Images/iphone17promax.jpg"],
+            ["name" => "iPhone 17 Pro Max 256GB (Silver)", "price" => 200000, "image_path" => "Images/iphone17promax.jpg"],
+            ["name" => "iPhone 17 Pro Max 512GB (Orange)", "price" => 235000, "image_path" => "Images/iphone17promax.jpg"],
+            ["name" => "iPhone 17 Pro Max 512GB (Blue)", "price" => 232000, "image_path" => "Images/iphone17promax.jpg"],
+            ["name" => "iPhone 17 Pro Max 512GB (Silver)", "price" => 232000, "image_path" => "Images/iphone17promax.jpg"],
+            ["name" => "iPhone 17 Pro Max 2TB (Orange)", "price" => 310000, "image_path" => "Images/iphone17promax.jpg"],
+            
+            // iPhone 17 Series - E-Sim Only models
+            ["name" => "iPhone 17 256GB E-Sim (Green)", "price" => 124000, "image_path" => "Images/iphone17.jpg"],
+            ["name" => "iPhone 17 Air 256GB E-Sim", "price" => 132000, "image_path" => "Images/iphone17.jpg"],
+            ["name" => "iPhone 17 Pro 256GB E-Sim (Orange)", "price" => 163000, "image_path" => "Images/iphone17pro.jpg"],
+            ["name" => "iPhone 17 Pro 512GB E-Sim (Silver)", "price" => 0, "image_path" => "Images/iphone17pro.jpg"],
+            ["name" => "iPhone 17 Pro 512GB E-Sim (Blue)", "price" => 0, "image_path" => "Images/iphone17pro.jpg"],
+            ["name" => "iPhone 17 Pro Max 256GB E-Sim (Orange)", "price" => 175000, "image_path" => "Images/iphone17promax.jpg"],
+            ["name" => "iPhone 17 Pro Max 256GB E-Sim (Blue)", "price" => 175000, "image_path" => "Images/iphone17promax.jpg"],
+            ["name" => "iPhone 17 Pro Max 256GB E-Sim (Silver)", "price" => 175000, "image_path" => "Images/iphone17promax.jpg"],
+            ["name" => "iPhone 17 Pro Max 512GB E-Sim (Orange)", "price" => 205000, "image_path" => "Images/iphone17promax.jpg"],
+            ["name" => "iPhone 17 Pro Max 512GB E-Sim (Blue)", "price" => 205000, "image_path" => "Images/iphone17promax.jpg"],
+            ["name" => "iPhone 17 Pro Max 512GB E-Sim (Silver)", "price" => 205000, "image_path" => "Images/iphone17promax.jpg"],
+            ["name" => "iPhone 17 Pro Max 1TB E-Sim (Orange)", "price" => 245000, "image_path" => "Images/iphone17promax.jpg"],
         ];
 
         foreach ($phones as $phone) {
