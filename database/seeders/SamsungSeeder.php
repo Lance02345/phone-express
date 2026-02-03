@@ -49,8 +49,8 @@ class SamsungSeeder extends Seeder
             // S24 SERIES
             ["name" => "Samsung Galaxy S24 5G 128GB", "price" => 50000, "image_path" => "Images/samsung/samsungs24.jpg"],
             ["name" => "Samsung Galaxy S24+ 5G 256GB", "price" => 65000, "image_path" => "Images/samsung/samsungs24.jpg"], // REUSED IMAGE
-            ["name" => "Samsung Galaxy S24 Ultra 5G 256GB", "price" => 88000, "image_path" => "Images/samsung/samsungs24ultra256.jpg"],
-            ["name" => "Samsung Galaxy S24 Ultra 5G 512GB", "price" => 92000, "image_path" => "Images/samsung/samsungs24ultra256.jpg"], // REUSED IMAGE
+            ["name" => "Samsung Galaxy S24 Ultra 5G 256GB", "price" => 88000, "image_path" => "Images/samsung/samsungs24ultrae.jpg"],
+            ["name" => "Samsung Galaxy S24 Ultra 5G 512GB", "price" => 92000, "image_path" => "Images/samsung/samsungs24ultrae.jpg"], // REUSED IMAGE
 
             // FLIP & FOLD SERIES
             ["name" => "Samsung Galaxy Flip 3 5G 128GB", "price" => 32000, "image_path" => "Images/samsung/samsungflip3.jpeg"],
