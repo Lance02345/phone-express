@@ -36,34 +36,9 @@ if (!function_exists('extractStorage')) {
     }
 }
 
-if (!function_exists('extractSeries')) {
-    function extractSeries($name) {
-        static $cache = [];
-        if (isset($cache[$name])) {
-            return $cache[$name];
-        }
-        
-        if (preg_match('/(iPhone \d+)/', $name, $matches)) {
-            $cache[$name] = $matches[1];
-        } elseif (stripos($name, 'Galaxy S') !== false) {
-            $cache[$name] = 'Galaxy S';
-        } elseif (stripos($name, 'Galaxy Note') !== false) {
-            $cache[$name] = 'Galaxy Note';
-        } elseif (stripos($name, 'Galaxy Fold') !== false) {
-            $cache[$name] = 'Galaxy Fold';
-        } elseif (stripos($name, 'Galaxy Flip') !== false) {
-            $cache[$name] = 'Galaxy Flip';
-        } else {
-            $cache[$name] = '';
-        }
-        
-        return $cache[$name];
-    }
-}
-
 // Pre-calculate Lipa prices for performance
 $lipaCalculations = [];
-if ($filters['payment_method'] === 'lipa' && $phones->isNotEmpty()) {
+if (isset($filters['payment_method']) && $filters['payment_method'] === 'lipa' && $phones->isNotEmpty()) {
     foreach ($phones as $phone) {
         if ($phone->price > 0) {
             $upfrontPayment = ceil($phone->price * 0.4);
@@ -91,16 +66,24 @@ $hasIphones = $phones->contains(function ($phone) {
     <!-- SWIPERJS CSS -->
     <link rel="stylesheet" href="{{ asset('build/assets/libs/swiper/swiper-bundle.min.css') }}">
     
-    <!-- Lazy Load Images -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/loading-attribute-polyfill/2.1.7/loading-attribute-polyfill.min.css">
-    
     <style>
-        /* Optimized Critical CSS */
+        /* Fixed Banner CSS - Green Theme */
         .landing-banner {
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%) !important;
+            background: linear-gradient(135deg, #1a472a 0%, #2e7d32 100%) !important;
             padding: clamp(40px, 10vw, 80px) 0 clamp(30px, 8vw, 60px) !important;
             position: relative;
             overflow: hidden;
+        }
+
+        .landing-banner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            opacity: 0.1;
         }
 
         .landing-banner-heading {
@@ -109,8 +92,26 @@ $hasIphones = $phones->contains(function ($phone) {
             line-height: 1.2;
             color: #ffffff;
             margin-bottom: 1rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
 
+        .text-secondary {
+            color: #e8f5e9 !important;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .text-fixed-white {
+            color: #ffffff !important;
+        }
+
+        .landing-banner .lead {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.95);
+            font-weight: 400;
+        }
+
+        /* Filters Card */
         .filters-card {
             background: #ffffff;
             border-radius: 15px;
@@ -121,6 +122,49 @@ $hasIphones = $phones->contains(function ($phone) {
             z-index: 10;
         }
 
+        .search-input {
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 12px 20px;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            border-color: #1a472a;
+            box-shadow: 0 0 0 0.25rem rgba(26, 71, 42, 0.15);
+        }
+
+        /* Quick Filter Badges */
+        .quick-filter {
+            display: inline-flex;
+            align-items: center;
+            padding: 8px 16px;
+            border: 2px solid #e9ecef;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #495057;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 4px;
+            background: white;
+        }
+
+        .quick-filter:hover {
+            border-color: #1a472a;
+            color: #1a472a;
+            background: #e8f5e9;
+            transform: translateY(-2px);
+        }
+
+        .quick-filter.active {
+            background: #1a472a;
+            color: white;
+            border-color: #1a472a;
+            box-shadow: 0 4px 12px rgba(26, 71, 42, 0.3);
+        }
+
+        /* Phone Cards */
         .phone-card {
             transition: all 0.3s ease;
             border: none;
@@ -134,27 +178,53 @@ $hasIphones = $phones->contains(function ($phone) {
             box-shadow: 0 12px 30px rgba(0,0,0,0.15);
         }
 
-        /* Deferred CSS - Load after critical content */
-        .deferred-styles {
-            display: none;
+        .lipa-polepole-badge {
+            background: linear-gradient(45deg, #ff6b35, #ff8e35);
+            color: white;
+            font-size: 0.7rem;
+            padding: 3px 8px;
+            border-radius: 10px;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+
+        /* Results Info */
+        .results-info {
+            background: linear-gradient(135deg, #1a472a, #2e7d32);
+            color: white;
+            border-radius: 12px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(26, 71, 42, 0.3);
+        }
+
+        /* Other styles remain the same... */
+        
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .landing-banner-heading {
+                font-size: 2rem;
+            }
+            
+            .landing-banner {
+                padding: 60px 0 40px !important;
+            }
+            
+            .filters-card {
+                margin-top: -20px;
+            }
+            
+            .quick-filter {
+                font-size: 0.8rem;
+                padding: 6px 12px;
+            }
         }
     </style>
-
-    <!-- Inline critical CSS -->
-    <noscript>
-        <style>
-            .phone-card:hover {
-                transform: none;
-            }
-            .quick-filter:hover {
-                transform: none;
-            }
-        </style>
-    </noscript>
 @endsection
 
 @section('content')
-    <!-- Simplified Hero Section -->
+    <!-- Hero Section -->
     <div class="landing-banner" id="home">
         <section class="section">
             <div class="container">
@@ -184,54 +254,51 @@ $hasIphones = $phones->contains(function ($phone) {
                             <!-- Payment Method (Hidden Field) -->
                             <input type="hidden" name="payment_method" id="paymentMethodInput" value="{{ $filters['payment_method'] }}">
                             
-                            <!-- Search Bar with Autocomplete -->
+                            <!-- Search Bar -->
                             <div class="mb-3">
                                 <input type="text" 
                                        class="form-control search-input" 
                                        name="search" 
                                        placeholder="🔍 Search for iPhone 13, Samsung Galaxy S23, or any phone model..." 
-                                       value="{{ $filters['search'] ?? '' }}"
-                                       data-autocomplete-url="{{ route('api.phone.search') }}"
-                                       autocomplete="off">
-                                <div id="searchSuggestions" class="list-group position-absolute d-none" style="z-index: 1050;"></div>
+                                       value="{{ $filters['search'] ?? '' }}">
                             </div>
                             
                             <!-- Quick Filter Badges -->
                             <div class="mb-3">
                                 <small class="text-muted d-block mb-2 fw-semibold">Quick Filters:</small>
-                                <div class="d-flex flex-wrap gap-2">
-                                    <button type="button" class="quick-filter {{ $filters['brand'] === 'Apple' ? 'active' : '' }}" 
-                                            onclick="toggleFilter('brand', 'Apple')">
+                                <div class="d-flex flex-wrap">
+                                    <span class="quick-filter {{ $filters['brand'] === 'Apple' ? 'active' : '' }}" 
+                                          onclick="toggleFilter('brand', 'Apple')">
                                         <i class="ri-apple-fill me-1"></i> iPhone
-                                    </button>
-                                    <button type="button" class="quick-filter {{ $filters['brand'] === 'Samsung' ? 'active' : '' }}" 
-                                            onclick="toggleFilter('brand', 'Samsung')">
+                                    </span>
+                                    <span class="quick-filter {{ $filters['brand'] === 'Samsung' ? 'active' : '' }}" 
+                                          onclick="toggleFilter('brand', 'Samsung')">
                                         <i class="ri-android-fill me-1"></i> Samsung
-                                    </button>
-                                    <button type="button" class="quick-filter {{ $filters['price_range'] === '0-50000' ? 'active' : '' }}" 
-                                            onclick="toggleFilter('price_range', '0-50000')">
+                                    </span>
+                                    <span class="quick-filter {{ $filters['price_range'] === '0-50000' ? 'active' : '' }}" 
+                                          onclick="toggleFilter('price_range', '0-50000')">
                                         💰 Under 50K
-                                    </button>
-                                    <button type="button" class="quick-filter {{ $filters['price_range'] === '50000-80000' ? 'active' : '' }}" 
-                                            onclick="toggleFilter('price_range', '50000-80000')">
+                                    </span>
+                                    <span class="quick-filter {{ $filters['price_range'] === '50000-80000' ? 'active' : '' }}" 
+                                          onclick="toggleFilter('price_range', '50000-80000')">
                                         💰 50K-80K
-                                    </button>
-                                    <button type="button" class="quick-filter {{ $filters['price_range'] === '80000+' ? 'active' : '' }}" 
-                                            onclick="toggleFilter('price_range', '80000+')">
+                                    </span>
+                                    <span class="quick-filter {{ $filters['price_range'] === '80000+' ? 'active' : '' }}" 
+                                          onclick="toggleFilter('price_range', '80000+')">
                                         💎 80K+
-                                    </button>
-                                    <button type="button" class="quick-filter {{ $filters['storage'] === '128' ? 'active' : '' }}" 
-                                            onclick="toggleFilter('storage', '128')">
+                                    </span>
+                                    <span class="quick-filter {{ $filters['storage'] === '128' ? 'active' : '' }}" 
+                                          onclick="toggleFilter('storage', '128')">
                                         📱 128GB
-                                    </button>
-                                    <button type="button" class="quick-filter {{ $filters['storage'] === '256' ? 'active' : '' }}" 
-                                            onclick="toggleFilter('storage', '256')">
+                                    </span>
+                                    <span class="quick-filter {{ $filters['storage'] === '256' ? 'active' : '' }}" 
+                                          onclick="toggleFilter('storage', '256')">
                                         📱 256GB
-                                    </button>
-                                    <button type="button" class="quick-filter {{ $filters['storage'] === '512' ? 'active' : '' }}" 
-                                            onclick="toggleFilter('storage', '512')">
+                                    </span>
+                                    <span class="quick-filter {{ $filters['storage'] === '512' ? 'active' : '' }}" 
+                                          onclick="toggleFilter('storage', '512')">
                                         📱 512GB
-                                    </button>
+                                    </span>
                                 </div>
                             </div>
                             
@@ -243,7 +310,8 @@ $hasIphones = $phones->contains(function ($phone) {
                             <!-- Advanced Filters -->
                             <div class="row g-3">
                                 <div class="col-md-8">
-                                    <select class="form-select filter-control" name="sort" onchange="this.form.submit()">
+                                    <select class="form-select filter-control" name="sort">
+                                        <option value="random" {{ $filters['sort'] === 'random' ? 'selected' : '' }}>🎲 Random</option>
                                         <option value="newest" {{ $filters['sort'] === 'newest' ? 'selected' : '' }}>⭐ Newest First</option>
                                         <option value="price_asc" {{ $filters['sort'] === 'price_asc' ? 'selected' : '' }}>💲 Price: Low to High</option>
                                         <option value="price_desc" {{ $filters['sort'] === 'price_desc' ? 'selected' : '' }}>💎 Price: High to Low</option>
@@ -253,7 +321,7 @@ $hasIphones = $phones->contains(function ($phone) {
                                 </div>
                                 <div class="col-md-4">
                                     <div class="d-flex gap-2">
-                                        <button type="submit" class="btn btn-filter flex-fill">
+                                        <button type="submit" class="btn btn-filter flex-fill" style="background: linear-gradient(135deg, #1a472a, #2e7d32); color: white; border: none; padding: 12px 30px; border-radius: 10px; font-weight: 600;">
                                             <i class="ri-search-line me-1"></i> Search
                                         </button>
                                         <a href="{{ route('pricing') }}" class="btn btn-clear">
@@ -273,7 +341,7 @@ $hasIphones = $phones->contains(function ($phone) {
                             <h6 class="mb-1">
                                 <i class="ri-smartphone-line me-2"></i>
                                 <span class="fw-bold">{{ $phones->total() }}</span> phones found
-                                @if(isset($filters['price_stats']['min']))
+                                @if(isset($filters['price_stats']) && $filters['price_stats'])
                                     <span class="badge bg-white text-primary ms-2">KES {{ number_format($filters['price_stats']['min']) }} - {{ number_format($filters['price_stats']['max']) }}</span>
                                 @endif
                             </h6>
@@ -283,19 +351,12 @@ $hasIphones = $phones->contains(function ($phone) {
                                 @elseif($filters['brand'] || $filters['price_range'] || $filters['storage'])
                                     Filtered results
                                 @else
-                                    Browse our complete collection
+                                    Browse our complete collection (Random order)
                                 @endif
                             </small>
                         </div>
-                        <div class="text-end">
-                            <i class="ri-shopping-bag-3-line fs-3 opacity-50 d-none d-md-block"></i>
-                            @if(isset($filters['suggestions']) && count($filters['suggestions']) > 0)
-                                <div class="mt-2">
-                                    @foreach($filters['suggestions'] as $suggestion)
-                                        <small class="d-block text-white-80">{{ $suggestion }}</small>
-                                    @endforeach
-                                </div>
-                            @endif
+                        <div>
+                            <i class="ri-shopping-bag-3-line fs-3 opacity-50"></i>
                         </div>
                     </div>
                 </div>
@@ -311,7 +372,7 @@ $hasIphones = $phones->contains(function ($phone) {
             <div class="col-lg-10">
                 <!-- Payment Method Tabs -->
                 <div class="d-flex justify-content-center mb-4">
-                    <ul class="nav nav-tabs mb-3 tab-style-6 bg-primary-transparent" id="paymentMethodTab" role="tablist">
+                    <ul class="nav nav-tabs mb-3 tab-style-6" id="paymentMethodTab" role="tablist" style="background: rgba(26, 71, 42, 0.1);">
                         <li class="nav-item" role="presentation">
                             <button class="nav-link {{ $filters['payment_method'] === 'full' ? 'active' : '' }}" 
                                     type="button"
@@ -332,7 +393,7 @@ $hasIphones = $phones->contains(function ($phone) {
 
                 <!-- Lipa Info (only show on lipa tab) -->
                 @if($filters['payment_method'] === 'lipa')
-                <div class="alert alert-info mb-4">
+                <div class="alert alert-info mb-4" style="background: #e8f5e9; border-left: 4px solid #1a472a; color: #1a472a;">
                     <h6 class="alert-heading"><i class="ri-information-fill me-2"></i>Lipa Mdogo Mdogo Explained! 😃</h6>
                     <p class="mb-0">
                         <strong>For iPhones only:</strong> 40% upfront payment, then the remaining balance plus 50% interest divided into 12 weekly payments.
@@ -343,11 +404,11 @@ $hasIphones = $phones->contains(function ($phone) {
 
                 <!-- Phone Grid -->
                 @if($phones->count() > 0)
-                <div class="row" id="phoneGrid">
+                <div class="row">
                     @foreach($phones as $phone)
                         @php
                             $isIphone = stripos($phone->name, 'iPhone') !== false;
-                            $hasLipaPrice = $filters['payment_method'] === 'lipa' && $isIphone && isset($lipaCalculations[$phone->id]);
+                            $hasLipaPrice = isset($filters['payment_method']) && $filters['payment_method'] === 'lipa' && $isIphone && isset($lipaCalculations[$phone->id]);
                             $whatsappMessage = "Hello, I am interested in {$phone->name}";
                             $whatsappUrl = "https://wa.me/254721920545?text=" . urlencode($whatsappMessage);
                         @endphp
@@ -359,14 +420,8 @@ $hasIphones = $phones->contains(function ($phone) {
                                         <span class="lipa-polepole-badge">Lipa Mdogo Mdogo</span>
                                     @endif
                                     
-                                    <!-- Lazy loaded image with placeholder -->
-                                    <img src="{{ asset('build/assets/images/placeholder-phone.png') }}" 
-                                         data-src="{{ asset($phone->image_path) }}" 
-                                         alt="{{ $phone->name }}"
-                                         class="img-fluid mb-3 rounded-3 lazy-image" 
-                                         style="height:220px; object-fit:cover;"
-                                         loading="lazy">
-                                    
+                                    <img src="{{ asset($phone->image_path) }}" alt="{{ $phone->name }}"
+                                        class="img-fluid mb-3 rounded-3" style="height:220px; object-fit:cover;">
                                     <h6 class="fw-semibold">{{ $phone->name }}</h6>
                                     
                                     @if($hasLipaPrice)
@@ -387,7 +442,7 @@ $hasIphones = $phones->contains(function ($phone) {
                                             @endif
                                         </p>
                                         <p class="text-muted fs-11 fw-semibold mb-3">
-                                            @if($filters['payment_method'] === 'lipa' && !$isIphone)
+                                            @if(isset($filters['payment_method']) && $filters['payment_method'] === 'lipa' && !$isIphone)
                                                 Full Payment Only (Not iPhone)
                                             @else
                                                 Full Payment
@@ -397,8 +452,7 @@ $hasIphones = $phones->contains(function ($phone) {
                                     
                                     <a href="{{ $whatsappUrl }}"
                                        target="_blank"
-                                       class="btn btn-primary-light btn-wave w-100"
-                                       onclick="trackConversion('{{ $phone->name }}')">
+                                       class="btn btn-primary-light btn-wave w-100" style="background: #e8f5e9; color: #1a472a; border: 2px solid #1a472a;">
                                        <i class="ri-whatsapp-line me-1"></i> Buy Now
                                     </a>
                                 </div>
@@ -407,24 +461,13 @@ $hasIphones = $phones->contains(function ($phone) {
                     @endforeach
                 </div>
                 
-                <!-- Pagination -->
                 <div class="d-flex justify-content-center mt-4">
-                    {{ $phones->onEachSide(1)->links('pagination::bootstrap-5') }}
+                    {{ $phones->links('pagination::bootstrap-5') }}
                 </div>
-                
-                <!-- Load More Button (AJAX alternative) -->
-                @if($phones->hasMorePages() && $phones->currentPage() < 3)
-                <div class="text-center mt-4 d-none" id="loadMoreContainer">
-                    <button id="loadMoreBtn" class="btn btn-primary" data-page="2" data-loading="false">
-                        <i class="ri-refresh-line me-2"></i> Load More Phones
-                    </button>
-                </div>
-                @endif
-                
                 @else
                 <!-- No Results Message -->
-                <div class="no-results">
-                    <i class="ri-search-line"></i>
+                <div class="no-results" style="text-align: center; padding: 60px 20px; color: #6c757d;">
+                    <i class="ri-search-line" style="font-size: 4rem; margin-bottom: 20px; opacity: 0.5;"></i>
                     <h5>No phones found</h5>
                     <p>Try adjusting your search criteria or filters</p>
                     
@@ -439,7 +482,7 @@ $hasIphones = $phones->contains(function ($phone) {
                         </div>
                     @endif
                     
-                    <a href="{{ route('pricing') }}" class="btn btn-primary mt-3">
+                    <a href="{{ route('pricing') }}" class="btn btn-primary mt-3" style="background: #1a472a; border-color: #1a472a;">
                         <i class="ri-refresh-line me-2"></i> Clear All Filters
                     </a>
                 </div>
@@ -448,436 +491,46 @@ $hasIphones = $phones->contains(function ($phone) {
         </div>
     </div>
 </section>
-
-<!-- Deferred non-critical content -->
-<div class="deferred-styles">
-    <!-- Filter Section styles -->
-    <style>
-        .search-input {
-            border: 2px solid #e9ecef;
-            border-radius: 10px;
-            padding: 12px 20px;
-            transition: all 0.3s ease;
-        }
-
-        .search-input:focus {
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 0.25rem rgba(26, 71, 42, 0.15);
-        }
-
-        .quick-filter {
-            display: inline-flex;
-            align-items: center;
-            padding: 8px 16px;
-            border: 2px solid #e9ecef;
-            border-radius: 20px;
-            font-size: 0.875rem;
-            font-weight: 500;
-            color: #495057;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            background: white;
-        }
-
-        .quick-filter:hover {
-            border-color: var(--primary-color);
-            color: var(--primary-color);
-            background: var(--primary-light);
-            transform: translateY(-2px);
-        }
-
-        .quick-filter.active {
-            background: var(--primary-color);
-            color: white;
-            border-color: var(--primary-color);
-            box-shadow: 0 4px 12px rgba(26, 71, 42, 0.3);
-        }
-
-        .quick-filter:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-        .filter-control {
-            border: 2px solid #e9ecef;
-            border-radius: 10px;
-            padding: 10px 16px;
-            transition: all 0.3s ease;
-        }
-
-        .btn-filter {
-            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
-            color: white;
-            border: none;
-            padding: 12px 30px;
-            border-radius: 10px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-
-        .btn-filter:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(26, 71, 42, 0.4);
-        }
-
-        .btn-clear {
-            background: transparent;
-            color: #6c757d;
-            border: 2px solid #e9ecef;
-            padding: 12px 24px;
-            border-radius: 10px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-
-        .btn-clear:hover {
-            background: #f8f9fa;
-            border-color: #dee2e6;
-            transform: translateY(-2px);
-        }
-
-        /* Payment Tabs */
-        .nav-tabs .nav-link {
-            padding: 12px 30px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            border: 2px solid transparent;
-            border-radius: 10px 10px 0 0;
-        }
-
-        .nav-tabs .nav-link.active {
-            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark)) !important;
-            border: none !important;
-            color: white !important;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(26, 71, 42, 0.3);
-        }
-
-        .nav-tabs .nav-link:hover:not(.active) {
-            background: var(--primary-light);
-            color: var(--primary-color);
-        }
-
-        /* Badge */
-        .lipa-polepole-badge {
-            background: linear-gradient(45deg, #ff6b35, #ff8e35);
-            color: white;
-            font-size: 0.7rem;
-            padding: 3px 8px;
-            border-radius: 10px;
-            position: absolute;
-            top: 10px;
-            right: 10px;
-        }
-
-        .btn-primary-light {
-            background: var(--primary-light);
-            color: var(--primary-color);
-            border: 2px solid var(--primary-color);
-            transition: all 0.3s ease;
-        }
-
-        .btn-primary-light:hover {
-            background: var(--primary-color);
-            color: white;
-            transform: translateY(-2px);
-        }
-
-        /* Results Info */
-        .results-info {
-            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
-            color: white;
-            border-radius: 12px;
-            padding: 15px 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 15px rgba(26, 71, 42, 0.3);
-        }
-
-        /* Alert */
-        .alert-info {
-            background: var(--primary-light);
-            border-left: 4px solid var(--primary-color);
-            color: var(--primary-dark);
-        }
-
-        /* Empty State */
-        .no-results {
-            text-align: center;
-            padding: 60px 20px;
-            color: #6c757d;
-        }
-
-        /* Pagination */
-        .pagination .page-link {
-            border: 2px solid #e9ecef;
-            border-radius: 8px;
-            color: var(--primary-color);
-            padding: 8px 16px;
-            margin: 0 4px;
-        }
-
-        .pagination .page-link:hover {
-            background: var(--primary-light);
-            border-color: var(--primary-color);
-        }
-
-        .pagination .active .page-link {
-            background: var(--primary-color);
-            border-color: var(--primary-color);
-        }
-    </style>
-</div>
 @endsection
 
 @section('scripts')
-    <!-- Deferred JavaScript -->
+    <!-- jQuery -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" 
             integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" 
-            crossorigin="anonymous" referrerpolicy="no-referrer"
-            defer></script>
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     
-    <!-- SWIPER JS (only load if needed) -->
-    @if($phones->count() > 8)
-    <script src="{{ asset('build/assets/libs/swiper/swiper-bundle.min.js') }}" defer></script>
-    @endif
-
-    <!-- INTERNAL LANDING JS -->
-    @vite('resources/assets/js/landing.js')
-
-    <!-- Main JavaScript -->
     <script>
-        // Initialize when DOM is ready
-        document.addEventListener('DOMContentLoaded', function() {
-            // Load deferred styles
-            loadDeferredStyles();
-            
-            // Initialize lazy loading
-            initLazyLoading();
-            
-            // Initialize search autocomplete
-            initSearchAutocomplete();
-            
-            // Initialize scroll position restoration
-            initScrollRestoration();
-            
-            // Initialize load more button
-            initLoadMore();
-        });
-        
-        function loadDeferredStyles() {
-            const deferredStyles = document.querySelector('.deferred-styles');
-            if (deferredStyles) {
-                const styles = deferredStyles.innerHTML;
-                const styleElement = document.createElement('style');
-                styleElement.innerHTML = styles;
-                document.head.appendChild(styleElement);
-                deferredStyles.remove();
-            }
-        }
-        
-        function initLazyLoading() {
-            const lazyImages = document.querySelectorAll('.lazy-image');
-            
-            if ('IntersectionObserver' in window) {
-                const imageObserver = new IntersectionObserver((entries, observer) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            const img = entry.target;
-                            img.src = img.dataset.src;
-                            img.classList.remove('lazy-image');
-                            imageObserver.unobserve(img);
-                        }
-                    });
-                }, {
-                    rootMargin: '50px 0px',
-                    threshold: 0.01
-                });
-                
-                lazyImages.forEach(img => imageObserver.observe(img));
-            } else {
-                // Fallback for older browsers
-                lazyImages.forEach(img => {
-                    img.src = img.dataset.src;
-                    img.classList.remove('lazy-image');
-                });
-            }
-        }
-        
-        function initSearchAutocomplete() {
-            const searchInput = document.querySelector('[data-autocomplete-url]');
-            const suggestionsContainer = document.getElementById('searchSuggestions');
-            
-            if (!searchInput || !suggestionsContainer) return;
-            
-            let debounceTimer;
-            
-            searchInput.addEventListener('input', function() {
-                clearTimeout(debounceTimer);
-                const query = this.value.trim();
-                
-                if (query.length < 2) {
-                    suggestionsContainer.classList.add('d-none');
-                    return;
-                }
-                
-                debounceTimer = setTimeout(() => {
-                    fetch(`${searchInput.dataset.autocompleteUrl}?q=${encodeURIComponent(query)}`)
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.success && data.suggestions.length > 0) {
-                                suggestionsContainer.innerHTML = '';
-                                data.suggestions.forEach(suggestion => {
-                                    const item = document.createElement('a');
-                                    item.href = '#';
-                                    item.className = 'list-group-item list-group-item-action';
-                                    item.textContent = suggestion;
-                                    item.addEventListener('click', (e) => {
-                                        e.preventDefault();
-                                        searchInput.value = suggestion;
-                                        suggestionsContainer.classList.add('d-none');
-                                        document.getElementById('filterForm').submit();
-                                    });
-                                    suggestionsContainer.appendChild(item);
-                                });
-                                suggestionsContainer.classList.remove('d-none');
-                            } else {
-                                suggestionsContainer.classList.add('d-none');
-                            }
-                        })
-                        .catch(() => {
-                            suggestionsContainer.classList.add('d-none');
-                        });
-                }, 300);
-            });
-            
-            // Hide suggestions when clicking outside
-            document.addEventListener('click', function(e) {
-                if (!searchInput.contains(e.target) && !suggestionsContainer.contains(e.target)) {
-                    suggestionsContainer.classList.add('d-none');
-                }
-            });
-            
-            // Handle keyboard navigation
-            searchInput.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape') {
-                    suggestionsContainer.classList.add('d-none');
-                }
-            });
-        }
-        
-        function initScrollRestoration() {
-            if (localStorage.getItem('scrollPosition')) {
-                setTimeout(() => {
-                    window.scrollTo(0, parseInt(localStorage.getItem('scrollPosition')));
-                    localStorage.removeItem('scrollPosition');
-                }, 100);
-            }
-            
-            document.getElementById('filterForm').addEventListener('submit', function() {
-                localStorage.setItem('scrollPosition', window.pageYOffset);
-            });
-        }
-        
-        function initLoadMore() {
-            const loadMoreBtn = document.getElementById('loadMoreBtn');
-            const phoneGrid = document.getElementById('phoneGrid');
-            
-            if (!loadMoreBtn || !phoneGrid) return;
-            
-            loadMoreBtn.addEventListener('click', function() {
-                if (this.dataset.loading === 'true') return;
-                
-                this.dataset.loading = 'true';
-                this.innerHTML = '<i class="ri-loader-4-line me-2"></i> Loading...';
-                
-                const nextPage = parseInt(this.dataset.page);
-                const currentUrl = new URL(window.location.href);
-                currentUrl.searchParams.set('page', nextPage);
-                
-                fetch(currentUrl)
-                    .then(response => response.text())
-                    .then(html => {
-                        const parser = new DOMParser();
-                        const doc = parser.parseFromString(html, 'text/html');
-                        const newItems = doc.querySelectorAll('#phoneGrid > div');
-                        
-                        newItems.forEach(item => {
-                            phoneGrid.appendChild(item);
-                        });
-                        
-                        this.dataset.page = nextPage + 1;
-                        this.dataset.loading = 'false';
-                        this.innerHTML = '<i class="ri-refresh-line me-2"></i> Load More Phones';
-                        
-                        // Check if there are more pages
-                        const pagination = doc.querySelector('.pagination');
-                        if (!pagination || !pagination.querySelector('.page-item:last-child .page-link')) {
-                            this.style.display = 'none';
-                        }
-                    })
-                    .catch(() => {
-                        this.dataset.loading = 'false';
-                        this.innerHTML = '<i class="ri-refresh-line me-2"></i> Try Again';
-                    });
-            });
-        }
-        
-        // Filter functions
         function toggleFilter(filterName, value) {
             const input = document.getElementById(filterName + 'Input');
-            const currentValue = input.value;
-            
-            if (currentValue === value) {
+            if (input.value === value) {
+                // Toggle off if clicking same filter
                 input.value = '';
             } else {
                 input.value = value;
             }
-            
             document.getElementById('filterForm').submit();
         }
-        
+
         function switchPaymentMethod(method) {
             document.getElementById('paymentMethodInput').value = method;
             document.getElementById('filterForm').submit();
         }
-        
-        function trackConversion(phoneName) {
-            if (typeof gtag !== 'undefined') {
-                gtag('event', 'conversion', {
-                    'send_to': 'AW-XXXXXXXXX/YYYYYYYYYYYY',
-                    'value': 1.0,
-                    'currency': 'KES',
-                    'transaction_id': phoneName
-                });
+
+        // Auto-submit on sort change
+        document.querySelector('select[name="sort"]').addEventListener('change', function() {
+            document.getElementById('filterForm').submit();
+        });
+
+        // Maintain scroll position after filter
+        $(document).ready(function() {
+            if (localStorage.getItem('scrollPosition')) {
+                window.scrollTo(0, localStorage.getItem('scrollPosition'));
+                localStorage.removeItem('scrollPosition');
             }
-            
-            // Store in localStorage for analytics
-            const conversions = JSON.parse(localStorage.getItem('phone_conversions') || '[]');
-            conversions.push({
-                phone: phoneName,
-                timestamp: new Date().toISOString()
-            });
-            localStorage.setItem('phone_conversions', JSON.stringify(conversions.slice(-50)));
-        }
-        
-        // Performance monitoring
-        window.addEventListener('load', function() {
-            const perfData = {
-                dcl: performance.timing.domContentLoadedEventEnd - performance.timing.navigationStart,
-                load: performance.timing.loadEventEnd - performance.timing.navigationStart,
-                fcp: performance.getEntriesByName('first-contentful-paint')[0]?.startTime || 0
-            };
-            
-            console.log('Performance Metrics:', perfData);
-            
-            // Send to analytics if needed
-            if (typeof gtag !== 'undefined') {
-                gtag('event', 'timing_complete', {
-                    'name': 'page_load',
-                    'value': perfData.load,
-                    'event_category': 'Performance'
-                });
-            }
+        });
+
+        $('#filterForm').on('submit', function() {
+            localStorage.setItem('scrollPosition', window.pageYOffset);
         });
     </script>
 @endsection
