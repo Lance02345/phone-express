@@ -13,32 +13,32 @@ class RedmiSeeder extends Seeder
             // REDMI NOTE 15 SERIES (PRICES NOT PROVIDED)
             [
                 "name" => "Redmi Note 15 Pro+ 5G 512GB + 12GB RAM",
-                "price" => null,
+                "price" => 0,
                 "image_path" => "Images/redmi/note15proplus.jpg"
             ],
             [
                 "name" => "Redmi Note 15 Pro+ 5G 256GB + 8GB RAM",
-                "price" => null,
+                "price" => 0,
                 "image_path" => "Images/redmi/note15proplus.jpg"
             ],
             [
                 "name" => "Redmi Note 15 Pro 512GB + 12GB RAM",
-                "price" => null,
+                "price" => 0,
                 "image_path" => "Images/redmi/note15pro.jpg"
             ],
             [
                 "name" => "Redmi Note 15 Pro 256GB + 8GB RAM",
-                "price" => null,
+                "price" => 0,
                 "image_path" => "Images/redmi/note15pro.jpg"
             ],
             [
                 "name" => "Redmi Note 15 256GB + 8GB RAM",
-                "price" => null,
+                "price" => 0,
                 "image_path" => "Images/redmi/note15.jpg"
             ],
             [
                 "name" => "Redmi Note 15 128GB + 6GB RAM",
-                "price" => null,
+                "price" => 0,
                 "image_path" => "Images/redmi/note15.jpg"
             ],
 
@@ -118,17 +118,17 @@ class RedmiSeeder extends Seeder
             // TABLETS (PRICES NOT PROVIDED)
             [
                 "name" => "Redmi Pad SE 8.7\" 128GB + 4GB RAM",
-                "price" => null,
+                "price" => 0,
                 "image_path" => "Images/redmi/redmipadse.jpg"
             ],
             [
                 "name" => "Redmi Pad 2 4G 128GB + 4GB RAM",
-                "price" => null,
+                "price" => 0,
                 "image_path" => "Images/redmi/redmipad2.jpg"
             ],
             [
                 "name" => "Redmi Pad 2 4G 256GB + 8GB RAM",
-                "price" => null,
+                "price" => 0,
                 "image_path" => "Images/redmi/redmipad2.jpg"
             ],
         ];
