@@ -1,85 +1,116 @@
 @php
+// Optimized helper functions with caching
 if (!function_exists('extractBrand')) {
     function extractBrand($name) {
-        if (stripos($name, 'iPhone') !== false) return 'Apple';
-        if (stripos($name, 'Samsung') !== false) return 'Samsung';
-        return 'Other';
+        static $cache = [];
+        if (isset($cache[$name])) {
+            return $cache[$name];
+        }
+        
+        if (stripos($name, 'iPhone') !== false) {
+            $cache[$name] = 'Apple';
+        } elseif (stripos($name, 'Samsung') !== false) {
+            $cache[$name] = 'Samsung';
+        } else {
+            $cache[$name] = 'Other';
+        }
+        
+        return $cache[$name];
     }
 }
 
 if (!function_exists('extractStorage')) {
     function extractStorage($name) {
-        if (preg_match('/(\d+)GB/', $name, $matches)) {
-            return $matches[1];
+        static $cache = [];
+        if (isset($cache[$name])) {
+            return $cache[$name];
         }
-        return '';
+        
+        if (preg_match('/(\d+)GB/', $name, $matches)) {
+            $cache[$name] = $matches[1];
+        } else {
+            $cache[$name] = '';
+        }
+        
+        return $cache[$name];
     }
 }
 
 if (!function_exists('extractSeries')) {
     function extractSeries($name) {
-        if (preg_match('/(iPhone \d+)/', $name, $matches)) return $matches[1];
-        if (stripos($name, 'Galaxy S') !== false) return 'Galaxy S';
-        if (stripos($name, 'Galaxy Note') !== false) return 'Galaxy Note';
-        if (stripos($name, 'Galaxy Fold') !== false) return 'Galaxy Fold';
-        if (stripos($name, 'Galaxy Flip') !== false) return 'Galaxy Flip';
-        return '';
+        static $cache = [];
+        if (isset($cache[$name])) {
+            return $cache[$name];
+        }
+        
+        if (preg_match('/(iPhone \d+)/', $name, $matches)) {
+            $cache[$name] = $matches[1];
+        } elseif (stripos($name, 'Galaxy S') !== false) {
+            $cache[$name] = 'Galaxy S';
+        } elseif (stripos($name, 'Galaxy Note') !== false) {
+            $cache[$name] = 'Galaxy Note';
+        } elseif (stripos($name, 'Galaxy Fold') !== false) {
+            $cache[$name] = 'Galaxy Fold';
+        } elseif (stripos($name, 'Galaxy Flip') !== false) {
+            $cache[$name] = 'Galaxy Flip';
+        } else {
+            $cache[$name] = '';
+        }
+        
+        return $cache[$name];
     }
 }
+
+// Pre-calculate Lipa prices for performance
+$lipaCalculations = [];
+if ($filters['payment_method'] === 'lipa' && $phones->isNotEmpty()) {
+    foreach ($phones as $phone) {
+        if ($phone->price > 0) {
+            $upfrontPayment = ceil($phone->price * 0.4);
+            $remainingBalance = $phone->price - $upfrontPayment;
+            $totalBalance = ceil($remainingBalance * 1.5);
+            $weeklyPayment = ceil($totalBalance / 12);
+            
+            $lipaCalculations[$phone->id] = [
+                'upfront' => $upfrontPayment,
+                'weekly' => $weeklyPayment,
+            ];
+        }
+    }
+}
+
+// Check if any iPhone exists for Lipa tab
+$hasIphones = $phones->contains(function ($phone) {
+    return stripos($phone->name, 'iPhone') !== false;
+});
 @endphp
 
 @extends('layouts.landing-master')
 
 @section('styles')
     <!-- SWIPERJS CSS -->
-    <link rel="stylesheet" href="{{asset('build/assets/libs/swiper/swiper-bundle.min.css')}}">
+    <link rel="stylesheet" href="{{ asset('build/assets/libs/swiper/swiper-bundle.min.css') }}">
+    
+    <!-- Lazy Load Images -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/loading-attribute-polyfill/2.1.7/loading-attribute-polyfill.min.css">
     
     <style>
-        /* Enhanced Hero Section Animations */
+        /* Optimized Critical CSS */
         .landing-banner {
             background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%) !important;
-            padding: 80px 0 60px !important;
+            padding: clamp(40px, 10vw, 80px) 0 clamp(30px, 8vw, 60px) !important;
             position: relative;
             overflow: hidden;
         }
 
-        .landing-banner::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-            opacity: 0.1;
-        }
-
         .landing-banner-heading {
-            font-size: 2.5rem;
+            font-size: clamp(1.75rem, 4vw, 2.5rem);
             font-weight: 800;
             line-height: 1.2;
             color: #ffffff;
             margin-bottom: 1rem;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
 
-        .text-secondary {
-            color: #e8f5e9 !important;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
-        }
-
-        .text-fixed-white {
-            color: #ffffff !important;
-        }
-
-        .landing-banner .lead {
-            font-size: 1.1rem;
-            line-height: 1.6;
-            color: rgba(255, 255, 255, 0.95);
-            font-weight: 400;
-        }
-
-        /* Filter Section - Green Theme */
         .filters-card {
             background: #ffffff;
             border-radius: 15px;
@@ -90,114 +121,6 @@ if (!function_exists('extractSeries')) {
             z-index: 10;
         }
 
-        .search-input {
-            border: 2px solid #e9ecef;
-            border-radius: 10px;
-            padding: 12px 20px;
-            transition: all 0.3s ease;
-        }
-
-        .search-input:focus {
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 0.25rem rgba(26, 71, 42, 0.15);
-        }
-
-        /* Quick Filter Badges - Green Theme */
-        .quick-filter {
-            display: inline-flex;
-            align-items: center;
-            padding: 8px 16px;
-            border: 2px solid #e9ecef;
-            border-radius: 20px;
-            font-size: 0.875rem;
-            font-weight: 500;
-            color: #495057;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin: 4px;
-            background: white;
-        }
-
-        .quick-filter:hover {
-            border-color: var(--primary-color);
-            color: var(--primary-color);
-            background: var(--primary-light);
-            transform: translateY(-2px);
-        }
-
-        .quick-filter.active {
-            background: var(--primary-color);
-            color: white;
-            border-color: var(--primary-color);
-            box-shadow: 0 4px 12px rgba(26, 71, 42, 0.3);
-        }
-
-        .filter-control {
-            border: 2px solid #e9ecef;
-            border-radius: 10px;
-            padding: 10px 16px;
-            transition: all 0.3s ease;
-        }
-
-        .filter-control:focus {
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 0.25rem rgba(26, 71, 42, 0.15);
-        }
-
-        .btn-filter {
-            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
-            color: white;
-            border: none;
-            padding: 12px 30px;
-            border-radius: 10px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-
-        .btn-filter:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(26, 71, 42, 0.4);
-        }
-
-        .btn-clear {
-            background: transparent;
-            color: #6c757d;
-            border: 2px solid #e9ecef;
-            padding: 12px 24px;
-            border-radius: 10px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-
-        .btn-clear:hover {
-            background: #f8f9fa;
-            border-color: #dee2e6;
-            transform: translateY(-2px);
-        }
-
-        /* Payment Tabs - Green Theme */
-        .nav-tabs .nav-link {
-            padding: 12px 30px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            border: 2px solid transparent;
-            border-radius: 10px 10px 0 0;
-        }
-
-        .nav-tabs .nav-link.active {
-            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark)) !important;
-            border: none !important;
-            color: white !important;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(26, 71, 42, 0.3);
-        }
-
-        .nav-tabs .nav-link:hover:not(.active) {
-            background: var(--primary-light);
-            color: var(--primary-color);
-        }
-
-        /* Phone Cards */
         .phone-card {
             transition: all 0.3s ease;
             border: none;
@@ -211,105 +134,23 @@ if (!function_exists('extractSeries')) {
             box-shadow: 0 12px 30px rgba(0,0,0,0.15);
         }
 
-        .lipa-polepole-badge {
-            background: linear-gradient(45deg, #ff6b35, #ff8e35);
-            color: white;
-            font-size: 0.7rem;
-            padding: 3px 8px;
-            border-radius: 10px;
-            position: absolute;
-            top: 10px;
-            right: 10px;
-        }
-
-        .btn-primary-light {
-            background: var(--primary-light);
-            color: var(--primary-color);
-            border: 2px solid var(--primary-color);
-            transition: all 0.3s ease;
-        }
-
-        .btn-primary-light:hover {
-            background: var(--primary-color);
-            color: white;
-            transform: translateY(-2px);
-        }
-
-        /* Results Info - Green Theme */
-        .results-info {
-            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
-            color: white;
-            border-radius: 12px;
-            padding: 15px 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 15px rgba(26, 71, 42, 0.3);
-        }
-
-        /* Lipa Info Alert - Green Theme */
-        .alert-info {
-            background: var(--primary-light);
-            border-left: 4px solid var(--primary-color);
-            color: var(--primary-dark);
-        }
-
-        /* Empty State */
-        .no-results {
-            text-align: center;
-            padding: 60px 20px;
-            color: #6c757d;
-        }
-
-        .no-results i {
-            font-size: 4rem;
-            margin-bottom: 20px;
-            opacity: 0.5;
-        }
-
-        /* Pagination - Green Theme */
-        .pagination .page-link {
-            border: 2px solid #e9ecef;
-            border-radius: 8px;
-            color: var(--primary-color);
-            padding: 8px 16px;
-            margin: 0 4px;
-        }
-
-        .pagination .page-link:hover {
-            background: var(--primary-light);
-            border-color: var(--primary-color);
-        }
-
-        .pagination .active .page-link {
-            background: var(--primary-color);
-            border-color: var(--primary-color);
-        }
-
-        /* Responsive design */
-        @media (max-width: 768px) {
-            .landing-banner-heading {
-                font-size: 2rem;
-            }
-            
-            .landing-banner {
-                padding: 60px 0 40px !important;
-            }
-            
-            .filters-card {
-                margin-top: -20px;
-            }
-            
-            .quick-filter {
-                font-size: 0.8rem;
-                padding: 6px 12px;
-            }
-        }
-
-        @media (max-width: 576px) {
-            .landing-banner-heading {
-                font-size: 1.75rem;
-            }
+        /* Deferred CSS - Load after critical content */
+        .deferred-styles {
+            display: none;
         }
     </style>
+
+    <!-- Inline critical CSS -->
+    <noscript>
+        <style>
+            .phone-card:hover {
+                transform: none;
+            }
+            .quick-filter:hover {
+                transform: none;
+            }
+        </style>
+    </noscript>
 @endsection
 
 @section('content')
@@ -343,51 +184,54 @@ if (!function_exists('extractSeries')) {
                             <!-- Payment Method (Hidden Field) -->
                             <input type="hidden" name="payment_method" id="paymentMethodInput" value="{{ $filters['payment_method'] }}">
                             
-                            <!-- Search Bar -->
+                            <!-- Search Bar with Autocomplete -->
                             <div class="mb-3">
                                 <input type="text" 
                                        class="form-control search-input" 
                                        name="search" 
                                        placeholder="🔍 Search for iPhone 13, Samsung Galaxy S23, or any phone model..." 
-                                       value="{{ $filters['search'] ?? '' }}">
+                                       value="{{ $filters['search'] ?? '' }}"
+                                       data-autocomplete-url="{{ route('api.phone.search') }}"
+                                       autocomplete="off">
+                                <div id="searchSuggestions" class="list-group position-absolute d-none" style="z-index: 1050;"></div>
                             </div>
                             
                             <!-- Quick Filter Badges -->
                             <div class="mb-3">
                                 <small class="text-muted d-block mb-2 fw-semibold">Quick Filters:</small>
-                                <div class="d-flex flex-wrap">
-                                    <span class="quick-filter {{ $filters['brand'] === 'Apple' ? 'active' : '' }}" 
-                                          onclick="toggleFilter('brand', 'Apple')">
+                                <div class="d-flex flex-wrap gap-2">
+                                    <button type="button" class="quick-filter {{ $filters['brand'] === 'Apple' ? 'active' : '' }}" 
+                                            onclick="toggleFilter('brand', 'Apple')">
                                         <i class="ri-apple-fill me-1"></i> iPhone
-                                    </span>
-                                    <span class="quick-filter {{ $filters['brand'] === 'Samsung' ? 'active' : '' }}" 
-                                          onclick="toggleFilter('brand', 'Samsung')">
+                                    </button>
+                                    <button type="button" class="quick-filter {{ $filters['brand'] === 'Samsung' ? 'active' : '' }}" 
+                                            onclick="toggleFilter('brand', 'Samsung')">
                                         <i class="ri-android-fill me-1"></i> Samsung
-                                    </span>
-                                    <span class="quick-filter {{ $filters['price_range'] === '0-50000' ? 'active' : '' }}" 
-                                          onclick="toggleFilter('price_range', '0-50000')">
+                                    </button>
+                                    <button type="button" class="quick-filter {{ $filters['price_range'] === '0-50000' ? 'active' : '' }}" 
+                                            onclick="toggleFilter('price_range', '0-50000')">
                                         💰 Under 50K
-                                    </span>
-                                    <span class="quick-filter {{ $filters['price_range'] === '50000-80000' ? 'active' : '' }}" 
-                                          onclick="toggleFilter('price_range', '50000-80000')">
+                                    </button>
+                                    <button type="button" class="quick-filter {{ $filters['price_range'] === '50000-80000' ? 'active' : '' }}" 
+                                            onclick="toggleFilter('price_range', '50000-80000')">
                                         💰 50K-80K
-                                    </span>
-                                    <span class="quick-filter {{ $filters['price_range'] === '80000+' ? 'active' : '' }}" 
-                                          onclick="toggleFilter('price_range', '80000+')">
+                                    </button>
+                                    <button type="button" class="quick-filter {{ $filters['price_range'] === '80000+' ? 'active' : '' }}" 
+                                            onclick="toggleFilter('price_range', '80000+')">
                                         💎 80K+
-                                    </span>
-                                    <span class="quick-filter {{ $filters['storage'] === '128' ? 'active' : '' }}" 
-                                          onclick="toggleFilter('storage', '128')">
+                                    </button>
+                                    <button type="button" class="quick-filter {{ $filters['storage'] === '128' ? 'active' : '' }}" 
+                                            onclick="toggleFilter('storage', '128')">
                                         📱 128GB
-                                    </span>
-                                    <span class="quick-filter {{ $filters['storage'] === '256' ? 'active' : '' }}" 
-                                          onclick="toggleFilter('storage', '256')">
+                                    </button>
+                                    <button type="button" class="quick-filter {{ $filters['storage'] === '256' ? 'active' : '' }}" 
+                                            onclick="toggleFilter('storage', '256')">
                                         📱 256GB
-                                    </span>
-                                    <span class="quick-filter {{ $filters['storage'] === '512' ? 'active' : '' }}" 
-                                          onclick="toggleFilter('storage', '512')">
+                                    </button>
+                                    <button type="button" class="quick-filter {{ $filters['storage'] === '512' ? 'active' : '' }}" 
+                                            onclick="toggleFilter('storage', '512')">
                                         📱 512GB
-                                    </span>
+                                    </button>
                                 </div>
                             </div>
                             
@@ -399,7 +243,7 @@ if (!function_exists('extractSeries')) {
                             <!-- Advanced Filters -->
                             <div class="row g-3">
                                 <div class="col-md-8">
-                                    <select class="form-select filter-control" name="sort">
+                                    <select class="form-select filter-control" name="sort" onchange="this.form.submit()">
                                         <option value="newest" {{ $filters['sort'] === 'newest' ? 'selected' : '' }}>⭐ Newest First</option>
                                         <option value="price_asc" {{ $filters['sort'] === 'price_asc' ? 'selected' : '' }}>💲 Price: Low to High</option>
                                         <option value="price_desc" {{ $filters['sort'] === 'price_desc' ? 'selected' : '' }}>💎 Price: High to Low</option>
@@ -429,6 +273,9 @@ if (!function_exists('extractSeries')) {
                             <h6 class="mb-1">
                                 <i class="ri-smartphone-line me-2"></i>
                                 <span class="fw-bold">{{ $phones->total() }}</span> phones found
+                                @if(isset($filters['price_stats']['min']))
+                                    <span class="badge bg-white text-primary ms-2">KES {{ number_format($filters['price_stats']['min']) }} - {{ number_format($filters['price_stats']['max']) }}</span>
+                                @endif
                             </h6>
                             <small>
                                 @if($filters['search'])
@@ -440,8 +287,15 @@ if (!function_exists('extractSeries')) {
                                 @endif
                             </small>
                         </div>
-                        <div>
-                            <i class="ri-shopping-bag-3-line fs-3 opacity-50"></i>
+                        <div class="text-end">
+                            <i class="ri-shopping-bag-3-line fs-3 opacity-50 d-none d-md-block"></i>
+                            @if(isset($filters['suggestions']) && count($filters['suggestions']) > 0)
+                                <div class="mt-2">
+                                    @foreach($filters['suggestions'] as $suggestion)
+                                        <small class="d-block text-white-80">{{ $suggestion }}</small>
+                                    @endforeach
+                                </div>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -468,7 +322,8 @@ if (!function_exists('extractSeries')) {
                         <li class="nav-item" role="presentation">
                             <button class="nav-link {{ $filters['payment_method'] === 'lipa' ? 'active' : '' }}" 
                                     type="button"
-                                    onclick="switchPaymentMethod('lipa')">
+                                    onclick="switchPaymentMethod('lipa')"
+                                    @if(!$hasIphones) disabled title="No iPhones available for Lipa Mdogo Mdogo" @endif>
                                 <i class="ri-calendar-check-line me-2"></i>Lipa Mdogo Mdogo
                             </button>
                         </li>
@@ -488,36 +343,39 @@ if (!function_exists('extractSeries')) {
 
                 <!-- Phone Grid -->
                 @if($phones->count() > 0)
-                <div class="row">
+                <div class="row" id="phoneGrid">
                     @foreach($phones as $phone)
+                        @php
+                            $isIphone = stripos($phone->name, 'iPhone') !== false;
+                            $hasLipaPrice = $filters['payment_method'] === 'lipa' && $isIphone && isset($lipaCalculations[$phone->id]);
+                            $whatsappMessage = "Hello, I am interested in {$phone->name}";
+                            $whatsappUrl = "https://wa.me/254721920545?text=" . urlencode($whatsappMessage);
+                        @endphp
+                        
                         <div class="col-xxl-3 col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-4">
                             <div class="p-4 text-center border rounded-3 h-100 phone-card">
                                 <div class="card-body position-relative">
-                                    @if($filters['payment_method'] === 'lipa' && stripos($phone->name, 'iPhone') !== false)
+                                    @if($hasLipaPrice)
                                         <span class="lipa-polepole-badge">Lipa Mdogo Mdogo</span>
                                     @endif
                                     
-                                    <img src="{{ asset($phone->image_path) }}" alt="{{ $phone->name }}"
-                                        class="img-fluid mb-3 rounded-3" style="height:220px; object-fit:cover;">
+                                    <!-- Lazy loaded image with placeholder -->
+                                    <img src="{{ asset('build/assets/images/placeholder-phone.png') }}" 
+                                         data-src="{{ asset($phone->image_path) }}" 
+                                         alt="{{ $phone->name }}"
+                                         class="img-fluid mb-3 rounded-3 lazy-image" 
+                                         style="height:220px; object-fit:cover;"
+                                         loading="lazy">
+                                    
                                     <h6 class="fw-semibold">{{ $phone->name }}</h6>
                                     
-                                    @if($filters['payment_method'] === 'lipa' && stripos($phone->name, 'iPhone') !== false)
-                                        @php
-                                            $upfrontPercent = 0.4; // 40% upfront
-                                            $interestRate = 1.5; // 50% interest
-                                            $weeks = 12; // 12 weeks
-                                            
-                                            $upfrontPayment = ceil($phone->price * $upfrontPercent);
-                                            $remainingBalance = $phone->price - $upfrontPayment;
-                                            $totalBalance = ceil($remainingBalance * $interestRate);
-                                            $weeklyPayment = ceil($totalBalance / $weeks);
-                                        @endphp
+                                    @if($hasLipaPrice)
                                         @if($phone->price == 0)
                                             <p class="fs-18 fw-semibold mb-1 text-info">Price on Request</p>
                                             <p class="text-muted fs-11 fw-semibold mb-3">Contact for Lipa Mdogo Mdogo</p>
                                         @else
-                                            <p class="fs-18 fw-semibold mb-1">Upfront: KES {{ number_format($upfrontPayment) }}</p>
-                                            <p class="fs-18 fw-semibold mb-1 text-success">Then: KES {{ number_format($weeklyPayment) }}/week</p>
+                                            <p class="fs-18 fw-semibold mb-1">Upfront: KES {{ number_format($lipaCalculations[$phone->id]['upfront']) }}</p>
+                                            <p class="fs-18 fw-semibold mb-1 text-success">Then: KES {{ number_format($lipaCalculations[$phone->id]['weekly']) }}/week</p>
                                             <p class="text-muted fs-11 fw-semibold mb-3">12 weekly payments</p>
                                         @endif
                                     @else
@@ -529,7 +387,7 @@ if (!function_exists('extractSeries')) {
                                             @endif
                                         </p>
                                         <p class="text-muted fs-11 fw-semibold mb-3">
-                                            @if($filters['payment_method'] === 'lipa')
+                                            @if($filters['payment_method'] === 'lipa' && !$isIphone)
                                                 Full Payment Only (Not iPhone)
                                             @else
                                                 Full Payment
@@ -537,9 +395,10 @@ if (!function_exists('extractSeries')) {
                                         </p>
                                     @endif
                                     
-                                    <a href="https://wa.me/254721920545?text=Hello,%20I%20am%20interested%20in%20{{ urlencode($phone->name) }}"
+                                    <a href="{{ $whatsappUrl }}"
                                        target="_blank"
-                                       class="btn btn-primary-light btn-wave w-100">
+                                       class="btn btn-primary-light btn-wave w-100"
+                                       onclick="trackConversion('{{ $phone->name }}')">
                                        <i class="ri-whatsapp-line me-1"></i> Buy Now
                                     </a>
                                 </div>
@@ -548,15 +407,38 @@ if (!function_exists('extractSeries')) {
                     @endforeach
                 </div>
                 
+                <!-- Pagination -->
                 <div class="d-flex justify-content-center mt-4">
-                    {{ $phones->links('pagination::bootstrap-5') }}
+                    {{ $phones->onEachSide(1)->links('pagination::bootstrap-5') }}
                 </div>
+                
+                <!-- Load More Button (AJAX alternative) -->
+                @if($phones->hasMorePages() && $phones->currentPage() < 3)
+                <div class="text-center mt-4 d-none" id="loadMoreContainer">
+                    <button id="loadMoreBtn" class="btn btn-primary" data-page="2" data-loading="false">
+                        <i class="ri-refresh-line me-2"></i> Load More Phones
+                    </button>
+                </div>
+                @endif
+                
                 @else
                 <!-- No Results Message -->
                 <div class="no-results">
                     <i class="ri-search-line"></i>
                     <h5>No phones found</h5>
                     <p>Try adjusting your search criteria or filters</p>
+                    
+                    @if(isset($filters['suggestions']) && count($filters['suggestions']) > 0)
+                        <div class="mt-3">
+                            <p class="text-muted">Suggestions:</p>
+                            <ul class="list-unstyled">
+                                @foreach($filters['suggestions'] as $suggestion)
+                                    <li><small>{{ $suggestion }}</small></li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+                    
                     <a href="{{ route('pricing') }}" class="btn btn-primary mt-3">
                         <i class="ri-refresh-line me-2"></i> Clear All Filters
                     </a>
@@ -567,52 +449,435 @@ if (!function_exists('extractSeries')) {
     </div>
 </section>
 
+<!-- Deferred non-critical content -->
+<div class="deferred-styles">
+    <!-- Filter Section styles -->
+    <style>
+        .search-input {
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 12px 20px;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.25rem rgba(26, 71, 42, 0.15);
+        }
+
+        .quick-filter {
+            display: inline-flex;
+            align-items: center;
+            padding: 8px 16px;
+            border: 2px solid #e9ecef;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #495057;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .quick-filter:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+            background: var(--primary-light);
+            transform: translateY(-2px);
+        }
+
+        .quick-filter.active {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+            box-shadow: 0 4px 12px rgba(26, 71, 42, 0.3);
+        }
+
+        .quick-filter:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .filter-control {
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 10px 16px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-filter {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-filter:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(26, 71, 42, 0.4);
+        }
+
+        .btn-clear {
+            background: transparent;
+            color: #6c757d;
+            border: 2px solid #e9ecef;
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-clear:hover {
+            background: #f8f9fa;
+            border-color: #dee2e6;
+            transform: translateY(-2px);
+        }
+
+        /* Payment Tabs */
+        .nav-tabs .nav-link {
+            padding: 12px 30px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            border-radius: 10px 10px 0 0;
+        }
+
+        .nav-tabs .nav-link.active {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark)) !important;
+            border: none !important;
+            color: white !important;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(26, 71, 42, 0.3);
+        }
+
+        .nav-tabs .nav-link:hover:not(.active) {
+            background: var(--primary-light);
+            color: var(--primary-color);
+        }
+
+        /* Badge */
+        .lipa-polepole-badge {
+            background: linear-gradient(45deg, #ff6b35, #ff8e35);
+            color: white;
+            font-size: 0.7rem;
+            padding: 3px 8px;
+            border-radius: 10px;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+
+        .btn-primary-light {
+            background: var(--primary-light);
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary-light:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Results Info */
+        .results-info {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: white;
+            border-radius: 12px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(26, 71, 42, 0.3);
+        }
+
+        /* Alert */
+        .alert-info {
+            background: var(--primary-light);
+            border-left: 4px solid var(--primary-color);
+            color: var(--primary-dark);
+        }
+
+        /* Empty State */
+        .no-results {
+            text-align: center;
+            padding: 60px 20px;
+            color: #6c757d;
+        }
+
+        /* Pagination */
+        .pagination .page-link {
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            color: var(--primary-color);
+            padding: 8px 16px;
+            margin: 0 4px;
+        }
+
+        .pagination .page-link:hover {
+            background: var(--primary-light);
+            border-color: var(--primary-color);
+        }
+
+        .pagination .active .page-link {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+    </style>
+</div>
 @endsection
 
 @section('scripts')
-    <!-- jQuery - Load first -->
+    <!-- Deferred JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" 
             integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" 
-            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            crossorigin="anonymous" referrerpolicy="no-referrer"
+            defer></script>
     
-    <!-- SWIPER JS -->
-    <script src="{{asset('build/assets/libs/swiper/swiper-bundle.min.js')}}"></script>
+    <!-- SWIPER JS (only load if needed) -->
+    @if($phones->count() > 8)
+    <script src="{{ asset('build/assets/libs/swiper/swiper-bundle.min.js') }}" defer></script>
+    @endif
 
     <!-- INTERNAL LANDING JS -->
     @vite('resources/assets/js/landing.js')
 
+    <!-- Main JavaScript -->
     <script>
+        // Initialize when DOM is ready
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load deferred styles
+            loadDeferredStyles();
+            
+            // Initialize lazy loading
+            initLazyLoading();
+            
+            // Initialize search autocomplete
+            initSearchAutocomplete();
+            
+            // Initialize scroll position restoration
+            initScrollRestoration();
+            
+            // Initialize load more button
+            initLoadMore();
+        });
+        
+        function loadDeferredStyles() {
+            const deferredStyles = document.querySelector('.deferred-styles');
+            if (deferredStyles) {
+                const styles = deferredStyles.innerHTML;
+                const styleElement = document.createElement('style');
+                styleElement.innerHTML = styles;
+                document.head.appendChild(styleElement);
+                deferredStyles.remove();
+            }
+        }
+        
+        function initLazyLoading() {
+            const lazyImages = document.querySelectorAll('.lazy-image');
+            
+            if ('IntersectionObserver' in window) {
+                const imageObserver = new IntersectionObserver((entries, observer) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            const img = entry.target;
+                            img.src = img.dataset.src;
+                            img.classList.remove('lazy-image');
+                            imageObserver.unobserve(img);
+                        }
+                    });
+                }, {
+                    rootMargin: '50px 0px',
+                    threshold: 0.01
+                });
+                
+                lazyImages.forEach(img => imageObserver.observe(img));
+            } else {
+                // Fallback for older browsers
+                lazyImages.forEach(img => {
+                    img.src = img.dataset.src;
+                    img.classList.remove('lazy-image');
+                });
+            }
+        }
+        
+        function initSearchAutocomplete() {
+            const searchInput = document.querySelector('[data-autocomplete-url]');
+            const suggestionsContainer = document.getElementById('searchSuggestions');
+            
+            if (!searchInput || !suggestionsContainer) return;
+            
+            let debounceTimer;
+            
+            searchInput.addEventListener('input', function() {
+                clearTimeout(debounceTimer);
+                const query = this.value.trim();
+                
+                if (query.length < 2) {
+                    suggestionsContainer.classList.add('d-none');
+                    return;
+                }
+                
+                debounceTimer = setTimeout(() => {
+                    fetch(`${searchInput.dataset.autocompleteUrl}?q=${encodeURIComponent(query)}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success && data.suggestions.length > 0) {
+                                suggestionsContainer.innerHTML = '';
+                                data.suggestions.forEach(suggestion => {
+                                    const item = document.createElement('a');
+                                    item.href = '#';
+                                    item.className = 'list-group-item list-group-item-action';
+                                    item.textContent = suggestion;
+                                    item.addEventListener('click', (e) => {
+                                        e.preventDefault();
+                                        searchInput.value = suggestion;
+                                        suggestionsContainer.classList.add('d-none');
+                                        document.getElementById('filterForm').submit();
+                                    });
+                                    suggestionsContainer.appendChild(item);
+                                });
+                                suggestionsContainer.classList.remove('d-none');
+                            } else {
+                                suggestionsContainer.classList.add('d-none');
+                            }
+                        })
+                        .catch(() => {
+                            suggestionsContainer.classList.add('d-none');
+                        });
+                }, 300);
+            });
+            
+            // Hide suggestions when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!searchInput.contains(e.target) && !suggestionsContainer.contains(e.target)) {
+                    suggestionsContainer.classList.add('d-none');
+                }
+            });
+            
+            // Handle keyboard navigation
+            searchInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    suggestionsContainer.classList.add('d-none');
+                }
+            });
+        }
+        
+        function initScrollRestoration() {
+            if (localStorage.getItem('scrollPosition')) {
+                setTimeout(() => {
+                    window.scrollTo(0, parseInt(localStorage.getItem('scrollPosition')));
+                    localStorage.removeItem('scrollPosition');
+                }, 100);
+            }
+            
+            document.getElementById('filterForm').addEventListener('submit', function() {
+                localStorage.setItem('scrollPosition', window.pageYOffset);
+            });
+        }
+        
+        function initLoadMore() {
+            const loadMoreBtn = document.getElementById('loadMoreBtn');
+            const phoneGrid = document.getElementById('phoneGrid');
+            
+            if (!loadMoreBtn || !phoneGrid) return;
+            
+            loadMoreBtn.addEventListener('click', function() {
+                if (this.dataset.loading === 'true') return;
+                
+                this.dataset.loading = 'true';
+                this.innerHTML = '<i class="ri-loader-4-line me-2"></i> Loading...';
+                
+                const nextPage = parseInt(this.dataset.page);
+                const currentUrl = new URL(window.location.href);
+                currentUrl.searchParams.set('page', nextPage);
+                
+                fetch(currentUrl)
+                    .then(response => response.text())
+                    .then(html => {
+                        const parser = new DOMParser();
+                        const doc = parser.parseFromString(html, 'text/html');
+                        const newItems = doc.querySelectorAll('#phoneGrid > div');
+                        
+                        newItems.forEach(item => {
+                            phoneGrid.appendChild(item);
+                        });
+                        
+                        this.dataset.page = nextPage + 1;
+                        this.dataset.loading = 'false';
+                        this.innerHTML = '<i class="ri-refresh-line me-2"></i> Load More Phones';
+                        
+                        // Check if there are more pages
+                        const pagination = doc.querySelector('.pagination');
+                        if (!pagination || !pagination.querySelector('.page-item:last-child .page-link')) {
+                            this.style.display = 'none';
+                        }
+                    })
+                    .catch(() => {
+                        this.dataset.loading = 'false';
+                        this.innerHTML = '<i class="ri-refresh-line me-2"></i> Try Again';
+                    });
+            });
+        }
+        
+        // Filter functions
         function toggleFilter(filterName, value) {
             const input = document.getElementById(filterName + 'Input');
-            if (input.value === value) {
-                // Toggle off if clicking same filter
+            const currentValue = input.value;
+            
+            if (currentValue === value) {
                 input.value = '';
             } else {
                 input.value = value;
             }
+            
             document.getElementById('filterForm').submit();
         }
-
+        
         function switchPaymentMethod(method) {
             document.getElementById('paymentMethodInput').value = method;
             document.getElementById('filterForm').submit();
         }
-
-        // Auto-submit on sort change
-        document.querySelector('select[name="sort"]').addEventListener('change', function() {
-            document.getElementById('filterForm').submit();
-        });
-
-        // Maintain scroll position after filter
-        $(document).ready(function() {
-            if (localStorage.getItem('scrollPosition')) {
-                window.scrollTo(0, localStorage.getItem('scrollPosition'));
-                localStorage.removeItem('scrollPosition');
+        
+        function trackConversion(phoneName) {
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'conversion', {
+                    'send_to': 'AW-XXXXXXXXX/YYYYYYYYYYYY',
+                    'value': 1.0,
+                    'currency': 'KES',
+                    'transaction_id': phoneName
+                });
             }
-        });
-
-        $('#filterForm').on('submit', function() {
-            localStorage.setItem('scrollPosition', window.pageYOffset);
+            
+            // Store in localStorage for analytics
+            const conversions = JSON.parse(localStorage.getItem('phone_conversions') || '[]');
+            conversions.push({
+                phone: phoneName,
+                timestamp: new Date().toISOString()
+            });
+            localStorage.setItem('phone_conversions', JSON.stringify(conversions.slice(-50)));
+        }
+        
+        // Performance monitoring
+        window.addEventListener('load', function() {
+            const perfData = {
+                dcl: performance.timing.domContentLoadedEventEnd - performance.timing.navigationStart,
+                load: performance.timing.loadEventEnd - performance.timing.navigationStart,
+                fcp: performance.getEntriesByName('first-contentful-paint')[0]?.startTime || 0
+            };
+            
+            console.log('Performance Metrics:', perfData);
+            
+            // Send to analytics if needed
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'timing_complete', {
+                    'name': 'page_load',
+                    'value': perfData.load,
+                    'event_category': 'Performance'
+                });
+            }
         });
     </script>
 @endsection
