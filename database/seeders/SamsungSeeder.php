@@ -11,53 +11,75 @@ class SamsungSeeder extends Seeder
     {
         $samsungs = [
             // NOTE SERIES
-            ["name" => "Samsung Galaxy Note 10 5G 256GB", "price" => 31000, "image_path" => "Images/samsung/samsungnote10.jpg"],
+            ["name" => "Samsung Galaxy Note 10 5G 256GB", "price" => 26000, "image_path" => "Images/samsung/samsungnote10.jpg"],
             ["name" => "Samsung Galaxy Note 10+ 5G 256GB", "price" => 33000, "image_path" => "Images/samsung/samsungnote10plus.jpg"],
-            ["name" => "Samsung Galaxy Note 20 5G 128GB", "price" => 29000, "image_path" => "Images/samsung/samsungnote20.jpg"],
-            ["name" => "Samsung Galaxy Note 20 Ultra 5G 128GB", "price" => 40000, "image_path" => "Images/samsung/samsungnote20ultra.jpg"],
-            ["name" => "Samsung Galaxy Note 20 Ultra 5G 256GB", "price" => 45000, "image_path" => "Images/samsung/samsungnote20ultra.jpg"],
+            ["name" => "Samsung Galaxy Note 20 5G 128GB", "price" => 28000, "image_path" => "Images/samsung/samsungnote20.jpg"],
+            ["name" => "Samsung Galaxy Note 20 5G 256GB", "price" => 32000, "image_path" => "Images/samsung/samsungnote20.jpg"],
+            ["name" => "Samsung Galaxy Note 20 Ultra 5G 128GB", "price" => 39000, "image_path" => "Images/samsung/samsungnote20ultra.jpg"],
+            ["name" => "Samsung Galaxy Note 20 Ultra 5G 256GB", "price" => 43000, "image_path" => "Images/samsung/samsungnote20ultra.jpg"],
 
             // S20 SERIES
             ["name" => "Samsung Galaxy S20 5G 128GB", "price" => 23000, "image_path" => "Images/samsung/samsungs20.jpg"],
+            ["name" => "Samsung Galaxy S20+ 5G 128GB", "price" => 25000, "image_path" => "Images/samsung/samsungs20.jpg"],
+            ["name" => "Samsung Galaxy S20 Ultra 5G 128GB", "price" => 27500, "image_path" => "Images/samsung/samsungs20.jpg"],
             ["name" => "Samsung Galaxy S20FE 5G 128GB", "price" => 22000, "image_path" => "Images/samsung/samsungs20fe.jpg"],
-            ["name" => "Samsung Galaxy S20+ 5G 128GB", "price" => 25000, "image_path" => "Images/samsung/samsungs20.jpg"], // REUSED IMAGE
 
             // S21 SERIES
-            ["name" => "Samsung Galaxy S21 5G 128GB", "price" => 28000, "image_path" => "Images/samsung/samsungs21.jpg"],
-            ["name" => "Samsung Galaxy S21 5G 256GB", "price" => 30000, "image_path" => "Images/samsung/samsungs21.jpg"], // REUSED IMAGE
+            ["name" => "Samsung Galaxy S21 5G 128GB", "price" => 26500, "image_path" => "Images/samsung/samsungs21.jpg"],
+            ["name" => "Samsung Galaxy S21 5G 256GB", "price" => 28500, "image_path" => "Images/samsung/samsungs21.jpg"],
             ["name" => "Samsung Galaxy S21+ 5G 128GB", "price" => 28000, "image_path" => "Images/samsung/samsungs21plus.jpg"],
             ["name" => "Samsung Galaxy S21FE 5G 128GB", "price" => 25000, "image_path" => "Images/samsung/samsungs21fe.jpg"],
+            ["name" => "Samsung Galaxy S21FE 5G 256GB", "price" => 27000, "image_path" => "Images/samsung/samsungs21fe.jpg"],
             ["name" => "Samsung Galaxy S21 Ultra 5G 128GB", "price" => 40000, "image_path" => "Images/samsung/samsungs21ultra.jpg"],
+            ["name" => "Samsung Galaxy S21 Ultra 5G 256GB", "price" => 43000, "image_path" => "Images/samsung/samsungs21ultra.jpg"],
 
             // S22 SERIES
             ["name" => "Samsung Galaxy S22 5G 128GB", "price" => 32000, "image_path" => "Images/samsung/samsungs22.webp"],
             ["name" => "Samsung Galaxy S22 5G 256GB", "price" => 34000, "image_path" => "Images/samsung/samsungs22.webp"],
-            ["name" => "Samsung Galaxy S22+ 5G 128GB", "price" => 38000, "image_path" => "Images/samsung/samsungs22plus.jpg"],
+            ["name" => "Samsung Galaxy S22+ 5G 128GB", "price" => 35000, "image_path" => "Images/samsung/samsungs22plus.jpg"],
             ["name" => "Samsung Galaxy S22+ 5G 256GB", "price" => 40000, "image_path" => "Images/samsung/samsungs22plus.jpg"],
-            ["name" => "Samsung Galaxy S22 Ultra 5G 128GB", "price" => 50000, "image_path" => "Images/samsung/samsungs22ultra.jpg"],
-            ["name" => "Samsung Galaxy S22 Ultra 5G 256GB", "price" => 58000, "image_path" => "Images/samsung/samsungs22ultra.jpg"],
-            ["name" => "Samsung Galaxy S22 Ultra 5G 512GB", "price" => 60000, "image_path" => "Images/samsung/samsungs22ultra.jpg"], // REUSED IMAGE
+            ["name" => "Samsung Galaxy S22 Ultra 5G 128GB", "price" => 47000, "image_path" => "Images/samsung/samsungs22ultra.jpg"],
+            ["name" => "Samsung Galaxy S22 Ultra 5G 256GB", "price" => 55000, "image_path" => "Images/samsung/samsungs22ultra.jpg"],
+            ["name" => "Samsung Galaxy S22 Ultra 5G 512GB", "price" => 60000, "image_path" => "Images/samsung/samsungs22ultra.jpg"],
 
             // S23 SERIES
-            ["name" => "Samsung Galaxy S23FE 5G 128GB", "price" => 38000, "image_path" => "Images/samsung/samsungs23fe.jpg"],
-            ["name" => "Samsung Galaxy S23 5G 128GB", "price" => 41000, "image_path" => "Images/samsung/samsungs23.jpg"],
-            ["name" => "Samsung Galaxy S23 5G 256GB", "price" => 45000, "image_path" => "Images/samsung/samsungs23.jpg"], // REUSED IMAGE
-            ["name" => "Samsung Galaxy S23+ 5G 256GB", "price" => 53000, "image_path" => "Images/samsung/samsungs23plus.jpeg"],
-            ["name" => "Samsung Galaxy S23 Ultra 5G 256GB", "price" => 70000, "image_path" => "Images/samsung/samsungs23ultra.jpg"],
-            ["name" => "Samsung Galaxy S23 Ultra 5G 512GB", "price" => 75000, "image_path" => "Images/samsung/samsungs23ultra.jpg"],
+            ["name" => "Samsung Galaxy S23FE 5G 128GB", "price" => 35000, "image_path" => "Images/samsung/samsungs23fe.jpg"],
+            ["name" => "Samsung Galaxy S23FE 5G 256GB", "price" => 38000, "image_path" => "Images/samsung/samsungs23fe.jpg"],
+            ["name" => "Samsung Galaxy S23 5G 128GB", "price" => 40000, "image_path" => "Images/samsung/samsungs23.jpg"],
+            ["name" => "Samsung Galaxy S23 5G 256GB", "price" => 43000, "image_path" => "Images/samsung/samsungs23.jpg"],
+            ["name" => "Samsung Galaxy S23+ 5G 256GB", "price" => 47000, "image_path" => "Images/samsung/samsungs23plus.jpeg"],
+            ["name" => "Samsung Galaxy S23 Ultra 5G 256GB", "price" => 67000, "image_path" => "Images/samsung/samsungs23ultra.jpg"],
+            ["name" => "Samsung Galaxy S23 Ultra 5G 512GB", "price" => 70000, "image_path" => "Images/samsung/samsungs23ultra.jpg"],
 
             // S24 SERIES
             ["name" => "Samsung Galaxy S24 5G 128GB", "price" => 50000, "image_path" => "Images/samsung/samsungs24.jpg"],
-            ["name" => "Samsung Galaxy S24+ 5G 256GB", "price" => 65000, "image_path" => "Images/samsung/samsungs24.jpg"], // REUSED IMAGE
-            ["name" => "Samsung Galaxy S24 Ultra 5G 256GB", "price" => 88000, "image_path" => "Images/samsung/samsungs24ultrae.jpg"],
-            ["name" => "Samsung Galaxy S24 Ultra 5G 512GB", "price" => 92000, "image_path" => "Images/samsung/samsungs24ultrae.jpg"], // REUSED IMAGE
+            ["name" => "Samsung Galaxy S24FE 5G 128GB", "price" => 44000, "image_path" => "Images/samsung/samsungs24.jpg"],
+            ["name" => "Samsung Galaxy S24 5G 256GB", "price" => 55000, "image_path" => "Images/samsung/samsungs24.jpg"],
+            ["name" => "Samsung Galaxy S24 5G 512GB", "price" => 60000, "image_path" => "Images/samsung/samsungs24.jpg"],
+            ["name" => "Samsung Galaxy S24+ 5G 256GB", "price" => 65000, "image_path" => "Images/samsung/samsungs24.jpg"],
+            ["name" => "Samsung Galaxy S24+ 5G 512GB", "price" => 67000, "image_path" => "Images/samsung/samsungs24.jpg"],
+            ["name" => "Samsung Galaxy S24 Ultra 5G 256GB", "price" => 85000, "image_path" => "Images/samsung/samsungs24ultrae.jpg"],
+            ["name" => "Samsung Galaxy S24 Ultra 5G 512GB", "price" => 90000, "image_path" => "Images/samsung/samsungs24ultrae.jpg"],
+
+            // S25 SERIES
+            ["name" => "Samsung Galaxy S25 5G 128GB", "price" => 60000, "image_path" => "Images/samsung/samsungs25.jpg"],
+            ["name" => "Samsung Galaxy S25 5G 256GB", "price" => 65000, "image_path" => "Images/samsung/samsungs25.jpg"],
+            ["name" => "Samsung Galaxy S25 5G 512GB", "price" => 70000, "image_path" => "Images/samsung/samsungs25.jpg"],
+            ["name" => "Samsung Galaxy S25+ 5G 256GB", "price" => 70000, "image_path" => "Images/samsung/samsungs25plus.jpg"],
+            ["name" => "Samsung Galaxy S25+ 5G 512GB", "price" => 75000, "image_path" => "Images/samsung/samsungs25plus.jpg"],
+            ["name" => "Samsung Galaxy S25 Ultra 5G 256GB", "price" => 100000, "image_path" => "Images/samsung/samsungs25ultra.jpg"],
+            ["name" => "Samsung Galaxy S25 Ultra 5G 512GB", "price" => 110000, "image_path" => "Images/samsung/samsungs25ultra.jpg"],
 
             // FLIP & FOLD SERIES
-            ["name" => "Samsung Galaxy Flip 3 5G 128GB", "price" => 32000, "image_path" => "Images/samsung/samsungflip3.jpeg"],
-            ["name" => "Samsung Galaxy Flip 4 5G 128GB", "price" => 39000, "image_path" => "Images/samsung/samsungflip4.jpeg"],
-            ["name" => "Samsung Galaxy Fold 4 5G 256GB", "price" => 75000, "image_path" => "Images/samsung/samsungfold4.jpeg"],
-            ["name" => "Samsung Galaxy Fold 5 5G 256GB", "price" => 97000, "image_path" => "Images/samsung/samsungfold5.jpg"],
-            ["name" => "Samsung Galaxy Fold 5 5G 512GB", "price" => 100000, "image_path" => "Images/samsung/samsungfold5.jpg"],
+            ["name" => "Samsung Galaxy Flip 3 5G 128GB", "price" => 26000, "image_path" => "Images/samsung/samsungflip3.jpeg"],
+            ["name" => "Samsung Galaxy Flip 4 5G 128GB", "price" => 30000, "image_path" => "Images/samsung/samsungflip4.jpeg"],
+            ["name" => "Samsung Galaxy Fold 3 5G", "price" => 48000, "image_path" => "Images/samsung/samsungfold4.jpeg"],
+            ["name" => "Samsung Galaxy Fold 4 5G 256GB", "price" => 63000, "image_path" => "Images/samsung/samsungfold4.jpeg"],
+            ["name" => "Samsung Galaxy Fold 5 5G 256GB", "price" => 68000, "image_path" => "Images/samsung/samsungfold5.jpg"],
+            ["name" => "Samsung Galaxy Fold 5 5G 512GB", "price" => 70000, "image_path" => "Images/samsung/samsungfold5.jpg"],
+            ["name" => "Samsung Galaxy Fold 6 5G 256GB", "price" => 95000, "image_path" => "Images/samsung/samsungfold5.jpg"],
+            ["name" => "Samsung Galaxy Fold 6 5G 512GB", "price" => 100000, "image_path" => "Images/samsung/samsungfold5.jpg"],
+            ["name" => "Samsung Galaxy Fold 7 512GB", "price" => 157000, "image_path" => "Images/samsung/samsungfold5.jpg"],
         ];
 
         foreach ($samsungs as $phone) {
