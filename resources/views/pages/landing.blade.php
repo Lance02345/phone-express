@@ -18,17 +18,10 @@ $fullPhonesOptimized = $fullPhones->map(function($phone) use ($whatsappBase) {
     return $phone;
 });
 
-$lipaPhonesOptimized = $lipaPhones->where(function($phone) {
-    return stripos($phone->name, 'iPhone') !== false && $phone->price > 0;
-})->map(function($phone) use ($whatsappBase) {
+$lipaPhonesOptimized = $lipaPhones->map(function($phone) use ($whatsappBase) {
     $phone->whatsapp_url = $whatsappBase . urlencode("Hello, I am interested in {$phone->name} (Lipa PolePole)");
     $phone->image_url = asset($phone->image_path);
     $phone->image_available = filled($phone->image_path) && is_file(public_path($phone->image_path));
-    
-    if (isset($phone->lipa_installment)) {
-        $phone->lipa_total = $phone->lipa_installment * 10;
-    }
-    
     return $phone;
 });
 @endphp
@@ -429,9 +422,9 @@ $lipaPhonesOptimized = $lipaPhones->where(function($phone) {
                                         <div class="dashboard-image-placeholder"><div><i class="ri-image-line"></i><span>Image coming soon</span></div></div>
                                     @endif
                                     <div class="phone-card__body">
-                                        <span class="phone-card__meta">10 monthly payments</span>
+                                        <span class="phone-card__meta">40% upfront, then 12 weekly payments</span>
                                         <h6 class="phone-card__name"><a href="{{ route('phones.show', $phone) }}">{{ $phone->name }}</a></h6>
-                                        <p class="phone-card__price">KES {{ number_format($phone->lipa_installment ?? 0) }} <small class="fs-12 text-muted">/ month</small></p>
+                                        <p class="phone-card__price">KES {{ number_format($phone->lipa_installment ?? 0) }} <small class="fs-12 text-muted">/ week</small></p>
                                         <a href="{{ $phone->whatsapp_url }}" target="_blank" rel="noopener" class="phone-card__action"><span>Ask about this plan</span><i class="ri-arrow-right-line"></i></a>
                                     </div>
                                 </div>

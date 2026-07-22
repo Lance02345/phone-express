@@ -8,6 +8,7 @@ use App\Models\Phone;
 use App\Models\Product;
 use App\Models\ProductMedia;
 use App\Models\ProductVariant;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
@@ -101,6 +102,10 @@ class LegacyCatalogueImporter
                 }
             }
         });
+
+        Cache::forget('landing_catalogue_full_v2');
+        Cache::forget('landing_catalogue_lipa_v2');
+        Cache::forget('catalogue_category_counts_v2');
 
         $report['persisted'] = [
             'brands' => Brand::count(),

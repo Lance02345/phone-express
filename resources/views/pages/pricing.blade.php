@@ -5,18 +5,6 @@
         || filled($filters['price_range'] ?? null)
         || filled($filters['storage'] ?? null);
 
-    $lipaCalculations = [];
-    if ($isLipa) {
-        foreach ($phones as $phone) {
-            if ($phone->price > 0) {
-                $upfront = (int) ceil($phone->price * 0.4);
-                $lipaCalculations[$phone->id] = [
-                    'upfront' => $upfront,
-                    'weekly' => (int) ceil((($phone->price - $upfront) * 1.5) / 12),
-                ];
-            }
-        }
-    }
 @endphp
 
 @extends('layouts.landing-master')
@@ -153,8 +141,12 @@
 
             <p class="filter-label">Popular filters</p>
             <div class="filter-chips">
-                <button type="button" class="filter-chip {{ ($filters['brand'] ?? '') === 'Apple' ? 'active' : '' }}" onclick="toggleFilter('brand', 'Apple')"><i class="ri-apple-fill"></i> iPhone</button>
-                <button type="button" class="filter-chip {{ ($filters['brand'] ?? '') === 'Samsung' ? 'active' : '' }}" onclick="toggleFilter('brand', 'Samsung')"><i class="ri-android-fill"></i> Samsung</button>
+                @foreach($brands as $brand)
+                    <button type="button" class="filter-chip {{ ($filters['brand'] ?? '') === $brand->name ? 'active' : '' }}" data-value="{{ $brand->name }}" onclick="toggleFilter('brand', this.dataset.value)">
+                        @if($brand->name === 'Apple')<i class="ri-apple-fill"></i>@elseif($brand->name === 'Samsung')<i class="ri-android-fill"></i>@endif
+                        {{ $brand->name === 'Apple' ? 'iPhone' : $brand->name }}
+                    </button>
+                @endforeach
                 <button type="button" class="filter-chip {{ ($filters['price_range'] ?? '') === '0-50000' ? 'active' : '' }}" onclick="toggleFilter('price_range', '0-50000')">Under KES 50K</button>
                 <button type="button" class="filter-chip {{ ($filters['price_range'] ?? '') === '50000-80000' ? 'active' : '' }}" onclick="toggleFilter('price_range', '50000-80000')">KES 50K–80K</button>
                 <button type="button" class="filter-chip {{ ($filters['price_range'] ?? '') === '80000+' ? 'active' : '' }}" onclick="toggleFilter('price_range', '80000+')">KES 80K+</button>
@@ -198,8 +190,7 @@
             <div class="row catalogue-grid">
                 @foreach($phones as $phone)
                     @php
-                        $isIphone = str_contains(strtolower($phone->name), 'iphone');
-                        $hasLipa = $isLipa && $isIphone && isset($lipaCalculations[$phone->id]);
+                        $hasLipa = $isLipa && $phone->payment_plan_eligible && filled($phone->lipa_upfront);
                         $hasImage = filled($phone->image_path) && is_file(public_path($phone->image_path));
                         $whatsappUrl = 'https://wa.me/254721920545?text=' . urlencode("Hello, I am interested in {$phone->name}");
                     @endphp
@@ -217,8 +208,8 @@
                                 <span class="product-kicker">{{ $hasLipa ? 'Flexible payment' : 'Pay in full' }}</span>
                                 <h2 class="product-name"><a href="{{ route('phones.show', $phone) }}">{{ $phone->name }}</a></h2>
                                 @if($hasLipa)
-                                    <p class="product-price">KES {{ number_format($lipaCalculations[$phone->id]['upfront']) }} upfront</p>
-                                    <span class="payment-detail">Then KES {{ number_format($lipaCalculations[$phone->id]['weekly']) }} weekly for 12 weeks</span>
+                                    <p class="product-price">KES {{ number_format($phone->lipa_upfront) }} upfront</p>
+                                    <span class="payment-detail">Then KES {{ number_format($phone->lipa_installment) }} weekly for {{ $phone->lipa_weeks }} weeks</span>
                                 @elseif($phone->price > 0)
                                     <p class="product-price">KES {{ number_format($phone->price) }}</p>
                                     <span class="payment-detail">Current listed price</span>

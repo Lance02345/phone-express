@@ -34,6 +34,7 @@ class LegacyPhoneMapperTest extends TestCase
         $this->assertSame(9000000, $mapped['price_minor']);
         $this->assertFalse($mapped['quote_required']);
         $this->assertSame('LEGACY-PHONE-000012', $mapped['sku']);
+        $this->assertFalse($mapped['payment_plan_eligible']);
     }
 
     public function test_it_maps_colour_esim_and_terabyte_storage(): void
@@ -50,6 +51,7 @@ class LegacyPhoneMapperTest extends TestCase
         $this->assertSame(2048, $mapped['storage_gb']);
         $this->assertSame('Orange', $mapped['colour']);
         $this->assertSame('E-SIM', $mapped['connectivity']);
+        $this->assertTrue($mapped['payment_plan_eligible']);
     }
 
     public function test_zero_price_becomes_an_explicit_quote_required_state(): void

@@ -75,6 +75,9 @@
                         <div class="detail-facts">
                             <div class="detail-fact"><small>Brand</small><strong>{{ $brand }}</strong></div>
                             @if($storage)<div class="detail-fact"><small>Storage</small><strong>{{ $storage }}</strong></div>@endif
+                            @if($phone->ram_gb)<div class="detail-fact"><small>RAM</small><strong>{{ $phone->ram_gb }}GB</strong></div>@endif
+                            @if($phone->colour)<div class="detail-fact"><small>Colour</small><strong>{{ $phone->colour }}</strong></div>@endif
+                            @if($phone->connectivity)<div class="detail-fact"><small>Connectivity</small><strong>{{ $phone->connectivity }}</strong></div>@endif
                             <div class="detail-fact"><small>Availability</small><strong>Confirm with our team</strong></div>
                             <div class="detail-fact"><small>Delivery</small><strong>Available across Kenya</strong></div>
                         </div>
@@ -86,8 +89,8 @@
                             <a href="{{ route('pricing') }}" class="detail-back" aria-label="Back to all phones"><i class="ri-arrow-left-line"></i></a>
                         </div>
 
-                        @if($upfront && str_contains(strtolower($phone->name), 'iphone'))
-                            <div class="payment-card"><strong>Lipa Mdogo Mdogo estimate:</strong> KES {{ number_format($upfront) }} upfront, then KES {{ number_format($weekly) }} weekly for 12 weeks. Approval requirements apply.</div>
+                        @if($upfront)
+                            <div class="payment-card"><strong>Lipa Mdogo Mdogo estimate:</strong> KES {{ number_format($upfront) }} upfront, then KES {{ number_format($weekly) }} weekly for {{ $weeks }} weeks. Approval requirements apply.</div>
                         @endif
                     </div>
                 </div>

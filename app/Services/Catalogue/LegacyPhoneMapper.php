@@ -62,7 +62,7 @@ class LegacyPhoneMapper
             'price_minor' => $phone->price > 0 ? $phone->price * 100 : null,
             'currency' => 'KES',
             'quote_required' => $phone->price <= 0,
-            'payment_plan_eligible' => false,
+            'payment_plan_eligible' => $brand === 'Apple',
             'image_path' => $phone->image_path,
             'warnings' => $warnings,
         ];

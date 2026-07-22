@@ -2,8 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Brand;
+use App\Models\ProductVariant;
+use App\Services\Catalogue\PaymentPlanCalculator;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use App\Models\Phone;
+use Illuminate\View\View;
 
 class PagesController extends Controller
 {
@@ -13,283 +19,158 @@ class PagesController extends Controller
         '80000+' => ['min' => 80000, 'max' => null],
     ];
 
-    private const BRAND_FILTERS = [
-        'Apple' => ['iPhone'],
-        'Samsung' => ['Samsung', 'Galaxy'],
-    ];
-
     private const SORT_OPTIONS = [
         'newest' => ['field' => 'created_at', 'direction' => 'desc'],
-        'price_asc' => ['field' => 'price', 'direction' => 'asc'],
-        'price_desc' => ['field' => 'price', 'direction' => 'desc'],
-        'name_asc' => ['field' => 'name', 'direction' => 'asc'],
-        'name_desc' => ['field' => 'name', 'direction' => 'desc'],
+        'price_asc' => ['field' => 'price_minor', 'direction' => 'asc'],
+        'price_desc' => ['field' => 'price_minor', 'direction' => 'desc'],
+        'name_asc' => ['field' => 'label', 'direction' => 'asc'],
+        'name_desc' => ['field' => 'label', 'direction' => 'desc'],
     ];
 
-    public function pricing(Request $request)
+    public function pricing(Request $request, PaymentPlanCalculator $paymentPlans): View
     {
-        $query = Phone::query();
-        
-        // Default to random sorting if no sort specified
-        $sort = $request->get('sort', 'random');
-        
-        // Apply filters
-        $this->applySearchFilter($query, $request);
-        $this->applyBrandFilter($query, $request);
-        $this->applyPriceFilter($query, $request);
-        $this->applyStorageFilter($query, $request);
-        
-        // Payment method filter
-        $paymentMethod = $request->get('payment_method', 'full');
+        $query = $this->catalogueQuery();
+        $sort = $request->string('sort')->toString() ?: 'random';
+        $paymentMethod = $request->string('payment_method')->toString() ?: 'full';
+
+        $this->applyFilters($query, $request);
+
         if ($paymentMethod === 'lipa') {
-            $query->where('name', 'like', '%iPhone%');
+            $query->where('payment_plan_eligible', true)->whereNotNull('price_minor');
         }
-        
-        // Apply sorting
+
         $this->applySorting($query, $sort);
-        
-        // Get paginated results
-        $phones = $query->select(['id', 'name', 'price', 'image_path', 'created_at'])
-                       ->withCasts(['price' => 'integer'])
-                       ->paginate($this->getPerPage($request))
-                       ->appends($request->except('page'));
-        
-        // Calculate Lipa Mdogo Mdogo prices in bulk
+
+        $phones = $query->paginate($this->getPerPage($request))->appends($request->except('page'));
+
         if ($paymentMethod === 'lipa') {
-            $this->calculateLipaPrices($phones);
+            $phones->getCollection()->each(function (ProductVariant $phone) use ($paymentPlans): void {
+                $estimate = $paymentPlans->estimate($phone->price);
+                $phone->lipa_upfront = $estimate['upfront'] ?? null;
+                $phone->lipa_installment = $estimate['weekly'] ?? null;
+                $phone->lipa_weeks = $estimate['weeks'] ?? null;
+            });
         }
-        
-        // Prepare filters for view
+
         $filters = [
-            'search' => $request->search,
-            'brand' => $request->brand,
-            'price_range' => $request->price_range,
-            'storage' => $request->storage,
+            'search' => $request->string('search')->toString(),
+            'brand' => $request->string('brand')->toString(),
+            'price_range' => $request->string('price_range')->toString(),
+            'storage' => $request->string('storage')->toString(),
             'sort' => $sort,
             'payment_method' => $paymentMethod,
             'result_count' => $phones->total(),
-            'price_stats' => $this->getPriceStatistics($phones),
         ];
-        
-        // Add search suggestions if results are low
-        if ($phones->isEmpty() && $request->search) {
-            $filters['suggestions'] = $this->getSearchSuggestions($request->search);
-        }
-        
-        return view('pages.pricing', compact('phones', 'filters'));
-    }
-    
-    public function searchSuggestions(Request $request)
-    {
-        $query = $request->get('q', '');
-        
-        if (strlen($query) < 2) {
-            return response()->json(['success' => false, 'suggestions' => []]);
-        }
-        
-        $suggestions = Phone::search($query)
-            ->take(5)
-            ->pluck('name')
-            ->toArray();
-        
-        return response()->json([
-            'success' => true,
-            'suggestions' => $suggestions
+
+        return view('pages.pricing', [
+            'phones' => $phones,
+            'filters' => $filters,
+            'brands' => Brand::query()->where('is_active', true)->orderBy('name')->get(['name']),
         ]);
     }
-    
-    private function applySearchFilter($query, Request $request): void
+
+    public function searchSuggestions(Request $request): JsonResponse
     {
-        if (!$request->filled('search')) {
-            return;
+        $search = trim($request->string('q')->limit(80)->toString());
+
+        if (mb_strlen($search) < 2) {
+            return response()->json(['success' => false, 'suggestions' => []]);
         }
-        
-        $search = trim($request->search);
-        
-        // Use full-text search if available
-        if (method_exists(Phone::class, 'scopeSearch')) {
+
+        $suggestions = ProductVariant::query()
+            ->published()
+            ->search($search)
+            ->orderBy('label')
+            ->limit(5)
+            ->pluck('label')
+            ->all();
+
+        return response()->json(['success' => true, 'suggestions' => $suggestions]);
+    }
+
+    public function apiPricing(Request $request): JsonResponse|RedirectResponse
+    {
+        if (! $request->expectsJson() && ! $request->ajax()) {
+            return redirect()->route('pricing');
+        }
+
+        $query = $this->catalogueQuery();
+        $this->applyFilters($query, $request);
+        $this->applySorting($query, $request->string('sort')->toString() ?: 'random');
+
+        $phones = $query->paginate($this->getPerPage($request));
+
+        return response()->json([
+            'success' => true,
+            'data' => $phones->getCollection()->map(fn (ProductVariant $phone) => [
+                'id' => $phone->legacy_phone_id,
+                'sku' => $phone->sku,
+                'name' => $phone->name,
+                'brand' => $phone->product->brand->name,
+                'storage_gb' => $phone->storage_gb,
+                'price' => $phone->price,
+                'currency' => $phone->currency,
+                'quote_required' => $phone->quote_required,
+                'image_path' => $phone->image_path,
+                'url' => route('phones.show', $phone),
+            ])->values(),
+            'meta' => [
+                'current_page' => $phones->currentPage(),
+                'last_page' => $phones->lastPage(),
+                'total' => $phones->total(),
+            ],
+            'filters' => $request->only(['search', 'brand', 'price_range', 'storage', 'sort']),
+        ]);
+    }
+
+    private function catalogueQuery(): Builder
+    {
+        return ProductVariant::query()->published()->with(['product.brand', 'media']);
+    }
+
+    private function applyFilters(Builder $query, Request $request): void
+    {
+        $search = trim($request->string('search')->limit(100)->toString());
+        if ($search !== '') {
             $query->search($search);
-            return;
         }
-        
-        // FIXED: Better search for "iphone 13" - search for exact combination
-        $search = strtolower($search);
-        
-        // Check if it's an iPhone search with model number
-        if (preg_match('/iphone\s+(\d+)/i', $search, $matches)) {
-            $model = $matches[1];
-            $query->where(function ($q) use ($search, $model) {
-                // Search for exact iPhone model
-                $q->where('name', 'like', "%iPhone {$model}%")
-                  ->orWhere('name', 'like', "%iPhone{$model}%");
-            });
-        } else {
-            // Regular search with word boundaries
-            $searchTerms = array_filter(explode(' ', $search));
-            
-            if (count($searchTerms) === 1) {
-                $query->where('name', 'like', "%{$search}%");
-            } else {
-                $query->where(function ($q) use ($searchTerms) {
-                    foreach ($searchTerms as $term) {
-                        if (strlen($term) >= 2) {
-                            // Add word boundary search for better matching
-                            $q->where('name', 'like', "%{$term}%");
-                        }
-                    }
-                });
-            }
+
+        $brand = trim($request->string('brand')->limit(80)->toString());
+        if ($brand !== '') {
+            $query->whereHas('product.brand', fn (Builder $brandQuery) => $brandQuery->where('name', $brand));
+        }
+
+        $priceRange = $request->string('price_range')->toString();
+        if (isset(self::PRICE_RANGES[$priceRange])) {
+            $range = self::PRICE_RANGES[$priceRange];
+            $minimum = $range['min'] * 100;
+            $range['max'] === null
+                ? $query->where('price_minor', '>=', $minimum)
+                : $query->whereBetween('price_minor', [$minimum, $range['max'] * 100]);
+        }
+
+        $storage = $request->integer('storage');
+        if (in_array($storage, [64, 128, 256, 512, 1024, 2048], true)) {
+            $query->where('storage_gb', $storage);
         }
     }
-    
-    private function applyBrandFilter($query, Request $request): void
+
+    private function applySorting(Builder $query, string $sort): void
     {
-        if (!$request->filled('brand') || !isset(self::BRAND_FILTERS[$request->brand])) {
-            return;
-        }
-        
-        $brand = $request->brand;
-        $keywords = self::BRAND_FILTERS[$brand];
-        
-        $query->where(function ($q) use ($keywords) {
-            foreach ($keywords as $keyword) {
-                $q->orWhere('name', 'like', "%{$keyword}%");
-            }
-        });
-    }
-    
-    private function applyPriceFilter($query, Request $request): void
-    {
-        if (!$request->filled('price_range') || !isset(self::PRICE_RANGES[$request->price_range])) {
-            return;
-        }
-        
-        $range = self::PRICE_RANGES[$request->price_range];
-        
-        // FIXED: Handle price ranges correctly
-        if ($range['max'] === null) {
-            $query->where('price', '>=', $range['min']);
-        } else {
-            $query->whereBetween('price', [$range['min'], $range['max']]);
-        }
-    }
-    
-    private function applyStorageFilter($query, Request $request): void
-    {
-        if (!$request->filled('storage') || !is_numeric($request->storage)) {
-            return;
-        }
-        
-        $storage = $request->storage;
-        
-        $query->where('name', 'like', "%{$storage}GB%");
-    }
-    
-    private function applySorting($query, string $sort): void
-    {
-        if ($sort === 'random' || ! isset(self::SORT_OPTIONS[$sort])) {
-            $query->inRandomOrder();
+        if (! isset(self::SORT_OPTIONS[$sort])) {
+            $query->orderByDesc('created_at')->orderByDesc('id');
 
             return;
         }
 
         $sortOption = self::SORT_OPTIONS[$sort];
-        $query->orderBy($sortOption['field'], $sortOption['direction']);
+        $query->orderBy($sortOption['field'], $sortOption['direction'])->orderBy('id');
     }
-    
-    private function calculateLipaPrices($phones): void
-    {
-        foreach ($phones as $phone) {
-            if ($phone->price > 0) {
-                $phone->lipa_upfront = ceil($phone->price * 0.4);
-                $remaining = $phone->price - $phone->lipa_upfront;
-                $totalWithInterest = ceil($remaining * 1.5);
-                $phone->lipa_weekly = ceil($totalWithInterest / 12);
-            }
-        }
-    }
-    
-    private function getPriceStatistics($phones): array
-    {
-        if ($phones->isEmpty()) {
-            return null;
-        }
-        
-        $prices = $phones->pluck('price')->filter(function($price) {
-            return $price > 0;
-        })->values();
-        
-        if ($prices->isEmpty()) {
-            return null;
-        }
-        
-        return [
-            'min' => $prices->min(),
-            'max' => $prices->max(),
-            'avg' => (int) $prices->avg(),
-        ];
-    }
-    
-    private function getSearchSuggestions(string $searchTerm): array
-    {
-        $suggestions = [];
-        
-        // Common misspellings or alternative search terms
-        $searchTerm = strtolower($searchTerm);
-        
-        if (str_contains($searchTerm, 'iphone') || str_contains($searchTerm, 'i phone')) {
-            $suggestions[] = 'Try searching for specific models like: iPhone 13, iPhone 14 Pro';
-        }
-        
-        if (str_contains($searchTerm, 'samsung') || str_contains($searchTerm, 'galaxy')) {
-            $suggestions[] = 'Try searching for specific models like: Galaxy S23, Galaxy Fold';
-        }
-        
-        if (str_contains($searchTerm, 'gb') || str_contains($searchTerm, 'storage')) {
-            $suggestions[] = 'Try searching by storage: 128GB, 256GB, 512GB';
-        }
-        
-        return array_unique($suggestions);
-    }
-    
+
     private function getPerPage(Request $request): int
     {
-        $perPage = $request->get('per_page', 12);
-        
-        // Validate per_page is a reasonable number
-        $allowedPerPage = [12, 24, 48, 96];
-        
-        return in_array($perPage, $allowedPerPage) ? $perPage : 12;
-    }
-    
-    // API endpoint for AJAX filtering
-    public function apiPricing(Request $request)
-    {
-        // Return JSON response for AJAX requests
-        if ($request->expectsJson() || $request->ajax()) {
-            $query = Phone::query();
-            
-            $this->applySearchFilter($query, $request);
-            $this->applyBrandFilter($query, $request);
-            $this->applyPriceFilter($query, $request);
-            $this->applyStorageFilter($query, $request);
-            $this->applySorting($query, $request->get('sort', 'random'));
-            
-            $phones = $query->select(['id', 'name', 'price', 'image_path'])
-                           ->paginate(12);
-            
-            return response()->json([
-                'success' => true,
-                'data' => $phones->items(),
-                'meta' => [
-                    'current_page' => $phones->currentPage(),
-                    'last_page' => $phones->lastPage(),
-                    'total' => $phones->total(),
-                ],
-                'filters' => $request->only(['search', 'brand', 'price_range', 'storage', 'sort']),
-            ]);
-        }
-        
-        return redirect()->route('pricing');
+        $perPage = $request->integer('per_page', 12);
+
+        return in_array($perPage, [12, 24, 48, 96], true) ? $perPage : 12;
     }
 }
