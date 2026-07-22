@@ -6,7 +6,7 @@ $secondaryColor = '#2e7d32';
 $lightColor = '#e8f5e9';
 
 // Optimize image paths
-$landingImage = asset('build/assets/images/media/landing/phones.png');
+$landingImage = asset('Images/3iphones.jpg');
 $aboutImage = asset('Images/3iphones.jpg');
 $logoImage = asset('Images/logo-removebg-preview.png');
 
@@ -38,74 +38,171 @@ $lipaPhonesOptimized = $lipaPhones->where(function($phone) {
     <link rel="stylesheet" href="{{ asset('build/assets/libs/swiper/swiper-bundle.min.css') }}" media="print" onload="this.media='all'">
     
     <style>
-        /* Critical CSS - Inline for faster rendering */
+        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap');
+
         :root {
-            --primary-color: {{ $primaryColor }};
-            --primary-dark: {{ $secondaryColor }};
-            --primary-light: {{ $lightColor }};
+            --primary-color: #123f2b;
+            --primary-dark: #092a1c;
+            --primary-light: #eaf4ed;
+            --accent-color: #f3b33d;
+            --page-bg: #fbfcfa;
+            --surface: #ffffff;
+            --ink: #14221b;
+            --muted: #66736c;
+            --border: #e4e9e5;
         }
-        
+
+        html { scroll-padding-top: 84px; }
+        body.landing-body {
+            background: var(--page-bg);
+            color: var(--ink);
+            font-family: 'DM Sans', sans-serif;
+        }
+        h1, h2, h3, h4, h5, h6,
+        .landing-banner-heading { font-family: 'Manrope', sans-serif; letter-spacing: -0.035em; }
+        .section { padding-block: clamp(4rem, 7vw, 7rem); }
+        .section-bg { background: #f2f6f3 !important; }
+
         .landing-banner {
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%) !important;
-            padding-top: clamp(80px, 15vh, 120px) !important;
+            min-height: 760px;
+            display: flex;
+            align-items: center;
+            background:
+                radial-gradient(circle at 78% 18%, rgba(63, 139, 96, .35), transparent 26%),
+                linear-gradient(135deg, #0b2c1e 0%, #123f2b 58%, #174f36 100%) !important;
+            padding-top: 82px !important;
             position: relative;
             overflow: hidden;
         }
-        
         .landing-banner::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-            opacity: 0.1;
+            width: 520px;
+            height: 520px;
+            right: -180px;
+            bottom: -230px;
+            border: 1px solid rgba(255,255,255,.1);
+            border-radius: 50%;
         }
-        
+        .hero-kicker {
+            display: inline-flex;
+            align-items: center;
+            gap: .6rem;
+            padding: .55rem .9rem;
+            border: 1px solid rgba(255,255,255,.14);
+            border-radius: 999px;
+            background: rgba(255,255,255,.08);
+            color: #dcece2;
+            font-size: .78rem;
+            font-weight: 700;
+            letter-spacing: .1em;
+        }
+        .hero-kicker::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--accent-color); }
         .landing-banner-heading {
-            font-size: clamp(2rem, 4vw, 3.5rem);
+            max-width: 760px;
+            font-size: clamp(3rem, 5.5vw, 5.5rem);
             font-weight: 800;
-            line-height: 1.1;
+            line-height: 1.02;
             color: #ffffff;
-            margin-bottom: 1.5rem;
+            text-wrap: balance;
         }
-        
-        .text-secondary {
-            color: #e8f5e9 !important;
+        .hero-highlight { color: #f7c965; }
+        .hero-copy { max-width: 650px; font-size: 1.12rem; line-height: 1.75; color: rgba(255,255,255,.72); }
+        .hero-actions .btn {
+            min-height: 54px;
+            display: inline-flex;
+            align-items: center;
+            border-radius: 12px;
+            padding: .8rem 1.25rem;
+            font-size: .95rem;
+            font-weight: 700;
         }
-        
+        .hero-actions .btn-primary { background: var(--accent-color) !important; border-color: var(--accent-color) !important; color: #172219 !important; box-shadow: 0 12px 34px rgba(243,179,61,.22); }
+        .hero-actions .btn-primary:hover { background: #ffc85a !important; transform: translateY(-2px); }
+        .hero-actions .btn-outline-light { border-color: rgba(255,255,255,.28) !important; background: rgba(255,255,255,.04); }
+        .hero-trust { display: flex; flex-wrap: wrap; gap: .7rem 1.4rem; color: rgba(255,255,255,.74); font-size: .88rem; }
+        .hero-trust span { display: inline-flex; align-items: center; gap: .45rem; }
+        .hero-trust i { color: #8fd2a8; font-size: 1rem; }
+        .hero-visual { position: relative; padding: 18px; }
+        .hero-photo-frame {
+            position: relative;
+            overflow: hidden;
+            min-height: 540px;
+            border: 1px solid rgba(255,255,255,.16);
+            border-radius: 32px;
+            background: rgba(255,255,255,.08);
+            box-shadow: 0 35px 80px rgba(0,0,0,.32);
+            transform: rotate(1.5deg);
+        }
+        .hero-photo-frame img { width: 100%; height: 540px; object-fit: cover; object-position: 50% center; }
+        .hero-photo-frame::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 55%, rgba(6,25,17,.48)); }
+        .hero-price-card {
+            position: absolute;
+            z-index: 3;
+            left: -16px;
+            bottom: 52px;
+            padding: 1rem 1.1rem;
+            width: 210px;
+            text-align: left;
+            background: rgba(255,255,255,.96);
+            border-radius: 16px;
+            box-shadow: 0 20px 45px rgba(0,0,0,.2);
+        }
+        .hero-price-card small { color: var(--muted); }
+        .hero-price-card strong { display: block; color: var(--ink); font-family: 'Manrope', sans-serif; font-size: 1.05rem; }
+        .hero-rating { position: absolute; z-index: 3; right: 0; top: 50px; padding: .65rem .85rem; border-radius: 999px; background: #fff; color: var(--ink); font-weight: 700; box-shadow: 0 14px 35px rgba(0,0,0,.18); }
+        .hero-rating i { color: var(--accent-color); }
+
+        .landing-section-heading {
+            display: inline-block;
+            color: #27724b !important;
+            font-weight: 800;
+            letter-spacing: .14em;
+        }
         .text-fixed-white {
             color: #ffffff !important;
         }
-        
+        .landing-body .section h2, .landing-body .section h3 { color: var(--ink); font-weight: 800 !important; }
+        .landing-body .text-muted { color: var(--muted) !important; }
+        .category-filter { background: #fff; border: 1px solid var(--border); border-radius: 16px; padding: .55rem; box-shadow: 0 8px 30px rgba(20,34,27,.05); }
+        .category-btn { border: 0 !important; border-radius: 10px !important; color: #415047 !important; padding: .75rem 1rem; }
+        .category-btn.active, .category-btn:hover { background: var(--primary-color) !important; color: #fff !important; }
         .phone-card {
-            transition: transform 0.3s ease;
-            border: none;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            border-radius: 15px;
+            background: #fff;
+            transition: transform .25s ease, box-shadow .25s ease;
+            border: 1px solid var(--border) !important;
+            box-shadow: 0 10px 35px rgba(20,34,27,.06);
+            border-radius: 20px !important;
             overflow: hidden;
         }
-        
-        /* Deferred styles will load later */
+        .phone-card img { width: 100%; padding: 1rem; background: #f5f7f5; border-radius: 14px !important; object-fit: contain !important; }
+        .phone-card:hover { transform: translateY(-6px); box-shadow: 0 22px 50px rgba(20,34,27,.12); }
+        .stat-card, .testimonial-card, .contact-card, .landing-missions { border: 1px solid var(--border) !important; border-radius: 18px !important; box-shadow: 0 10px 34px rgba(20,34,27,.05) !important; }
+        .alert-info { color: #25583c; background: #edf7f0; border-color: #d5eadb; border-radius: 14px; }
+        .accordion-item { margin-bottom: .75rem; overflow: hidden; border: 1px solid var(--border) !important; border-radius: 14px !important; }
+        .accordion-button { font-weight: 700; }
+        .accordion-button:not(.collapsed) { color: var(--primary-color); background: var(--primary-light); box-shadow: none; }
+        .form-control { border-color: var(--border); border-radius: 10px; padding: .75rem .9rem; }
+        .landing-footer { background: #0b2b1d !important; }
         .deferred-styles {
             display: none;
         }
-        
+
         @media (max-width: 768px) {
-            .landing-banner-heading {
-                font-size: 2.5rem;
-            }
-            
+            .landing-banner { min-height: auto; padding-top: 100px !important; }
+            .landing-banner-heading { font-size: clamp(2.65rem, 12vw, 4rem); }
+            .hero-photo-frame, .hero-photo-frame img { min-height: 420px; height: 420px; }
+            .hero-visual { margin-top: 2rem; padding-inline: 8px; }
+            .hero-price-card { left: -4px; }
             .floating-element {
                 display: none;
             }
         }
-        
         @media (max-width: 576px) {
-            .landing-banner-heading {
-                font-size: 2rem;
-            }
+            .section { padding-block: 4rem; }
+            .hero-actions { display: grid !important; }
+            .hero-actions .btn { justify-content: center; width: 100%; }
+            .hero-photo-frame, .hero-photo-frame img { min-height: 350px; height: 350px; }
         }
     </style>
     
@@ -122,53 +219,44 @@ $lipaPhonesOptimized = $lipaPhones->where(function($phone) {
     <div class="landing-banner" id="home">
         <section class="section">
             <div class="container main-banner-container pb-lg-0">
-                <div class="row align-items-center">
-                    <div class="col-xxl-7 col-xl-7 col-lg-7 col-md-8">
-                        <div class="py-lg-5">
-                            <div class="mb-3">
-                                <h5 class="fw-semibold text-fixed-white">PHONES MADE ACCESSIBLE</h5>
+                <div class="row align-items-center g-5">
+                    <div class="col-xl-7 col-lg-7">
+                        <div class="py-lg-5 position-relative">
+                            <div class="mb-4">
+                                <span class="hero-kicker">PHONES MADE ACCESSIBLE</span>
                             </div>
-                            <h1 class="landing-banner-heading mb-3">
-                                Get your dream phone today with <span class="text-secondary">Phone Express!</span>
+                            <h1 class="landing-banner-heading mb-4">
+                                Your next phone, <span class="hero-highlight">made affordable.</span>
                             </h1>
-                            <div class="fs-16 mb-5 text-fixed-white op-7">
-                                Phone Express brings you the latest smartphones at unbeatable prices. Enjoy flexible payment
-                                with our <strong class="text-secondary">Lipa PolePole</strong> option and take home your phone today without
-                                breaking the bank.
-                            </div>
-                            <div class="d-flex flex-wrap gap-3">
-                                <a href="{{ route('pricing') }}" class="btn btn-primary btn-lg">
-                                    Shop Now
-                                    <i class="ri-shopping-bag-line ms-2 align-middle"></i>
+                            <p class="hero-copy mb-4">
+                                Shop genuine smartphones at competitive prices, with flexible Lipa PolePole plans and reliable delivery across Kenya.
+                            </p>
+                            <div class="hero-actions d-flex flex-wrap gap-3">
+                                <a href="{{ route('pricing') }}" class="btn btn-primary">
+                                    Explore phones <i class="ri-arrow-right-line ms-2"></i>
                                 </a>
-                                <a href="#categories" class="btn btn-outline-light btn-lg">
-                                    Browse Categories
-                                    <i class="ri-arrow-down-line ms-2 align-middle"></i>
+                                <a href="{{ $whatsappBase . urlencode('Hello Phone Express, I would like help choosing a phone.') }}" target="_blank" rel="noopener" class="btn btn-outline-light">
+                                    <i class="ri-whatsapp-line me-2"></i> Talk to us
                                 </a>
                             </div>
-                            <div class="mt-4 d-flex align-items-center text-fixed-white op-8">
-                                <div class="d-flex align-items-center me-4">
-                                    <i class="ri-checkbox-circle-fill text-secondary me-2"></i>
-                                    <span>Latest Models</span>
-                                </div>
-                                <div class="d-flex align-items-center me-4">
-                                    <i class="ri-checkbox-circle-fill text-secondary me-2"></i>
-                                    <span>Flexible Payments</span>
-                                </div>
-                                <div class="d-flex align-items-center">
-                                    <i class="ri-checkbox-circle-fill text-secondary me-2"></i>
-                                    <span>Free Nairobi Delivery</span>
-                                </div>
+                            <div class="hero-trust mt-4 pt-2">
+                                <span><i class="ri-shield-check-line"></i> Quality checked</span>
+                                <span><i class="ri-bank-card-line"></i> Flexible payments</span>
+                                <span><i class="ri-truck-line"></i> Kenya-wide delivery</span>
                             </div>
                         </div>
                     </div>
-                    <div class="col-xxl-5 col-xl-5 col-lg-5 col-md-4">
-                        <div class="text-end landing-main-image landing-heading-img position-relative">
-                            <img src="{{ $landingImage }}" alt="Phone Express"
-                                class="img-fluid floating-animation" loading="lazy" width="500" height="400">
-                            
-                            <!-- Floating badges - Will be added by JavaScript -->
-                            <div class="floating-badges-container"></div>
+                    <div class="col-xl-5 col-lg-5">
+                        <div class="hero-visual">
+                            <div class="hero-photo-frame">
+                                <img src="{{ $landingImage }}" alt="A selection of premium smartphones at Phone Express" width="640" height="720" fetchpriority="high">
+                            </div>
+                            <div class="hero-rating"><i class="ri-star-fill me-1"></i> Trusted locally</div>
+                            <div class="hero-price-card">
+                                <small>Need help choosing?</small>
+                                <strong>Tell us your budget</strong>
+                                <span class="text-success fs-12">We’ll find your best match</span>
+                            </div>
                         </div>
                     </div>
                 </div>

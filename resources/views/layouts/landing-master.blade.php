@@ -7,9 +7,9 @@
 		<meta charset="UTF-8">
         <meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=no'>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="Description" content="Laravel Bootstrap Responsive Admin Web Dashboard Template">
-        <meta name="Author" content="Spruko Technologies Private Limited">
-        <meta name="keywords" content="dashboard bootstrap, laravel template, admin panel in laravel, php admin panel, admin panel for laravel, admin template bootstrap 5, laravel admin panel, admin dashboard template, hrm dashboard, vite laravel, admin dashboard, ecommerce admin dashboard, dashboard laravel, analytics dashboard, template dashboard, admin panel template, bootstrap admin panel template">
+        <meta name="description" content="Shop smartphones at competitive prices from Phone Express Kenya, with flexible payment options and delivery across Kenya.">
+        <meta name="author" content="Phone Express Kenya">
+        <meta name="theme-color" content="#123f2b">
 
         <!-- TITLE -->
 		<title> Phone Express Kenya</title>
@@ -99,13 +99,16 @@
             
             /* Sidebar styling */
             .app-sidebar {
-                background: var(--primary-color) !important;
+                background: rgba(11, 44, 30, .96) !important;
+                backdrop-filter: blur(18px);
+                border-bottom: 1px solid rgba(255,255,255,.08) !important;
             }
             
             .side-menu__item.active,
             .side-menu__item:hover {
-                background-color: rgba(255, 255, 255, 0.1) !important;
+                background-color: rgba(255, 255, 255, 0.08) !important;
                 color: #ffffff !important;
+                border-radius: 9px;
             }
             
             .side-menu__label {
@@ -118,7 +121,7 @@
             
             /* Header styling */
             .app-header {
-                background-color: var(--primary-color) !important;
+                background-color: rgba(11, 44, 30, .98) !important;
                 border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
             }
             

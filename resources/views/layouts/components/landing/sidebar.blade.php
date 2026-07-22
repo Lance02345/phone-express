@@ -7,10 +7,10 @@
                 <div class="landing-logo-container">
                     <div class="horizontal-logo">
                         <a href="{{ url('index') }}" class="header-logo">
-                            <img src="{{ asset('Images/logo-header2.png') }}" alt="logo" class="desktop-logo"
-                                style="width:180px; height:auto; filter: brightness(0) invert(1);">
-                            <img src="{{ asset('Images/logo-header2.png') }}" alt="logo" class="desktop-white"
-                                style="width:180px; height:auto; filter: brightness(0) invert(1);">
+                            <img src="{{ asset('Images/logo-header2.png') }}" alt="Phone Express Kenya" class="desktop-logo"
+                                style="width:190px; height:auto;">
+                            <img src="{{ asset('Images/logo-header2.png') }}" alt="Phone Express Kenya" class="desktop-white"
+                                style="width:190px; height:auto;">
                         </a>
                     </div>
                 </div>
