@@ -1,0 +1,2 @@
+sku,location_code,location_name,tracking_mode,status,quantity_on_hand,quantity_reserved,observed_at
+LEGACY-PHONE-000001,NAIROBI,Phone Express Nairobi,coarse,available,,,2026-07-22T18:00:00+03:00

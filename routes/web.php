@@ -1,27 +1,25 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-
-use App\Http\Controllers\DashboardsController;
-use App\Http\Controllers\PagesController;
-use App\Http\Controllers\TaskController;
+use App\Http\Controllers\AdvanceduiController;
+use App\Http\Controllers\AppsController;
 use App\Http\Controllers\AuthenticationController;
+use App\Http\Controllers\ChartsController;
+use App\Http\Controllers\DashboardsController;
 use App\Http\Controllers\ErrorController;
+use App\Http\Controllers\FormsController;
+use App\Http\Controllers\IconsController;
+use App\Http\Controllers\MapsController;
+use App\Http\Controllers\PagesController;
+use App\Http\Controllers\PhoneController;
+use App\Http\Controllers\PolicyController;
+use App\Http\Controllers\TablesController;
+use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UielementsController;
 use App\Http\Controllers\UtilitiesController;
-use App\Http\Controllers\FormsController;
-use App\Http\Controllers\AdvanceduiController;
 use App\Http\Controllers\WidgetsController;
-use App\Http\Controllers\AppsController;
-use App\Http\Controllers\TablesController;
-use App\Http\Controllers\ChartsController;
-use App\Http\Controllers\MapsController;
-use App\Http\Controllers\IconsController;
-use App\Http\Controllers\PhoneController;
-
+use Illuminate\Support\Facades\Route;
 
 // use App\Http\Controllers\Controller;
-
 
 /*
 |--------------------------------------------------------------------------
@@ -51,6 +49,8 @@ Route::get('index10', [DashboardsController::class, 'index10']);
 Route::get('index11', [DashboardsController::class, 'index11']);
 Route::get('index12', [DashboardsController::class, 'index12']);
 Route::get('phones/{phone}', [PhoneController::class, 'show'])->name('phones.show');
+Route::get('help', [PolicyController::class, 'index'])->name('policies.index');
+Route::get('help/{policy:slug}', [PolicyController::class, 'show'])->name('policies.show');
 
 // PAGES //
 Route::get('aboutus', [PagesController::class, 'aboutus']);

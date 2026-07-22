@@ -37,6 +37,11 @@ class ProductVariant extends Model
         return $this->hasMany(ProductMedia::class);
     }
 
+    public function inventoryLevels(): HasMany
+    {
+        return $this->hasMany(InventoryLevel::class);
+    }
+
     public function getRouteKeyName(): string
     {
         return 'legacy_phone_id';

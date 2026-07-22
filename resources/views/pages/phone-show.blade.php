@@ -78,11 +78,13 @@
                             @if($phone->ram_gb)<div class="detail-fact"><small>RAM</small><strong>{{ $phone->ram_gb }}GB</strong></div>@endif
                             @if($phone->colour)<div class="detail-fact"><small>Colour</small><strong>{{ $phone->colour }}</strong></div>@endif
                             @if($phone->connectivity)<div class="detail-fact"><small>Connectivity</small><strong>{{ $phone->connectivity }}</strong></div>@endif
-                            <div class="detail-fact"><small>Availability</small><strong>Confirm with our team</strong></div>
-                            <div class="detail-fact"><small>Delivery</small><strong>Available across Kenya</strong></div>
+                            <div class="detail-fact"><small>Availability</small><strong>{{ $availability['label'] }}</strong></div>
+                            <div class="detail-fact"><small>Delivery</small><strong>Confirm destination and fee</strong></div>
                         </div>
 
-                        <div class="availability-note"><i class="ri-information-line"></i><span>Price is read directly from our catalogue. Please confirm current stock, colour and warranty details before payment.</span></div>
+                        <div class="availability-note"><i class="ri-information-line"></i><span>{{ $availability['message'] }} Price and product details are read directly from our catalogue; confirm warranty details before payment.</span></div>
+
+                        <p class="mb-3"><a href="{{ route('policies.index') }}" class="fw-semibold text-success">Review delivery, warranty, returns and payment guidance <i class="ri-arrow-right-line"></i></a></p>
 
                         <div class="detail-actions">
                             <a href="{{ $whatsappUrl }}" target="_blank" rel="noopener" class="detail-whatsapp"><i class="ri-whatsapp-line"></i> Ask about this phone</a>

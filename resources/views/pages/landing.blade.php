@@ -261,7 +261,7 @@ $lipaPhonesOptimized = $lipaPhones->map(function($phone) use ($whatsappBase) {
                                 Your next phone, <span class="hero-highlight">made affordable.</span>
                             </h1>
                             <p class="hero-copy mb-4">
-                                Shop genuine smartphones at competitive prices, with flexible Lipa PolePole plans and reliable delivery across Kenya.
+                                Shop genuine smartphones at competitive prices, explore flexible payment options, and confirm delivery with our team.
                             </p>
                             <div class="hero-actions d-flex flex-wrap gap-3">
                                 <a href="{{ route('pricing') }}" class="btn btn-primary">
@@ -274,7 +274,7 @@ $lipaPhonesOptimized = $lipaPhones->map(function($phone) use ($whatsappBase) {
                             <div class="hero-trust mt-4 pt-2">
                                 <span><i class="ri-shield-check-line"></i> Quality checked</span>
                                 <span><i class="ri-bank-card-line"></i> Flexible payments</span>
-                                <span><i class="ri-truck-line"></i> Kenya-wide delivery</span>
+                                <span><i class="ri-truck-line"></i> Delivery options</span>
                             </div>
                         </div>
                     </div>
@@ -347,7 +347,8 @@ $lipaPhonesOptimized = $lipaPhones->map(function($phone) use ($whatsappBase) {
             <!-- Delivery Info -->
             <div class="alert alert-info mb-4 text-start">
                 <i class="ri-truck-line me-2"></i>
-                <strong>Free Delivery:</strong> Enjoy free delivery within Nairobi. Other regions: KSh 500-1000 depending on location.
+                <strong>Delivery details:</strong> Share your location with our team to confirm availability, charges and timing before payment.
+                <a href="{{ route('policies.show', 'delivery') }}" class="ms-1 fw-semibold">Read delivery guidance</a>
             </div>
 
             <!-- Payment Method Tabs -->
@@ -553,8 +554,7 @@ $lipaPhonesOptimized = $lipaPhones->map(function($phone) use ($whatsappBase) {
                                 </span>
                                 <div class="ms-2">
                                     <h6 class="fw-semibold mb-0">Flexible Installments with Lipa PolePole</h6>
-                                    <p class="text-muted">Get your favorite phones today and pay in small, manageable
-                                        amounts over time.</p>
+                                    <p class="text-muted">Ask our team about eligibility and the confirmed payment schedule for your chosen phone.</p>
                                 </div>
                             </div>
                         </div>
@@ -607,7 +607,7 @@ $lipaPhonesOptimized = $lipaPhones->map(function($phone) use ($whatsappBase) {
             <div class="row">
                 @foreach([
                     ['icon' => 'bx-mobile', 'title' => 'Latest Smartphones', 'desc' => 'We offer the newest phone models from top brands to keep you ahead in technology.'],
-                    ['icon' => 'bx-money', 'title' => 'Flexible Payments', 'desc' => 'With Lipa PolePole, you can pay in small installments and take your phone home today.'],
+                    ['icon' => 'bx-money', 'title' => 'Flexible Payments', 'desc' => 'View an estimate, then confirm eligibility and the final payment schedule with our team.'],
                     ['icon' => 'bx-support', 'title' => 'Excellent Support', 'desc' => 'Our team is available to help you choose the right phone and resolve any issues.'],
                     ['icon' => 'bx-store-alt', 'title' => 'Wide Selection', 'desc' => 'From premium to budget-friendly phones, we have options for every customer.'],
                     ['icon' => 'bx-calendar', 'title' => 'Trusted Experience', 'desc' => 'Years of serving customers and building trust in the mobile phone market.'],
@@ -731,8 +731,8 @@ $lipaPhonesOptimized = $lipaPhones->map(function($phone) use ($whatsappBase) {
                                 id="accordionFAQ1">
                                 @foreach([
                                     ['id' => 'One', 'question' => 'What types of phones do you sell?', 'answer' => 'At Phone Express Kenya, we offer a wide range of top-end smartphones including iPhones (10, 11, 12, 13, 14, 15, 16), Samsung Galaxy, and other premium devices. You can choose between Brand New, UK Used, or US Used phones.', 'show' => true],
-                                    ['id' => 'Two', 'question' => 'Can I pay in installments (Lipa PolePole)?', 'answer' => 'Yes! We offer the option to pay in full or through our flexible Lipa PolePole plan. You can start using your phone with a deposit and complete the balance in installments.', 'show' => false],
-                                    ['id' => 'Three', 'question' => 'Do your phones come with a warranty?', 'answer' => 'Yes. All our phones (brand new or UK/US used) come with a warranty period that covers major defects. Terms vary depending on the type of phone you choose.', 'show' => false]
+                                    ['id' => 'Two', 'question' => 'Can I pay in installments (Lipa PolePole)?', 'answer' => 'Payment-plan estimates are shown for eligible catalogue items. Our team must confirm eligibility, requirements and the final schedule before payment.', 'show' => false],
+                                    ['id' => 'Three', 'question' => 'Do your phones come with a warranty?', 'answer' => 'Warranty terms can vary by device and condition. Ask our team to confirm the exact written coverage for the phone you choose.', 'show' => false]
                                 ] as $faq)
                                 <div class="accordion-item">
                                     <h2 class="accordion-header" id="headingcustomicon1{{ $faq['id'] }}">
@@ -759,8 +759,8 @@ $lipaPhonesOptimized = $lipaPhones->map(function($phone) use ($whatsappBase) {
                                 id="accordionFAQ2">
                                 @foreach([
                                     ['id' => 'One', 'question' => 'How do I place an order?', 'answer' => 'You can place your order directly on our website, via WhatsApp, or by visiting our physical store. No account is required to buy.', 'show' => false],
-                                    ['id' => 'Two', 'question' => 'Do you offer delivery across Kenya?', 'answer' => 'Yes. We deliver countrywide. Customers within Nairobi can enjoy same-day delivery, while other regions may take 1-2 business days.', 'show' => false],
-                                    ['id' => 'Three', 'question' => 'Can I return or exchange my phone?', 'answer' => 'Yes, you can return or exchange your phone within our return policy window if it has issues covered by warranty. Conditions apply.', 'show' => false]
+                                    ['id' => 'Two', 'question' => 'Do you offer delivery?', 'answer' => 'Share your destination with our team so they can confirm delivery availability, charges and expected timing for your order.', 'show' => false],
+                                    ['id' => 'Three', 'question' => 'Can I return or exchange my phone?', 'answer' => 'Contact our team before returning a device. They will review the phone, purchase details and applicable terms before confirming eligibility and next steps.', 'show' => false]
                                 ] as $faq)
                                 <div class="accordion-item">
                                     <h2 class="accordion-header" id="headingcustomicon2{{ $faq['id'] }}">
@@ -906,11 +906,11 @@ $lipaPhonesOptimized = $lipaPhones->map(function($phone) use ($whatsappBase) {
                     <div class="px-4">
                         <h6 class="fw-semibold mb-3 text-fixed-white">PAGES</h6>
                         <ul class="list-unstyled op-6 fw-normal landing-footer-list">
-                            <li><a href="{{ url('shop') }}" class="text-fixed-white">Shop</a></li>
-                            <li><a href="{{ url('about') }}" class="text-fixed-white">About Us</a></li>
-                            <li><a href="{{ url('contact') }}" class="text-fixed-white">Contact</a></li>
-                            <li><a href="{{ url('faq') }}" class="text-fixed-white">FAQs</a></li>
-                            <li><a href="{{ url('terms') }}" class="text-fixed-white">Terms & Conditions</a></li>
+                            <li><a href="{{ route('pricing') }}" class="text-fixed-white">Shop</a></li>
+                            <li><a href="{{ url('index') }}#about" class="text-fixed-white">About Us</a></li>
+                            <li><a href="{{ url('index') }}#contact" class="text-fixed-white">Contact</a></li>
+                            <li><a href="{{ url('index') }}#faq" class="text-fixed-white">FAQs</a></li>
+                            <li><a href="{{ route('policies.index') }}" class="text-fixed-white">Shopping help</a></li>
                         </ul>
                     </div>
                 </div>
@@ -920,10 +920,10 @@ $lipaPhonesOptimized = $lipaPhones->map(function($phone) use ($whatsappBase) {
                     <div class="px-4">
                         <h6 class="fw-semibold text-fixed-white">INFO</h6>
                         <ul class="list-unstyled op-6 fw-normal landing-footer-list">
-                            <li><a href="{{ url('lipapolepole') }}" class="text-fixed-white">Lipa PolePole</a></li>
-                            <li><a href="{{ url('testimonials') }}" class="text-fixed-white">Testimonials</a></li>
-                            <li><a href="{{ url('blog') }}" class="text-fixed-white">Blog</a></li>
-                            <li><a href="{{ url('support') }}" class="text-fixed-white">Support</a></li>
+                            <li><a href="{{ route('policies.show', 'payment-plans') }}" class="text-fixed-white">Payment plans</a></li>
+                            <li><a href="{{ route('policies.show', 'delivery') }}" class="text-fixed-white">Delivery</a></li>
+                            <li><a href="{{ route('policies.show', 'warranty') }}" class="text-fixed-white">Warranty</a></li>
+                            <li><a href="{{ route('policies.show', 'returns') }}" class="text-fixed-white">Returns</a></li>
                         </ul>
                     </div>
                 </div>

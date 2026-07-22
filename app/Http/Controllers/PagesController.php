@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Brand;
 use App\Models\ProductVariant;
 use App\Services\Catalogue\PaymentPlanCalculator;
+use App\Services\Inventory\AvailabilityService;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -27,8 +28,11 @@ class PagesController extends Controller
         'name_desc' => ['field' => 'label', 'direction' => 'desc'],
     ];
 
-    public function pricing(Request $request, PaymentPlanCalculator $paymentPlans): View
-    {
+    public function pricing(
+        Request $request,
+        PaymentPlanCalculator $paymentPlans,
+        AvailabilityService $availabilityService
+    ): View {
         $query = $this->catalogueQuery();
         $sort = $request->string('sort')->toString() ?: 'random';
         $paymentMethod = $request->string('payment_method')->toString() ?: 'full';
@@ -42,6 +46,10 @@ class PagesController extends Controller
         $this->applySorting($query, $sort);
 
         $phones = $query->paginate($this->getPerPage($request))->appends($request->except('page'));
+
+        $phones->getCollection()->each(function (ProductVariant $phone) use ($availabilityService): void {
+            $phone->availability = $availabilityService->forVariant($phone);
+        });
 
         if ($paymentMethod === 'lipa') {
             $phones->getCollection()->each(function (ProductVariant $phone) use ($paymentPlans): void {
@@ -88,7 +96,7 @@ class PagesController extends Controller
         return response()->json(['success' => true, 'suggestions' => $suggestions]);
     }
 
-    public function apiPricing(Request $request): JsonResponse|RedirectResponse
+    public function apiPricing(Request $request, AvailabilityService $availabilityService): JsonResponse|RedirectResponse
     {
         if (! $request->expectsJson() && ! $request->ajax()) {
             return redirect()->route('pricing');
@@ -113,6 +121,7 @@ class PagesController extends Controller
                 'quote_required' => $phone->quote_required,
                 'image_path' => $phone->image_path,
                 'url' => route('phones.show', $phone),
+                'availability' => $availabilityService->forVariant($phone),
             ])->values(),
             'meta' => [
                 'current_page' => $phones->currentPage(),
@@ -125,7 +134,7 @@ class PagesController extends Controller
 
     private function catalogueQuery(): Builder
     {
-        return ProductVariant::query()->published()->with(['product.brand', 'media']);
+        return ProductVariant::query()->published()->with(['product.brand', 'media', 'inventoryLevels.location']);
     }
 
     private function applyFilters(Builder $query, Request $request): void

@@ -24,7 +24,7 @@
                 <ul class="main-menu">
                     <!-- Start::slide -->
                     <li class="slide">
-                        <a class="side-menu__item {{ request()->routeIs('pricing', 'phones.show') ? '' : 'active' }}" href="{{ url('index') }}#home">
+                        <a class="side-menu__item {{ request()->routeIs('pricing', 'phones.show', 'policies.*') ? '' : 'active' }}" href="{{ url('index') }}#home">
                             <span class="side-menu__label">Home</span>
                         </a>
                     </li>
@@ -56,6 +56,12 @@
                     <li class="slide">
                         <a href="{{ url('index') }}#faq" class="side-menu__item">
                             <span class="side-menu__label">FAQ's</span>
+                        </a>
+                    </li>
+
+                    <li class="slide">
+                        <a href="{{ route('policies.index') }}" class="side-menu__item {{ request()->routeIs('policies.*') ? 'active' : '' }}">
+                            <span class="side-menu__label">Shopping help</span>
                         </a>
                     </li>
                     

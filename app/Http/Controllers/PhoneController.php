@@ -4,16 +4,21 @@ namespace App\Http\Controllers;
 
 use App\Models\ProductVariant;
 use App\Services\Catalogue\PaymentPlanCalculator;
+use App\Services\Inventory\AvailabilityService;
 use Illuminate\View\View;
 
 class PhoneController extends Controller
 {
-    public function show(ProductVariant $phone, PaymentPlanCalculator $paymentPlans): View
-    {
+    public function show(
+        ProductVariant $phone,
+        PaymentPlanCalculator $paymentPlans,
+        AvailabilityService $availabilityService
+    ): View {
         abort_unless($phone->is_active, 404);
 
-        $phone->load(['product.brand', 'product.category', 'media']);
+        $phone->load(['product.brand', 'product.category', 'media', 'inventoryLevels.location']);
         $estimate = $phone->payment_plan_eligible ? $paymentPlans->estimate($phone->price) : null;
+        $availability = $availabilityService->forVariant($phone);
 
         $relatedPhones = ProductVariant::query()
             ->published()
@@ -36,6 +41,7 @@ class PhoneController extends Controller
             'weekly' => $estimate['weekly'] ?? null,
             'weeks' => $estimate['weeks'] ?? null,
             'whatsappUrl' => 'https://wa.me/254721920545?text='.urlencode("Hello, I am interested in {$phone->name}"),
+            'availability' => $availability,
         ]);
     }
 }

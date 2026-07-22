@@ -84,6 +84,11 @@
     .product-price { margin: 0; color: #17251d; font-family: 'Manrope', sans-serif; font-size: 1.25rem; font-weight: 800; letter-spacing: -.03em; }
     .product-price--request { color: #27724b; font-size: 1.05rem; }
     .payment-detail { margin-top: .28rem; color: #748078; font-size: .74rem; }
+    .stock-detail { display: inline-flex; align-items: center; gap: .35rem; width: fit-content; margin-top: .55rem; color: #5f6e65; font-size: .7rem; font-weight: 700; }
+    .stock-detail::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: #9ca7a0; }
+    .stock-detail--available::before { background: #25a45c; }
+    .stock-detail--limited::before { background: #e3a323; }
+    .stock-detail--out_of_stock::before { background: #c85b55; }
     .product-action { display: flex; align-items: center; justify-content: space-between; margin-top: 1rem; padding: .78rem .85rem; border-radius: 10px; background: #eaf4ed; color: #123f2b; font-size: .82rem; font-weight: 800; }
     .product-action:hover { background: #123f2b; color: #fff; }
 
@@ -182,7 +187,7 @@
         @if($isLipa)
             <div class="lipa-notice">
                 <i class="ri-information-line"></i>
-                <div><strong>Lipa Mdogo Mdogo for iPhones</strong><span>40% upfront, followed by 12 weekly payments. Approval requirements apply.</span></div>
+                <div><strong>Lipa Mdogo Mdogo estimate for iPhones</strong><span>40% upfront, followed by 12 weekly payments. Eligibility and final terms must be confirmed. <a href="{{ route('policies.show', 'payment-plans') }}" class="fw-semibold">Read guidance</a></span></div>
             </div>
         @endif
 
@@ -217,6 +222,7 @@
                                     <p class="product-price product-price--request">Price on request</p>
                                     <span class="payment-detail">Ask our team for today’s price</span>
                                 @endif
+                                <span class="stock-detail stock-detail--{{ $phone->availability['status'] }}">{{ $phone->availability['label'] }}</span>
                                 <a href="{{ $whatsappUrl }}" target="_blank" rel="noopener" class="product-action"><span>Enquire on WhatsApp</span><i class="ri-arrow-right-line"></i></a>
                             </div>
                         </article>
