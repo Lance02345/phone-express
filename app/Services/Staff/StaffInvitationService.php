@@ -14,9 +14,7 @@ class StaffInvitationService
         string $email,
         ?string $name,
         string $role = 'staff',
-        int $hours = 48,
-        ?string $subject = null,
-        ?string $customMessage = null
+        int $hours = 48
     ): StaffInvitation {
         $email = Str::lower(trim($email));
 
@@ -31,8 +29,6 @@ class StaffInvitationService
             'role' => $role,
             'token_hash' => hash('sha256', $token),
             'expires_at' => now()->addHours(max(1, min(168, $hours))),
-            'subject' => $subject,
-            'custom_message' => $customMessage,
         ]);
 
         try {

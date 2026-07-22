@@ -15,8 +15,6 @@ class StaffInvitationController extends Controller
             'name' => ['required', 'string', 'max:100'],
             'email' => ['required', 'email', 'max:255'],
             'role' => ['required', Rule::in(['admin', 'staff'])],
-            'subject' => ['nullable', 'string', 'max:150'],
-            'custom_message' => ['nullable', 'string', 'max:1000'],
         ]);
 
         try {
@@ -24,9 +22,7 @@ class StaffInvitationController extends Controller
                 $validated['email'],
                 $validated['name'],
                 $validated['role'],
-                48,
-                $validated['subject'] ?? null,
-                $validated['custom_message'] ?? null
+                48
             );
         } catch (\Throwable $exception) {
             report($exception);

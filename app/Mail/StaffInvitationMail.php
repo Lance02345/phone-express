@@ -17,11 +17,14 @@ class StaffInvitationMail extends Mailable
 
     public function envelope(): Envelope
     {
-        return new Envelope(subject: $this->invitation->subject ?: 'Your Phone Express staff invitation');
+        return new Envelope(subject: 'You’re invited to the Phone Express team');
     }
 
     public function content(): Content
     {
-        return new Content(markdown: 'mail.staff-invitation');
+        return new Content(
+            view: 'mail.staff-invitation',
+            text: 'mail.staff-invitation-text',
+        );
     }
 }
