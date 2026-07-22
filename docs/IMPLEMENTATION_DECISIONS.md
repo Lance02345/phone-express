@@ -10,9 +10,9 @@ Improve the site and prepare automation without creating duplicate maintenance w
 
 Do not split this application into microservices. Catalogue, inventory, policies, conversations, and payments should be Laravel modules with clear application actions and interfaces. This is easier to deploy and still isolates external-provider logic.
 
-### 2. PostgreSQL is the runtime system of record
+### 2. MySQL is the runtime system of record
 
-Seeders are bootstrap/import fixtures, not an ongoing content-management interface. Normalize catalogue records in PostgreSQL and track `source` plus `source_key` for safe repeated imports.
+Seeders are bootstrap/import fixtures, not an ongoing content-management interface. Normalize catalogue records in MySQL and track `source` plus `source_key` for safe repeated imports.
 
 This is a technical decision. The business still needs to confirm whether future updates originate in an admin screen, an existing stock system, or a single upload file.
 
@@ -52,9 +52,9 @@ Automation must stop and assign a staff handoff when confidence is low, data is 
 
 Only public business routes, authenticated staff routes, and explicit APIs/webhooks should remain. Template examples should be removed or unavailable outside local development.
 
-### 9. Test against PostgreSQL
+### 9. Test against MySQL
 
-Use a dedicated disposable PostgreSQL test database because search and random-order behavior are database-specific. Add factories/fixtures for products and variants; tests must not rely on the developer catalogue.
+Use a dedicated disposable MySQL test database because search and random-order behavior are database-specific. Add factories/fixtures for products and variants; tests must not rely on the developer catalogue.
 
 ## Phased backlog
 
@@ -65,7 +65,7 @@ Use a dedicated disposable PostgreSQL test database because search and random-or
 - Add explicit publication, quote-required, and image states.
 - Add a single payment policy calculator and remove duplicate formulas.
 - Switch landing, pricing, search, and detail reads behind a catalogue query/action layer.
-- Add PostgreSQL feature tests for import, search, filters, detail, missing images, and zero-price conversion.
+- Add MySQL feature tests for import, search, filters, detail, missing images, and zero-price conversion.
 - Add cache invalidation when catalogue data changes.
 - Produce a client review list only for ambiguous/missing facts.
 
@@ -124,7 +124,7 @@ The next coding slice should be deliberately small:
 
 1. Create the normalized catalogue migrations and models.
 2. Build the dry-run legacy importer and its reconciliation report.
-3. Add tests using a dedicated PostgreSQL test configuration.
+3. Add tests using a dedicated MySQL test configuration.
 4. Run the importer against the 210 current records.
 5. Review only ambiguous parses and missing images.
 6. Put landing/pricing/detail reads behind the new catalogue layer.

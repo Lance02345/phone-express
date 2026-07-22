@@ -106,7 +106,11 @@ return new class extends Migration
             $table->text('value');
             $table->timestamps();
 
-            $table->unique(['product_id', 'specification_definition_id']);
+            // Keep the identifier below MySQL/MariaDB's 64-character limit.
+            $table->unique(
+                ['product_id', 'specification_definition_id'],
+                'product_specs_product_definition_unique'
+            );
         });
     }
 

@@ -5,26 +5,26 @@ Scope: the current local worktree, including uncommitted UI and catalogue fixes.
 
 ## Executive summary
 
-The project is a Laravel 10 server-rendered application backed by PostgreSQL. The public landing, catalogue, and newly added product-detail experience are usable, and the frontend production build completes. The business domain underneath them is still a prototype: a single `phones` table stores only `name`, `price`, and `image_path`; eight PHP seeders are the catalogue source; and brand, storage, payment plans, availability, and specifications are inferred at request time.
+The project is a Laravel 10 server-rendered application backed by MySQL. The public landing, catalogue, and newly added product-detail experience are usable, and the frontend production build completes. The business domain underneath them is still a prototype: a single `phones` table stores only `name`, `price`, and `image_path`; eight PHP seeders are the catalogue source; and brand, storage, payment plans, availability, and specifications are inferred at request time.
 
-The safest next move is not automation yet. First establish a reliable catalogue contract, migrate the seed data idempotently, and make PostgreSQL the runtime source of truth. The existing pages can remain online throughout that work by keeping `Phone` as a compatibility layer.
+The safest next move is not automation yet. First establish a reliable catalogue contract, migrate the seed data idempotently, and make MySQL the runtime source of truth. The existing pages can remain online throughout that work by keeping `Phone` as a compatibility layer.
 
 ## Repository inventory
 
 | Area | Current state | Assessment |
 | --- | --- | --- |
 | Backend | Laravel 10, PHP requirement `^8.1`, Eloquent, Blade | Appropriate for a modular monolith |
-| Database | PostgreSQL configured locally | Correct target, but schema is under-modelled |
+| Database | MySQL | Correct deployment target, but schema is under-modelled |
 | Frontend | Blade, Bootstrap 5.3, Sass, Vite 4 | Works, but carries a large admin-template asset surface |
 | Catalogue | `phones` table plus 8 seeders | Technical source exists; business ownership is not encoded |
 | Product detail | `PhoneController@show` and `phone-show.blade.php` | Useful UI, but details are derived rather than authoritative |
-| Search/filter | Controller query helpers and `/api/phone-search` | PostgreSQL search is fixed; filters cover only Apple/Samsung explicitly |
+| Search/filter | Controller query helpers and `/api/phone-search` | MySQL-compatible search is in place; filters cover only Apple/Samsung explicitly |
 | Authentication | User/Sanctum scaffolding and template pages | No complete customer/admin workflow found |
 | Orders/payments | Template routes/views only | No order, payment, or M-Pesa domain implementation |
 | Inventory | None | Availability cannot be truthfully automated yet |
 | Messaging/AI | WhatsApp deep links only | No webhook, conversation store, assistant, or handoff flow |
 | Queue/cache | `sync` queue, file cache/session | Fine for local work, insufficient for resilient webhook processing |
-| Tests | One trivial unit test and one `/` smoke test | No domain, PostgreSQL, catalogue, or product-detail coverage |
+| Tests | One trivial unit test and one `/` smoke test | No domain, MySQL, catalogue, or product-detail coverage |
 | Delivery | No CI/CD or container definition found | Deployment procedure is not reproducible from the repo |
 
 ## Application surface
@@ -96,7 +96,7 @@ The last verified seed run produced 210 phone rows. A prior asset audit found 38
 | --- | --- |
 | `npm run build` | Pass |
 | Unit example test | Pass |
-| Feature `/` smoke test | Passes when the configured local PostgreSQL database is available |
+| Feature `/` smoke test | Passes when the configured local MySQL database is available |
 | Business/domain tests | Absent |
 | Route inventory | 184 total |
 

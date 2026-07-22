@@ -17,9 +17,9 @@ Phone
 ## Catalogue source-of-truth decision
 
 - **Current technical source:** PHP seeders.
-- **Current runtime source:** PostgreSQL `phones` rows.
+- **Current runtime source:** MySQL `phones` rows.
 - **Business owner/source:** not yet confirmed in the repository.
-- **Recommended operational source:** normalized PostgreSQL catalogue records, updated through one idempotent import/admin workflow.
+- **Recommended operational source:** normalized MySQL catalogue records, updated through one idempotent import/admin workflow.
 
 The client should not update a spreadsheet, PHP seeder, and admin screen separately. The first migration will import the existing seed data automatically. After that, one agreed input method becomes authoritative; the database records its source and external key so repeated imports update rather than duplicate products.
 
@@ -162,4 +162,4 @@ The importer must produce a review report for ambiguous model/variant splits rat
 - Unique `(product_variant_id, location_id)` inventory level.
 - Foreign keys with deliberate delete rules; archive catalogue records instead of cascading historical order data.
 - Index active/public product queries, brand/category filters, price, storage, and searchable names.
-- PostgreSQL search should use an appropriate indexed strategy when catalogue size justifies it; `ILIKE` is sufficient during the initial migration.
+- MySQL search should use an appropriate indexed strategy when catalogue size justifies it; the current case-insensitive collation is sufficient during the initial migration.

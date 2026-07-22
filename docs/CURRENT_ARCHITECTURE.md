@@ -2,7 +2,7 @@
 
 ## System shape
 
-Phone Express is currently a Laravel modular monolith in deployment shape, but not yet in domain organization. Controllers query Eloquent models directly and render Blade pages. PostgreSQL stores users and phones; local files hold images, sessions, and cache data.
+Phone Express is currently a Laravel modular monolith in deployment shape, but not yet in domain organization. Controllers query Eloquent models directly and render Blade pages. MySQL stores users and phones; local files hold images, sessions, and cache data.
 
 ```text
 Browser
@@ -20,7 +20,7 @@ Laravel routes
 Phone Eloquent model
   |
   v
-PostgreSQL: phones
+MySQL: phones
 
 Static product images -> public/Images
 Cache/session          -> local files
@@ -45,7 +45,7 @@ There are no service, repository, domain-event, job, webhook, or integration lay
 - `DashboardsController` selects twelve random priced phones, caches them for a day, and calculates selected installment data in memory.
 - `PagesController` owns catalogue filtering, sorting, pagination, suggestions, and a JSON response path.
 - `PhoneController` infers brand and storage from `name`, calculates a second payment estimate, and retrieves related phones.
-- `Phone::scopeSearch()` switches syntax by database driver and uses PostgreSQL `ILIKE` locally.
+- `Phone::scopeSearch()` uses the active database driver's case-insensitive search behavior.
 
 ### Persistence
 
@@ -63,13 +63,13 @@ There are no service, repository, domain-event, job, webhook, or integration lay
 
 ## Configuration and environment
 
-The current local environment is configured for PostgreSQL. File-backed cache/session and the synchronous queue are development defaults. Future Meta, AI, and M-Pesa environment placeholders do not correspond to implemented integrations yet.
+The application is configured to use MySQL in development and production. File-backed cache/session and the synchronous queue are development defaults. Future Meta, AI, and M-Pesa environment placeholders do not correspond to implemented integrations yet.
 
 Configuration ownership should evolve as follows:
 
 | Concern | Current | Required before production automation |
 | --- | --- | --- |
-| Database | PostgreSQL | Managed PostgreSQL, backups, dedicated test DB |
+| Database | MySQL | Managed MySQL, backups, dedicated test DB |
 | Cache | File | Redis or another shared cache when horizontally scaled |
 | Queue | Sync | Durable async worker with retry/dead-letter policy |
 | Images | `public/Images` | Managed storage, validation, stable URLs |
@@ -118,7 +118,7 @@ Application actions
   Catalogue | Inventory | Policies | Conversations | Payments
                  |
                  v
-Eloquent domain models + PostgreSQL
+Eloquent domain models + MySQL
                  |
       +----------+----------+
       v                     v
