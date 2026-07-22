@@ -68,9 +68,12 @@ class LegacyCatalogueImporter
                     ]
                 );
 
-                $variant = ProductVariant::updateOrCreate(
-                    ['source' => $item['source'], 'source_key' => $item['source_key']],
-                    [
+                $variant = ProductVariant::firstOrNew(
+                    ['source' => $item['source'], 'source_key' => $item['source_key']]
+                );
+
+                if (! $variant->exists || ! $variant->is_manually_managed) {
+                    $variant->fill([
                         'product_id' => $product->id,
                         'legacy_phone_id' => $item['legacy_phone_id'],
                         'sku' => $item['sku'],
@@ -85,10 +88,10 @@ class LegacyCatalogueImporter
                         'quote_required' => $item['quote_required'],
                         'payment_plan_eligible' => $item['payment_plan_eligible'],
                         'is_active' => true,
-                    ]
-                );
+                    ])->save();
+                }
 
-                if (filled($item['image_path'])) {
+                if (! $variant->is_manually_managed && filled($item['image_path'])) {
                     ProductMedia::updateOrCreate(
                         ['product_variant_id' => $variant->id, 'sort_order' => 0],
                         [

@@ -1,0 +1,13 @@
+@extends('layouts.staff')
+@section('title', 'Staff login')
+@section('styles')
+<style>
+    .login-wrap{min-height:calc(100vh - 120px);display:grid;place-items:center}.login-card{overflow:hidden;max-width:1000px;margin:auto}.login-visual{position:relative;min-height:580px;padding:3rem;color:#fff;background:radial-gradient(circle at 80% 18%,rgba(242,179,62,.24),transparent 24%),linear-gradient(145deg,#082d1e,#12613e)}
+    .login-visual h1{max-width:430px;margin-top:7rem;color:#fff;font-size:3.25rem;font-weight:800;line-height:1.03;letter-spacing:-.055em}.login-visual p{max-width:420px;color:rgba(255,255,255,.7);line-height:1.7}.login-badge{display:inline-flex;gap:.45rem;padding:.5rem .7rem;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.12);border-radius:999px;font-size:.72rem;font-weight:800;letter-spacing:.08em}.login-form{display:flex;min-height:580px;flex-direction:column;justify-content:center;padding:clamp(2rem,6vw,4.5rem)}.login-form h2{font-weight:800;letter-spacing:-.04em}.password-note{font-size:.76rem;color:#7a8880}@media(max-width:767px){.login-visual{display:none}.login-form{min-height:auto}}
+</style>
+@endsection
+@section('content')
+<div class="login-wrap"><div class="staff-card login-card w-100"><div class="row g-0"><div class="col-md-6 login-visual"><span class="login-badge"><i class="ri-shield-check-line"></i> SECURE STAFF WORKSPACE</span><h1>Run the catalogue with clarity.</h1><p>Review products, stock coverage, customer interest and team activity from one protected workspace.</p></div><div class="col-md-6 login-form"><span class="text-success fw-bold small mb-2">WELCOME BACK</span><h2 class="mb-2">Staff sign in</h2><p class="text-muted mb-4">Use the account created from your invitation.</p>
+@if($errors->any())<div class="alert alert-danger">{{ $errors->first() }}</div>@endif
+<form method="POST" action="{{ route('login') }}">@csrf<div class="mb-3"><label class="form-label fw-semibold">Email address</label><input type="email" name="email" value="{{ old('email') }}" class="form-control" required autofocus autocomplete="email"></div><div class="mb-3"><label class="form-label fw-semibold">Password</label><input type="password" name="password" class="form-control" required autocomplete="current-password"></div><label class="form-check mb-4"><input type="checkbox" name="remember" class="form-check-input"><span class="form-check-label">Keep me signed in</span></label><button class="btn btn-staff w-100 py-3">Sign in securely <i class="ri-arrow-right-line ms-1"></i></button></form><p class="password-note mt-4 mb-0"><i class="ri-information-line"></i> Staff accounts are created by invitation only.</p></div></div></div></div>
+@endsection

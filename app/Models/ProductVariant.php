@@ -13,12 +13,14 @@ class ProductVariant extends Model
         'product_id', 'legacy_phone_id', 'sku', 'label', 'storage_gb', 'ram_gb',
         'colour', 'connectivity', 'condition', 'price_minor', 'currency',
         'quote_required', 'payment_plan_eligible', 'is_active', 'source', 'source_key',
+        'is_manually_managed',
     ];
 
     protected $casts = [
         'quote_required' => 'boolean',
         'payment_plan_eligible' => 'boolean',
         'is_active' => 'boolean',
+        'is_manually_managed' => 'boolean',
         'price_minor' => 'integer',
     ];
 
@@ -40,6 +42,11 @@ class ProductVariant extends Model
     public function inventoryLevels(): HasMany
     {
         return $this->hasMany(InventoryLevel::class);
+    }
+
+    public function viewMetrics(): HasMany
+    {
+        return $this->hasMany(ProductViewMetric::class);
     }
 
     public function getRouteKeyName(): string

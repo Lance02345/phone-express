@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ProductVariant;
+use App\Services\Analytics\ProductViewTracker;
 use App\Services\Catalogue\PaymentPlanCalculator;
 use App\Services\Inventory\AvailabilityService;
 use Illuminate\View\View;
@@ -12,9 +13,11 @@ class PhoneController extends Controller
     public function show(
         ProductVariant $phone,
         PaymentPlanCalculator $paymentPlans,
-        AvailabilityService $availabilityService
+        AvailabilityService $availabilityService,
+        ProductViewTracker $viewTracker
     ): View {
         abort_unless($phone->is_active, 404);
+        $viewTracker->record($phone);
 
         $phone->load(['product.brand', 'product.category', 'media', 'inventoryLevels.location']);
         $estimate = $phone->payment_plan_eligible ? $paymentPlans->estimate($phone->price) : null;

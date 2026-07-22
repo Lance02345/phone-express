@@ -12,6 +12,11 @@ use App\Http\Controllers\MapsController;
 use App\Http\Controllers\PagesController;
 use App\Http\Controllers\PhoneController;
 use App\Http\Controllers\PolicyController;
+use App\Http\Controllers\StaffAuthController;
+use App\Http\Controllers\StaffCatalogueController;
+use App\Http\Controllers\StaffDashboardController;
+use App\Http\Controllers\StaffInvitationController;
+use App\Http\Controllers\StaffTeamController;
 use App\Http\Controllers\TablesController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UielementsController;
@@ -51,6 +56,29 @@ Route::get('index12', [DashboardsController::class, 'index12']);
 Route::get('phones/{phone}', [PhoneController::class, 'show'])->name('phones.show');
 Route::get('help', [PolicyController::class, 'index'])->name('policies.index');
 Route::get('help/{policy:slug}', [PolicyController::class, 'show'])->name('policies.show');
+
+Route::middleware('guest')->group(function () {
+    Route::get('staff/login', [StaffAuthController::class, 'loginForm'])->name('login');
+    Route::post('staff/login', [StaffAuthController::class, 'login'])->middleware('throttle:5,1');
+    Route::get('staff/invitations/{token}', [StaffAuthController::class, 'acceptForm'])->name('staff.invitation.accept');
+    Route::post('staff/invitations/{token}', [StaffAuthController::class, 'accept'])->middleware('throttle:5,1');
+});
+
+Route::middleware(['auth', 'staff'])->prefix('staff')->name('staff.')->group(function () {
+    Route::get('/', [StaffDashboardController::class, 'index'])->name('dashboard');
+    Route::post('logout', [StaffAuthController::class, 'logout'])->name('logout');
+
+    Route::middleware('admin')->group(function () {
+        Route::get('team', [StaffTeamController::class, 'index'])->name('team.index');
+        Route::post('invitations', [StaffInvitationController::class, 'store'])->middleware('throttle:5,1')->name('invitations.store');
+        Route::patch('team/{user}/revoke', [StaffTeamController::class, 'revoke'])->name('team.revoke');
+        Route::patch('team/{user}/restore', [StaffTeamController::class, 'restore'])->name('team.restore');
+        Route::patch('invitations/{invitation}/revoke', [StaffTeamController::class, 'revokeInvitation'])->name('invitations.revoke');
+        Route::get('catalogue', [StaffCatalogueController::class, 'index'])->name('catalogue.index');
+        Route::get('catalogue/{variant}/edit', [StaffCatalogueController::class, 'edit'])->name('catalogue.edit');
+        Route::put('catalogue/{variant}', [StaffCatalogueController::class, 'update'])->name('catalogue.update');
+    });
+});
 
 // PAGES //
 Route::get('aboutus', [PagesController::class, 'aboutus']);

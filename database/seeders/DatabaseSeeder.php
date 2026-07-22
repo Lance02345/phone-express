@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
             TecnoSeeder::class,
             InfinixSeeder::class,
             PolicyArticleSeeder::class,
+            AdminUserSeeder::class,
         ]);
     }
 }
