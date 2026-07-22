@@ -12,11 +12,16 @@ class Phone extends Model
 
     public function scopeSearch(Builder $query, string $search): Builder
     {
-        if (config('database.default') === 'mysql') {
+        $driver = config('database.default');
+
+        if ($driver === 'mysql') {
             return $query->whereRaw("MATCH(name) AGAINST(? IN BOOLEAN MODE)", [$search . '*']);
         }
 
-        // Fallback to LIKE for other databases
-        return $query->where('name', 'like', "%{$search}%");
+        return $query->where(
+            'name',
+            $driver === 'pgsql' ? 'ilike' : 'like',
+            "%{$search}%"
+        );
     }
 }

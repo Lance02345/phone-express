@@ -19,7 +19,6 @@ class PagesController extends Controller
     ];
 
     private const SORT_OPTIONS = [
-        'random' => ['field' => 'RAND()', 'direction' => '', 'raw' => true],
         'newest' => ['field' => 'created_at', 'direction' => 'desc'],
         'price_asc' => ['field' => 'price', 'direction' => 'asc'],
         'price_desc' => ['field' => 'price', 'direction' => 'desc'],
@@ -88,7 +87,7 @@ class PagesController extends Controller
             return response()->json(['success' => false, 'suggestions' => []]);
         }
         
-        $suggestions = Phone::where('name', 'like', "%{$query}%")
+        $suggestions = Phone::search($query)
             ->take(5)
             ->pluck('name')
             ->toArray();
@@ -183,29 +182,19 @@ class PagesController extends Controller
         
         $storage = $request->storage;
         
-        // More flexible storage search
-        $query->where(function ($q) use ($storage) {
-            $q->where('name', 'like', "%{$storage}GB%")
-              ->orWhere('name', 'like', "% {$storage}GB%")
-              ->orWhere('name', 'regexp', "[[:<:]]{$storage}GB[[:>:]]");
-        });
+        $query->where('name', 'like', "%{$storage}GB%");
     }
     
     private function applySorting($query, string $sort): void
     {
-        if (isset(self::SORT_OPTIONS[$sort])) {
-            $sortOption = self::SORT_OPTIONS[$sort];
-            
-            if (isset($sortOption['raw']) && $sortOption['raw']) {
-                // For random sorting
-                $query->orderByRaw($sortOption['field']);
-            } else {
-                $query->orderBy($sortOption['field'], $sortOption['direction']);
-            }
-        } else {
-            // Default to random if invalid sort option
-            $query->orderByRaw('RAND()');
+        if ($sort === 'random' || ! isset(self::SORT_OPTIONS[$sort])) {
+            $query->inRandomOrder();
+
+            return;
         }
+
+        $sortOption = self::SORT_OPTIONS[$sort];
+        $query->orderBy($sortOption['field'], $sortOption['direction']);
     }
     
     private function calculateLipaPrices($phones): void

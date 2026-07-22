@@ -24,47 +24,51 @@
                 <ul class="main-menu">
                     <!-- Start::slide -->
                     <li class="slide">
-                        <a class="side-menu__item" href="#home">
+                        <a class="side-menu__item {{ request()->routeIs('pricing', 'phones.show') ? '' : 'active' }}" href="{{ url('index') }}#home">
                             <span class="side-menu__label">Home</span>
                         </a>
                     </li>
                     
                     <li class="slide">
-                        <a href="#categories" class="side-menu__item">
+                        <a href="{{ url('index') }}#categories" class="side-menu__item">
                             <span class="side-menu__label">Categories</span>
                         </a>
                     </li>
                     
                     <li class="slide">
-                        <a href="#pricing" class="side-menu__item">
-                            <span class="side-menu__label">Pricing</span>
+                        <a href="{{ route('pricing') }}" class="side-menu__item {{ request()->routeIs('pricing', 'phones.show') ? 'active' : '' }}">
+                            <span class="side-menu__label">Shop</span>
                         </a>
                     </li>
                     
                     <li class="slide">
-                        <a href="#about" class="side-menu__item">
+                        <a href="{{ url('index') }}#about" class="side-menu__item">
                             <span class="side-menu__label">About</span>
                         </a>
                     </li>
                     
                     <li class="slide">
-                        <a href="#testimonials" class="side-menu__item">
+                        <a href="{{ url('index') }}#testimonials" class="side-menu__item">
                             <span class="side-menu__label">Clients</span>
                         </a>
                     </li>
                     
                     <li class="slide">
-                        <a href="#faq" class="side-menu__item">
+                        <a href="{{ url('index') }}#faq" class="side-menu__item">
                             <span class="side-menu__label">FAQ's</span>
                         </a>
                     </li>
                     
                     <li class="slide">
-                        <a href="#contact" class="side-menu__item">
+                        <a href="{{ url('index') }}#contact" class="side-menu__item">
                             <span class="side-menu__label">Contact</span>
                         </a>
                     </li>
                 </ul>
+
+                <a href="{{ route('pricing') }}" class="landing-nav-cta">
+                    Shop phones <i class="ri-arrow-right-line"></i>
+                </a>
                 
                 <div class="slide-right" id="slide-right">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="#ffffff" width="24" height="24" viewBox="0 0 24 24">

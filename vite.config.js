@@ -128,6 +128,13 @@ export default defineConfig({
         }),
 
         viteStaticCopy({
+            // The bundled icon packs contain more than 12,000 static files.
+            // They are copied/served as-is and do not need individual HMR watchers.
+            watch: {
+                options: {
+                    ignored: ['**/resources/assets/icon-fonts/**'],
+                },
+            },
             targets: [
                 {
                     src: ([
@@ -204,8 +211,13 @@ export default defineConfig({
         }
     ],
     build: {
-    chunkSizeWarningLimit: 1600,
-    outDir: 'public/build',
-    emptyOutDir: true,
-  },
+        chunkSizeWarningLimit: 1600,
+        outDir: 'public/build',
+        emptyOutDir: true,
+    },
+    server: {
+        watch: {
+            ignored: ['**/resources/assets/icon-fonts/**'],
+        },
+    },
 });

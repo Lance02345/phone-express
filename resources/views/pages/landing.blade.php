@@ -6,14 +6,15 @@ $secondaryColor = '#2e7d32';
 $lightColor = '#e8f5e9';
 
 // Optimize image paths
-$landingImage = asset('Images/3iphones.jpg');
-$aboutImage = asset('Images/3iphones.jpg');
+$landingImage = asset('Images/phoniana.jpeg');
+$aboutImage = asset('Images/phoniana.jpeg');
 $logoImage = asset('Images/logo-removebg-preview.png');
 
 // Prepare phone data with optimized calculations
 $fullPhonesOptimized = $fullPhones->map(function($phone) use ($whatsappBase) {
     $phone->whatsapp_url = $whatsappBase . urlencode("Hello, I am interested in {$phone->name} (Full Payment)");
     $phone->image_url = asset($phone->image_path);
+    $phone->image_available = filled($phone->image_path) && is_file(public_path($phone->image_path));
     return $phone;
 });
 
@@ -22,6 +23,7 @@ $lipaPhonesOptimized = $lipaPhones->where(function($phone) {
 })->map(function($phone) use ($whatsappBase) {
     $phone->whatsapp_url = $whatsappBase . urlencode("Hello, I am interested in {$phone->name} (Lipa PolePole)");
     $phone->image_url = asset($phone->image_path);
+    $phone->image_available = filled($phone->image_path) && is_file(public_path($phone->image_path));
     
     if (isset($phone->lipa_installment)) {
         $phone->lipa_total = $phone->lipa_installment * 10;
@@ -64,25 +66,29 @@ $lipaPhonesOptimized = $lipaPhones->where(function($phone) {
         .section-bg { background: #f2f6f3 !important; }
 
         .landing-banner {
-            min-height: 760px;
+            min-height: calc(100vh - 84px);
             display: flex;
             align-items: center;
             background:
-                radial-gradient(circle at 78% 18%, rgba(63, 139, 96, .35), transparent 26%),
-                linear-gradient(135deg, #0b2c1e 0%, #123f2b 58%, #174f36 100%) !important;
+                radial-gradient(circle at 82% 12%, rgba(71, 151, 104, .22), transparent 25%),
+                linear-gradient(125deg, #082a1c 0%, #0d3725 55%, #12442e 100%) !important;
             padding-top: 82px !important;
             position: relative;
             overflow: hidden;
         }
+        .landing-banner .section { width: 100%; padding: 3.25rem 0 !important; }
+        .landing-body .landing-banner .main-banner-container { padding: 0 1.5rem !important; }
         .landing-banner::before {
             content: '';
             position: absolute;
-            width: 520px;
-            height: 520px;
-            right: -180px;
-            bottom: -230px;
-            border: 1px solid rgba(255,255,255,.1);
-            border-radius: 50%;
+            inset: 0;
+            width: auto;
+            height: auto;
+            background-color: transparent !important;
+            background-image: radial-gradient(rgba(255,255,255,.1) 1px, transparent 1px);
+            background-size: 30px 30px;
+            opacity: .18;
+            pointer-events: none;
         }
         .hero-kicker {
             display: inline-flex;
@@ -98,13 +104,14 @@ $lipaPhonesOptimized = $lipaPhones->where(function($phone) {
             letter-spacing: .1em;
         }
         .hero-kicker::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--accent-color); }
-        .landing-banner-heading {
+        .landing-body .landing-banner .landing-banner-heading {
             max-width: 760px;
-            font-size: clamp(3rem, 5.5vw, 5.5rem);
-            font-weight: 800;
-            line-height: 1.02;
+            font-size: clamp(3rem, 5vw, 4.5rem);
+            font-weight: 800 !important;
+            line-height: 1.04;
             color: #ffffff;
             text-wrap: balance;
+            text-shadow: none;
         }
         .hero-highlight { color: #f7c965; }
         .hero-copy { max-width: 650px; font-size: 1.12rem; line-height: 1.75; color: rgba(255,255,255,.72); }
@@ -123,24 +130,23 @@ $lipaPhonesOptimized = $lipaPhones->where(function($phone) {
         .hero-trust { display: flex; flex-wrap: wrap; gap: .7rem 1.4rem; color: rgba(255,255,255,.74); font-size: .88rem; }
         .hero-trust span { display: inline-flex; align-items: center; gap: .45rem; }
         .hero-trust i { color: #8fd2a8; font-size: 1rem; }
-        .hero-visual { position: relative; padding: 18px; }
+        .hero-visual { position: relative; padding: 10px 12px 10px 24px; }
         .hero-photo-frame {
             position: relative;
             overflow: hidden;
-            min-height: 540px;
+            min-height: 460px;
             border: 1px solid rgba(255,255,255,.16);
-            border-radius: 32px;
+            border-radius: 28px;
             background: rgba(255,255,255,.08);
-            box-shadow: 0 35px 80px rgba(0,0,0,.32);
-            transform: rotate(1.5deg);
+            box-shadow: 0 30px 70px rgba(0,0,0,.3);
         }
-        .hero-photo-frame img { width: 100%; height: 540px; object-fit: cover; object-position: 50% center; }
+        .hero-photo-frame img { width: 100%; height: 460px; object-fit: cover; object-position: 50% center; }
         .hero-photo-frame::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 55%, rgba(6,25,17,.48)); }
         .hero-price-card {
             position: absolute;
             z-index: 3;
-            left: -16px;
-            bottom: 52px;
+            left: -4px;
+            bottom: 34px;
             padding: 1rem 1.1rem;
             width: 210px;
             text-align: left;
@@ -150,7 +156,7 @@ $lipaPhonesOptimized = $lipaPhones->where(function($phone) {
         }
         .hero-price-card small { color: var(--muted); }
         .hero-price-card strong { display: block; color: var(--ink); font-family: 'Manrope', sans-serif; font-size: 1.05rem; }
-        .hero-rating { position: absolute; z-index: 3; right: 0; top: 50px; padding: .65rem .85rem; border-radius: 999px; background: #fff; color: var(--ink); font-weight: 700; box-shadow: 0 14px 35px rgba(0,0,0,.18); }
+        .hero-rating { position: absolute; z-index: 3; right: -2px; top: 34px; padding: .65rem .85rem; border-radius: 999px; background: #fff; color: var(--ink); font-weight: 700; box-shadow: 0 14px 35px rgba(0,0,0,.18); }
         .hero-rating i { color: var(--accent-color); }
 
         .landing-section-heading {
@@ -159,6 +165,20 @@ $lipaPhonesOptimized = $lipaPhones->where(function($phone) {
             font-weight: 800;
             letter-spacing: .14em;
         }
+        .section-intro { max-width: 680px; margin-inline: auto; }
+        .section-intro h2, .section-intro h3 { font-size: clamp(2rem, 3.2vw, 3rem); line-height: 1.12; }
+        .category-grid { margin-top: 2.25rem; }
+        .category-tile { position: relative; display: flex; min-height: 210px; padding: 1.5rem; overflow: hidden; color: var(--ink); text-align: left; text-decoration: none; background: #fff; border: 1px solid var(--border); border-radius: 20px; box-shadow: 0 12px 38px rgba(20,34,27,.06); transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease; }
+        .category-tile:hover { color: var(--ink); transform: translateY(-5px); border-color: #bfd7c6; box-shadow: 0 22px 50px rgba(20,34,27,.11); }
+        .category-tile--dark { color: #fff; background: linear-gradient(145deg, #0d3725, #18543a); border-color: transparent; }
+        .category-tile--dark:hover { color: #fff; }
+        .category-tile--gold { background: linear-gradient(145deg, #fff8e8, #f9e4b4); }
+        .category-tile__content { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: flex-start; }
+        .category-tile__count { padding: .35rem .65rem; border-radius: 999px; background: rgba(18,63,43,.08); color: #27724b; font-size: .72rem; font-weight: 800; }
+        .category-tile--dark .category-tile__count { color: #dff2e5; background: rgba(255,255,255,.1); }
+        .category-tile h4 { margin: auto 0 .25rem; font-size: 1.5rem; }
+        .category-tile__link { font-size: .82rem; font-weight: 700; opacity: .72; }
+        .category-tile__icon { position: absolute; right: 1.25rem; top: 1.3rem; font-size: 4.75rem; opacity: .1; transform: rotate(-8deg); }
         .text-fixed-white {
             color: #ffffff !important;
         }
@@ -174,9 +194,26 @@ $lipaPhonesOptimized = $lipaPhones->where(function($phone) {
             box-shadow: 0 10px 35px rgba(20,34,27,.06);
             border-radius: 20px !important;
             overflow: hidden;
+            padding: .75rem !important;
+            text-align: left !important;
         }
-        .phone-card img { width: 100%; padding: 1rem; background: #f5f7f5; border-radius: 14px !important; object-fit: contain !important; }
+        .phone-card img { width: 100%; height: 250px !important; padding: 1rem; margin-bottom: 1rem !important; background: #f5f7f5; border-radius: 14px !important; object-fit: contain !important; }
         .phone-card:hover { transform: translateY(-6px); box-shadow: 0 22px 50px rgba(20,34,27,.12); }
+        .phone-card__body { display: flex; flex: 1; flex-direction: column; padding: .25rem .5rem .5rem; }
+        .phone-card__meta { color: #27724b; font-size: .7rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+        .phone-card__name { min-height: 2.6rem; margin: .45rem 0 .8rem; font-size: 1rem; line-height: 1.35; }
+        .phone-card__name a { color: var(--ink); }
+        .phone-card__name a:hover { color: #27724b; }
+        .phone-card__price { margin: 0; color: var(--ink); font-family: 'Manrope', sans-serif; font-size: 1.35rem; font-weight: 800; letter-spacing: -.03em; }
+        .phone-card__action { display: flex; align-items: center; justify-content: space-between; margin-top: 1rem; padding: .8rem .9rem; border-radius: 11px; background: var(--primary-light); color: var(--primary-color); font-size: .86rem; font-weight: 800; }
+        .phone-card__action:hover { background: var(--primary-color); color: #fff; }
+        .dashboard-image-placeholder { display: grid; width: 100%; height: 250px; margin-bottom: 1rem; place-items: center; color: #8b9890; text-align: center; background: #f3f6f4; border-radius: 14px; }
+        .dashboard-image-placeholder i { display: block; margin-bottom: .4rem; color: #aab5ae; font-size: 2.4rem; }
+        .dashboard-image-placeholder span { font-size: .75rem; font-weight: 700; }
+        #testimonials { background: #fff !important; }
+        .about-photo { width: 100%; height: 500px; object-fit: cover; border-radius: 24px !important; box-shadow: 0 24px 60px rgba(20,34,27,.13); }
+        .floating-whatsapp { position: fixed; z-index: 999; right: 22px; bottom: 22px; display: inline-flex; align-items: center; gap: .55rem; padding: .85rem 1rem; color: #fff; background: #1f9d55; border-radius: 999px; box-shadow: 0 16px 38px rgba(13,94,49,.3); font-weight: 800; text-decoration: none; }
+        .floating-whatsapp:hover { color: #fff; background: #168447; transform: translateY(-2px); }
         .stat-card, .testimonial-card, .contact-card, .landing-missions { border: 1px solid var(--border) !important; border-radius: 18px !important; box-shadow: 0 10px 34px rgba(20,34,27,.05) !important; }
         .alert-info { color: #25583c; background: #edf7f0; border-color: #d5eadb; border-radius: 14px; }
         .accordion-item { margin-bottom: .75rem; overflow: hidden; border: 1px solid var(--border) !important; border-radius: 14px !important; }
@@ -190,7 +227,7 @@ $lipaPhonesOptimized = $lipaPhones->where(function($phone) {
 
         @media (max-width: 768px) {
             .landing-banner { min-height: auto; padding-top: 100px !important; }
-            .landing-banner-heading { font-size: clamp(2.65rem, 12vw, 4rem); }
+            .landing-body .landing-banner .landing-banner-heading { font-size: clamp(2.65rem, 12vw, 4rem); }
             .hero-photo-frame, .hero-photo-frame img { min-height: 420px; height: 420px; }
             .hero-visual { margin-top: 2rem; padding-inline: 8px; }
             .hero-price-card { left: -4px; }
@@ -203,6 +240,8 @@ $lipaPhonesOptimized = $lipaPhones->where(function($phone) {
             .hero-actions { display: grid !important; }
             .hero-actions .btn { justify-content: center; width: 100%; }
             .hero-photo-frame, .hero-photo-frame img { min-height: 350px; height: 350px; }
+            .about-photo { height: 340px; }
+            .floating-whatsapp span { display: none; }
         }
     </style>
     
@@ -268,33 +307,29 @@ $lipaPhonesOptimized = $lipaPhones->where(function($phone) {
     <!-- Start:: Categories Section -->
     <section class="section section-bg" id="categories">
         <div class="container text-center">
-            <p class="fs-12 fw-semibold text-success mb-1">
-                <span class="landing-section-heading">CATEGORIES</span>
-            </p>
-            <h3 class="fw-semibold mb-2">Browse Our Phone Categories</h3>
-            <div class="row justify-content-center">
-                <div class="col-xl-7">
-                    <p class="text-muted fs-15 mb-5 fw-normal">
-                        Explore our wide range of smartphones from top brands. Find the perfect phone that matches your style and budget.
-                    </p>
-                </div>
+            <div class="section-intro">
+                <p class="fs-12 fw-semibold text-success mb-2"><span class="landing-section-heading">SHOP BY CATEGORY</span></p>
+                <h3 class="fw-semibold mb-3">Find the right phone, faster.</h3>
+                <p class="text-muted fs-15 mb-0">Start with your preferred brand or browse the complete collection.</p>
             </div>
-            
-            <!-- Category Filter -->
-            <div class="category-filter">
-                <div class="d-flex flex-wrap justify-content-center">
-                    <button class="btn btn-outline-primary category-btn active" data-category="all">
-                        All Phones ({{ $categories['all'] ?? 0 }})
-                    </button>
-                    <button class="btn btn-outline-primary category-btn" data-category="iphone">
-                        <i class="ri-smartphone-line me-2"></i>iPhones ({{ $categories['iphone'] ?? 0 }})
-                    </button>
-                    <button class="btn btn-outline-primary category-btn" data-category="samsung">
-                        <i class="ri-android-line me-2"></i>Samsung ({{ $categories['samsung'] ?? 0 }})
-                    </button>
-                    <button class="btn btn-outline-primary category-btn" data-category="android">
-                        <i class="ri-smartphone-line me-2"></i>Android ({{ $categories['android'] ?? 0 }})
-                    </button>
+            <div class="row g-4 category-grid">
+                <div class="col-lg-4">
+                    <a href="{{ route('pricing', ['brand' => 'Apple']) }}" class="category-tile category-tile--dark">
+                        <div class="category-tile__content"><span class="category-tile__count">{{ $categories['iphone'] ?? 0 }} MODELS</span><h4>Apple iPhone</h4><span class="category-tile__link">Browse iPhones <i class="ri-arrow-right-line ms-1"></i></span></div>
+                        <i class="ri-apple-fill category-tile__icon"></i>
+                    </a>
+                </div>
+                <div class="col-lg-4">
+                    <a href="{{ route('pricing', ['brand' => 'Samsung']) }}" class="category-tile category-tile--gold">
+                        <div class="category-tile__content"><span class="category-tile__count">{{ $categories['samsung'] ?? 0 }} MODELS</span><h4>Samsung Galaxy</h4><span class="category-tile__link">Browse Samsung <i class="ri-arrow-right-line ms-1"></i></span></div>
+                        <i class="ri-android-fill category-tile__icon"></i>
+                    </a>
+                </div>
+                <div class="col-lg-4">
+                    <a href="{{ route('pricing') }}" class="category-tile">
+                        <div class="category-tile__content"><span class="category-tile__count">{{ $categories['all'] ?? 0 }} PHONES</span><h4>All smartphones</h4><span class="category-tile__link">View collection <i class="ri-arrow-right-line ms-1"></i></span></div>
+                        <i class="ri-smartphone-line category-tile__icon"></i>
+                    </a>
                 </div>
             </div>
         </div>
@@ -351,22 +386,18 @@ $lipaPhonesOptimized = $lipaPhones->where(function($phone) {
                     <div class="row justify-content-center">
                         @foreach($fullPhonesOptimized as $phone)
                             <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-4">
-                                <div class="p-4 text-center border rounded-3 phone-card h-100">
-                                    <img src="{{ $phone->image_url }}" alt="{{ $phone->name }}"
-                                        class="img-fluid mb-3 rounded-3" style="height:220px; object-fit:cover;" loading="lazy">
-                                    <h6 class="fw-semibold">{{ $phone->name }}</h6>
-                                    <p class="fs-25 fw-semibold mb-1">KES {{ number_format($phone->price) }}</p>
-                                    <p class="text-muted fs-11 fw-semibold mb-3">Full Payment</p>
-                                    <ul class="list-unstyled fs-12 mb-3">
-                                        <li><i class="ri-check-line text-success me-1"></i> Premium Quality</li>
-                                        <li><i class="ri-check-line text-success me-1"></i> Latest Model</li>
-                                        <li><i class="ri-check-line text-success me-1"></i> Warranty Included</li>
-                                    </ul>
-                                    <a href="{{ $phone->whatsapp_url }}"
-                                       target="_blank"
-                                       class="btn btn-primary-light btn-wave w-100">
-                                        <i class="ri-whatsapp-line me-1"></i> Buy Now
-                                    </a>
+                                <div class="phone-card h-100 d-flex flex-column">
+                                    @if($phone->image_available)
+                                        <img src="{{ $phone->image_url }}" alt="{{ $phone->name }}" class="img-fluid" loading="lazy">
+                                    @else
+                                        <div class="dashboard-image-placeholder"><div><i class="ri-image-line"></i><span>Image coming soon</span></div></div>
+                                    @endif
+                                    <div class="phone-card__body">
+                                        <span class="phone-card__meta">Pay in full</span>
+                                        <h6 class="phone-card__name"><a href="{{ route('phones.show', $phone) }}">{{ $phone->name }}</a></h6>
+                                        <p class="phone-card__price">KES {{ number_format($phone->price) }}</p>
+                                        <a href="{{ $phone->whatsapp_url }}" target="_blank" rel="noopener" class="phone-card__action"><span>Enquire on WhatsApp</span><i class="ri-arrow-right-line"></i></a>
+                                    </div>
                                 </div>
                             </div>
                         @endforeach
@@ -390,23 +421,19 @@ $lipaPhonesOptimized = $lipaPhones->where(function($phone) {
                     <div class="row justify-content-center">
                         @foreach($lipaPhonesOptimized as $phone)
                             <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-4">
-                                <div class="p-4 text-center border rounded-3 phone-card h-100 position-relative">
+                                <div class="phone-card h-100 d-flex flex-column position-relative">
                                     <span class="lipa-polepole-badge">Lipa PolePole</span>
-                                    <img src="{{ $phone->image_url }}" alt="{{ $phone->name }}"
-                                        class="img-fluid mb-3 rounded-3" style="height:220px; object-fit:cover;" loading="lazy">
-                                    <h6 class="fw-semibold">{{ $phone->name }}</h6>
-                                    <p class="fs-25 fw-semibold mb-1">KES {{ number_format($phone->lipa_installment ?? 0) }} x 10 months</p>
-                                    <p class="text-muted fs-11 fw-semibold mb-3">Lipa PolePole (iPhone Only)</p>
-                                    <ul class="list-unstyled fs-12 mb-3">
-                                        <li><i class="ri-check-line text-success me-1"></i> 10% interest included</li>
-                                        <li><i class="ri-check-line text-success me-1"></i> Easy monthly payments</li>
-                                        <li><i class="ri-check-line text-success me-1"></i> Phone delivered immediately</li>
-                                    </ul>
-                                    <a href="{{ $phone->whatsapp_url }}"
-                                       target="_blank"
-                                       class="btn btn-primary-light btn-wave w-100">
-                                        <i class="ri-whatsapp-line me-1"></i> Apply Now
-                                    </a>
+                                    @if($phone->image_available)
+                                        <img src="{{ $phone->image_url }}" alt="{{ $phone->name }}" class="img-fluid" loading="lazy">
+                                    @else
+                                        <div class="dashboard-image-placeholder"><div><i class="ri-image-line"></i><span>Image coming soon</span></div></div>
+                                    @endif
+                                    <div class="phone-card__body">
+                                        <span class="phone-card__meta">10 monthly payments</span>
+                                        <h6 class="phone-card__name"><a href="{{ route('phones.show', $phone) }}">{{ $phone->name }}</a></h6>
+                                        <p class="phone-card__price">KES {{ number_format($phone->lipa_installment ?? 0) }} <small class="fs-12 text-muted">/ month</small></p>
+                                        <a href="{{ $phone->whatsapp_url }}" target="_blank" rel="noopener" class="phone-card__action"><span>Ask about this plan</span><i class="ri-arrow-right-line"></i></a>
+                                    </div>
                                 </div>
                             </div>
                         @endforeach
@@ -516,7 +543,7 @@ $lipaPhonesOptimized = $lipaPhones->where(function($phone) {
             <div class="row justify-content-between align-items-center mx-0">
                 <div class="col-xxl-5 col-xl-5 col-lg-5 customize-image text-center">
                     <div class="text-lg-end">
-                        <img src="{{ $aboutImage }}" alt="Phone Express" class="img-fluid rounded-4" loading="lazy" width="500" height="400">
+                        <img src="{{ $aboutImage }}" alt="A selection of phones from Phone Express" class="about-photo" loading="lazy" width="500" height="500">
                     </div>
                 </div>
 
@@ -942,6 +969,11 @@ $lipaPhonesOptimized = $lipaPhones->where(function($phone) {
         </div>
     </section>
     <!-- End:: Section-11 -->
+
+    <a href="{{ $whatsappBase . urlencode('Hello Phone Express, I would like help choosing a phone.') }}"
+       class="floating-whatsapp" target="_blank" rel="noopener" aria-label="Chat with Phone Express on WhatsApp">
+        <i class="ri-whatsapp-line fs-18"></i><span>Chat with us</span>
+    </a>
 
     <!-- Deferred non-critical styles -->
     <div class="deferred-styles">

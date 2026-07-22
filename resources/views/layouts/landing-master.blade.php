@@ -7,12 +7,12 @@
 		<meta charset="UTF-8">
         <meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=no'>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="description" content="Shop smartphones at competitive prices from Phone Express Kenya, with flexible payment options and delivery across Kenya.">
+        <meta name="description" content="@yield('meta_description', 'Shop smartphones at competitive prices from Phone Express Kenya, with flexible payment options and delivery across Kenya.')">
         <meta name="author" content="Phone Express Kenya">
         <meta name="theme-color" content="#123f2b">
 
         <!-- TITLE -->
-		<title> Phone Express Kenya</title>
+		<title>@yield('title', 'Phone Express Kenya')</title>
 
         <!-- FAVICON -->
         <link rel="icon" href="{{asset('build/assets/images/brand-logos/favicon.ico')}}" type="image/x-icon">
@@ -99,20 +99,76 @@
             
             /* Sidebar styling */
             .app-sidebar {
-                background: rgba(11, 44, 30, .96) !important;
-                backdrop-filter: blur(18px);
+                background: rgba(7, 37, 25, .92) !important;
+                backdrop-filter: blur(22px) saturate(140%);
                 border-bottom: 1px solid rgba(255,255,255,.08) !important;
+                box-shadow: 0 12px 35px rgba(3, 25, 16, .12);
             }
-            
-            .side-menu__item.active,
-            .side-menu__item:hover {
-                background-color: rgba(255, 255, 255, 0.08) !important;
-                color: #ffffff !important;
-                border-radius: 9px;
+
+            .landing-body .main-menu-container {
+                min-height: 82px;
             }
-            
-            .side-menu__label {
+
+            .landing-body .main-menu-container .main-menu {
+                align-items: center;
+                gap: .2rem;
+            }
+
+            .landing-body .app-sidebar .side-menu__item {
+                position: relative;
+                padding: .7rem .85rem !important;
+                border-radius: 999px;
+                transition: background-color .2s ease, color .2s ease, transform .2s ease;
+            }
+
+            .landing-body .app-sidebar .side-menu__label {
+                color: rgba(255, 255, 255, .78) !important;
+                font-weight: 600;
+            }
+
+            .landing-body .app-sidebar .side-menu__item.active,
+            .landing-body .app-sidebar .side-menu__item:hover {
+                background: rgba(255, 255, 255, .08) !important;
+                transform: translateY(-1px);
+            }
+
+            .landing-body .app-sidebar .side-menu__item.active::after {
+                content: '';
+                position: absolute;
+                right: 1rem;
+                bottom: .35rem;
+                left: 1rem;
+                height: 2px;
+                border-radius: 2px;
+                background: #f3b33d;
+            }
+
+            .landing-body .app-sidebar .side-menu__item.active .side-menu__label,
+            .landing-body .app-sidebar .side-menu__item:hover .side-menu__label {
                 color: #ffffff !important;
+            }
+
+            .landing-nav-cta {
+                display: inline-flex;
+                align-items: center;
+                gap: .45rem;
+                margin-inline-start: 1rem;
+                padding: .72rem 1rem;
+                color: #172219;
+                white-space: nowrap;
+                background: #f3b33d;
+                border-radius: 999px;
+                box-shadow: 0 10px 24px rgba(243, 179, 61, .18);
+                font-size: .82rem;
+                font-weight: 800;
+                text-decoration: none;
+                transition: transform .2s ease, background-color .2s ease;
+            }
+
+            .landing-nav-cta:hover {
+                color: #172219;
+                background: #ffc85a;
+                transform: translateY(-2px);
             }
             
             .slide-left, .slide-right {
@@ -224,6 +280,14 @@
                 .app-sidebar {
                     width: 250px !important;
                 }
+
+                .landing-nav-cta {
+                    display: none;
+                }
+            }
+
+            @media (max-width: 991.98px) {
+                .landing-nav-cta { display: none; }
             }
         </style>
 

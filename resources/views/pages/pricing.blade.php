@@ -1,536 +1,265 @@
 @php
-// Optimized helper functions with caching
-if (!function_exists('extractBrand')) {
-    function extractBrand($name) {
-        static $cache = [];
-        if (isset($cache[$name])) {
-            return $cache[$name];
-        }
-        
-        if (stripos($name, 'iPhone') !== false) {
-            $cache[$name] = 'Apple';
-        } elseif (stripos($name, 'Samsung') !== false) {
-            $cache[$name] = 'Samsung';
-        } else {
-            $cache[$name] = 'Other';
-        }
-        
-        return $cache[$name];
-    }
-}
+    $isLipa = ($filters['payment_method'] ?? 'full') === 'lipa';
+    $hasActiveFilters = filled($filters['search'] ?? null)
+        || filled($filters['brand'] ?? null)
+        || filled($filters['price_range'] ?? null)
+        || filled($filters['storage'] ?? null);
 
-if (!function_exists('extractStorage')) {
-    function extractStorage($name) {
-        static $cache = [];
-        if (isset($cache[$name])) {
-            return $cache[$name];
-        }
-        
-        if (preg_match('/(\d+)GB/', $name, $matches)) {
-            $cache[$name] = $matches[1];
-        } else {
-            $cache[$name] = '';
-        }
-        
-        return $cache[$name];
-    }
-}
-
-// Pre-calculate Lipa prices for performance
-$lipaCalculations = [];
-if (isset($filters['payment_method']) && $filters['payment_method'] === 'lipa' && $phones->isNotEmpty()) {
-    foreach ($phones as $phone) {
-        if ($phone->price > 0) {
-            $upfrontPayment = ceil($phone->price * 0.4);
-            $remainingBalance = $phone->price - $upfrontPayment;
-            $totalBalance = ceil($remainingBalance * 1.5);
-            $weeklyPayment = ceil($totalBalance / 12);
-            
-            $lipaCalculations[$phone->id] = [
-                'upfront' => $upfrontPayment,
-                'weekly' => $weeklyPayment,
-            ];
+    $lipaCalculations = [];
+    if ($isLipa) {
+        foreach ($phones as $phone) {
+            if ($phone->price > 0) {
+                $upfront = (int) ceil($phone->price * 0.4);
+                $lipaCalculations[$phone->id] = [
+                    'upfront' => $upfront,
+                    'weekly' => (int) ceil((($phone->price - $upfront) * 1.5) / 12),
+                ];
+            }
         }
     }
-}
-
-// Check if any iPhone exists for Lipa tab
-$hasIphones = $phones->contains(function ($phone) {
-    return stripos($phone->name, 'iPhone') !== false;
-});
 @endphp
 
 @extends('layouts.landing-master')
 
 @section('styles')
-    <!-- SWIPERJS CSS -->
-    <link rel="stylesheet" href="{{ asset('build/assets/libs/swiper/swiper-bundle.min.css') }}">
-    
-    <style>
-        /* Fixed Banner CSS - Green Theme */
-        .landing-banner {
-            background: linear-gradient(135deg, #1a472a 0%, #2e7d32 100%) !important;
-            padding: clamp(40px, 10vw, 80px) 0 clamp(30px, 8vw, 60px) !important;
-            position: relative;
-            overflow: hidden;
-        }
+<style>
+    .catalogue-page { background: #f7f9f7; }
+    .catalogue-hero {
+        position: relative;
+        overflow: hidden;
+        padding: 8.5rem 0 6.5rem !important;
+        background:
+            radial-gradient(circle at 82% 10%, rgba(77, 153, 108, .22), transparent 26%),
+            linear-gradient(125deg, #082a1c, #10432d) !important;
+    }
+    .catalogue-hero::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        width: auto;
+        height: auto;
+        background-color: transparent !important;
+        background-image: radial-gradient(rgba(255,255,255,.11) 1px, transparent 1px);
+        background-size: 30px 30px;
+        opacity: .16;
+    }
+    .catalogue-hero__content { position: relative; z-index: 1; max-width: 760px; }
+    .catalogue-eyebrow { display: inline-flex; align-items: center; gap: .5rem; margin-bottom: 1rem; color: #a8d7b8; font-size: .75rem; font-weight: 800; letter-spacing: .13em; }
+    .catalogue-eyebrow::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: #f3b33d; }
+    .catalogue-title { margin-bottom: 1rem; color: #fff; font-size: clamp(2.7rem, 5vw, 4.4rem); font-weight: 800; line-height: 1.04; letter-spacing: -.05em; text-shadow: none; }
+    .catalogue-title span { color: #f7c965; }
+    .catalogue-subtitle { max-width: 620px; margin: 0; color: rgba(255,255,255,.7); font-size: 1.05rem; line-height: 1.7; }
 
-        .landing-banner::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-            opacity: 0.1;
-        }
+    .catalogue-shell { position: relative; z-index: 5; margin-top: -3.4rem; padding-bottom: 6rem; }
+    .filter-panel { padding: 1.25rem; background: #fff; border: 1px solid #e3e9e5; border-radius: 20px; box-shadow: 0 20px 55px rgba(15,49,32,.1); }
+    .search-wrap { position: relative; }
+    .search-wrap i { position: absolute; top: 50%; left: 1rem; color: #718078; font-size: 1.15rem; transform: translateY(-50%); }
+    .catalogue-search { min-height: 54px; padding: .8rem 1rem .8rem 3rem; border: 1px solid #dfe6e1; border-radius: 13px; background: #fafcfb; font-size: .95rem; }
+    .catalogue-search:focus { border-color: #77a98a; background: #fff; box-shadow: 0 0 0 4px rgba(39,114,75,.1); }
+    .search-button { min-height: 54px; padding-inline: 1.35rem; border: 0; border-radius: 13px; background: #123f2b; color: #fff; font-weight: 800; }
+    .search-button:hover { background: #092a1c; color: #fff; }
+    .filter-label { margin: 1.15rem 0 .55rem; color: #748078; font-size: .68rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+    .filter-chips { display: flex; flex-wrap: wrap; gap: .5rem; }
+    .filter-chip { display: inline-flex; align-items: center; gap: .4rem; padding: .62rem .82rem; border: 1px solid #dfe6e1; border-radius: 999px; background: #fff; color: #48564e; font-size: .82rem; font-weight: 700; transition: .2s ease; }
+    .filter-chip:hover { border-color: #84ae93; color: #123f2b; background: #f1f7f3; }
+    .filter-chip.active { border-color: #123f2b; background: #123f2b; color: #fff; box-shadow: 0 8px 20px rgba(18,63,43,.15); }
 
-        .landing-banner-heading {
-            font-size: clamp(1.75rem, 4vw, 2.5rem);
-            font-weight: 800;
-            line-height: 1.2;
-            color: #ffffff;
-            margin-bottom: 1rem;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
+    .catalogue-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin: 1.75rem 0 1.25rem; padding: 1rem 1.1rem; background: #fff; border: 1px solid #e3e9e5; border-radius: 16px; }
+    .result-count { color: #17251d; font-size: .96rem; font-weight: 800; }
+    .result-count small { display: block; margin-top: .15rem; color: #758179; font-size: .75rem; font-weight: 500; }
+    .toolbar-actions { display: flex; align-items: center; gap: .65rem; }
+    .payment-switch { display: inline-flex; padding: .3rem; background: #eef3ef; border-radius: 11px; }
+    .payment-option { padding: .6rem .78rem; border: 0; border-radius: 8px; background: transparent; color: #5e6d64; font-size: .79rem; font-weight: 800; }
+    .payment-option.active { background: #fff; color: #123f2b; box-shadow: 0 4px 12px rgba(20,34,27,.08); }
+    .sort-select { width: 190px; min-height: 42px; border-color: #dfe6e1; border-radius: 10px; color: #455249; font-size: .8rem; font-weight: 700; }
+    .clear-filters { display: inline-flex; align-items: center; gap: .35rem; color: #6a776f; font-size: .78rem; font-weight: 700; }
 
-        .text-secondary {
-            color: #e8f5e9 !important;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
-        }
+    .lipa-notice { display: flex; gap: .8rem; margin-bottom: 1.25rem; padding: 1rem 1.1rem; background: #fff8e8; border: 1px solid #f2ddb0; border-radius: 14px; color: #66501f; }
+    .lipa-notice i { color: #b67a08; font-size: 1.2rem; }
+    .lipa-notice strong { display: block; margin-bottom: .15rem; color: #493812; }
 
-        .text-fixed-white {
-            color: #ffffff !important;
-        }
+    .catalogue-grid { --bs-gutter-x: 1.25rem; --bs-gutter-y: 1.25rem; }
+    .catalogue-card { display: flex; height: 100%; flex-direction: column; padding: .75rem; overflow: hidden; background: #fff; border: 1px solid #e3e9e5; border-radius: 18px; box-shadow: 0 10px 32px rgba(20,34,27,.055); transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease; }
+    .catalogue-card:hover { transform: translateY(-5px); border-color: #c9d9ce; box-shadow: 0 22px 48px rgba(20,34,27,.11); }
+    .product-media { position: relative; display: grid; height: 255px; place-items: center; overflow: hidden; background: #f3f6f4; border-radius: 13px; }
+    .product-media img { width: 100%; height: 100%; padding: 1.1rem; object-fit: contain; transition: transform .3s ease; }
+    .catalogue-card:hover .product-media img { transform: scale(1.035); }
+    .image-placeholder { display: grid; width: 100%; height: 100%; place-items: center; color: #8b9890; text-align: center; }
+    .image-placeholder i { display: block; margin-bottom: .4rem; font-size: 2.4rem; color: #aab5ae; }
+    .image-placeholder span { font-size: .75rem; font-weight: 700; }
+    .plan-badge { position: absolute; z-index: 2; top: .75rem; right: .75rem; padding: .38rem .58rem; border-radius: 999px; background: #fff1cf; color: #8a5a00; font-size: .65rem; font-weight: 800; }
+    .product-content { display: flex; flex: 1; flex-direction: column; padding: 1rem .5rem .5rem; }
+    .product-kicker { color: #27724b; font-size: .65rem; font-weight: 800; letter-spacing: .09em; text-transform: uppercase; }
+    .product-name { min-height: 2.8rem; margin: .45rem 0 .85rem; color: #17251d; font-size: .98rem; font-weight: 800; line-height: 1.4; letter-spacing: -.02em; }
+    .product-name a { color: inherit; }
+    .product-name a:hover { color: #27724b; }
+    .product-price { margin: 0; color: #17251d; font-family: 'Manrope', sans-serif; font-size: 1.25rem; font-weight: 800; letter-spacing: -.03em; }
+    .product-price--request { color: #27724b; font-size: 1.05rem; }
+    .payment-detail { margin-top: .28rem; color: #748078; font-size: .74rem; }
+    .product-action { display: flex; align-items: center; justify-content: space-between; margin-top: 1rem; padding: .78rem .85rem; border-radius: 10px; background: #eaf4ed; color: #123f2b; font-size: .82rem; font-weight: 800; }
+    .product-action:hover { background: #123f2b; color: #fff; }
 
-        .landing-banner .lead {
-            font-size: 1.1rem;
-            line-height: 1.6;
-            color: rgba(255, 255, 255, 0.95);
-            font-weight: 400;
-        }
+    .pagination { gap: .3rem; }
+    .page-link { min-width: 40px; border-color: #e0e7e2; border-radius: 9px !important; color: #365342; text-align: center; }
+    .page-item.active .page-link { border-color: #123f2b; background: #123f2b; }
+    .empty-results { padding: 5rem 1rem; text-align: center; background: #fff; border: 1px solid #e3e9e5; border-radius: 18px; }
+    .empty-results i { color: #9ba79f; font-size: 3rem; }
 
-        /* Filters Card */
-        .filters-card {
-            background: #ffffff;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            border: none;
-            margin-top: -40px;
-            position: relative;
-            z-index: 10;
-        }
-
-        .search-input {
-            border: 2px solid #e9ecef;
-            border-radius: 10px;
-            padding: 12px 20px;
-            transition: all 0.3s ease;
-        }
-
-        .search-input:focus {
-            border-color: #1a472a;
-            box-shadow: 0 0 0 0.25rem rgba(26, 71, 42, 0.15);
-        }
-
-        /* Quick Filter Badges */
-        .quick-filter {
-            display: inline-flex;
-            align-items: center;
-            padding: 8px 16px;
-            border: 2px solid #e9ecef;
-            border-radius: 20px;
-            font-size: 0.875rem;
-            font-weight: 500;
-            color: #495057;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin: 4px;
-            background: white;
-        }
-
-        .quick-filter:hover {
-            border-color: #1a472a;
-            color: #1a472a;
-            background: #e8f5e9;
-            transform: translateY(-2px);
-        }
-
-        .quick-filter.active {
-            background: #1a472a;
-            color: white;
-            border-color: #1a472a;
-            box-shadow: 0 4px 12px rgba(26, 71, 42, 0.3);
-        }
-
-        /* Phone Cards */
-        .phone-card {
-            transition: all 0.3s ease;
-            border: none;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            border-radius: 15px;
-            overflow: hidden;
-        }
-
-        .phone-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 12px 30px rgba(0,0,0,0.15);
-        }
-
-        .lipa-polepole-badge {
-            background: linear-gradient(45deg, #ff6b35, #ff8e35);
-            color: white;
-            font-size: 0.7rem;
-            padding: 3px 8px;
-            border-radius: 10px;
-            position: absolute;
-            top: 10px;
-            right: 10px;
-        }
-
-        /* Results Info */
-        .results-info {
-            background: linear-gradient(135deg, #1a472a, #2e7d32);
-            color: white;
-            border-radius: 12px;
-            padding: 15px 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 15px rgba(26, 71, 42, 0.3);
-        }
-
-        /* Other styles remain the same... */
-        
-        /* Responsive design */
-        @media (max-width: 768px) {
-            .landing-banner-heading {
-                font-size: 2rem;
-            }
-            
-            .landing-banner {
-                padding: 60px 0 40px !important;
-            }
-            
-            .filters-card {
-                margin-top: -20px;
-            }
-            
-            .quick-filter {
-                font-size: 0.8rem;
-                padding: 6px 12px;
-            }
-        }
-    </style>
+    @media (max-width: 991.98px) {
+        .catalogue-hero { padding: 7.5rem 0 5.5rem !important; }
+        .catalogue-toolbar { align-items: flex-start; flex-direction: column; }
+        .toolbar-actions { width: 100%; flex-wrap: wrap; }
+    }
+    @media (max-width: 575.98px) {
+        .catalogue-hero { padding: 6.8rem 0 5rem !important; }
+        .catalogue-title { font-size: 2.65rem; }
+        .catalogue-shell { margin-top: -2.25rem; }
+        .filter-panel { padding: .85rem; border-radius: 16px; }
+        .search-button { width: 100%; }
+        .toolbar-actions, .payment-switch { width: 100%; }
+        .payment-option { flex: 1; }
+        .sort-select { width: 100%; }
+        .product-media { height: 230px; }
+    }
+</style>
 @endsection
 
 @section('content')
-    <!-- Hero Section -->
-    <div class="landing-banner" id="home">
-        <section class="section">
-            <div class="container">
-                <div class="row justify-content-center text-center">
-                    <div class="col-lg-8">
-                        <h1 class="landing-banner-heading mb-3">
-                            Shop Premium Phones with <span class="text-secondary">Flexible Payments</span>
-                        </h1>
-                        <p class="lead text-fixed-white mb-0">
-                            Latest smartphones at unbeatable prices. Pay full or use our <strong class="text-secondary">Lipa Mdogo Mdogo</strong> option.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </div>
+<main class="catalogue-page">
+    <header class="catalogue-hero">
+        <div class="container catalogue-hero__content">
+            <span class="catalogue-eyebrow">PHONE EXPRESS COLLECTION</span>
+            <h1 class="catalogue-title">Find a phone that <span>fits your life.</span></h1>
+            <p class="catalogue-subtitle">Compare smartphones, filter by what matters, and talk to our team when you are ready.</p>
+        </div>
+    </header>
 
-<!-- Search and Filter Section -->
-<section class="section pt-0">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-lg-10">
-                <!-- Filters Card -->
-                <div class="card filters-card mb-4">
-                    <div class="card-body">
-                        <form method="GET" action="{{ route('pricing') }}" id="filterForm">
-                            <!-- Payment Method (Hidden Field) -->
-                            <input type="hidden" name="payment_method" id="paymentMethodInput" value="{{ $filters['payment_method'] }}">
-                            
-                            <!-- Search Bar -->
-                            <div class="mb-3">
-                                <input type="text" 
-                                       class="form-control search-input" 
-                                       name="search" 
-                                       placeholder="🔍 Search for iPhone 13, Samsung Galaxy S23, or any phone model..." 
-                                       value="{{ $filters['search'] ?? '' }}">
-                            </div>
-                            
-                            <!-- Quick Filter Badges -->
-                            <div class="mb-3">
-                                <small class="text-muted d-block mb-2 fw-semibold">Quick Filters:</small>
-                                <div class="d-flex flex-wrap">
-                                    <span class="quick-filter {{ $filters['brand'] === 'Apple' ? 'active' : '' }}" 
-                                          onclick="toggleFilter('brand', 'Apple')">
-                                        <i class="ri-apple-fill me-1"></i> iPhone
-                                    </span>
-                                    <span class="quick-filter {{ $filters['brand'] === 'Samsung' ? 'active' : '' }}" 
-                                          onclick="toggleFilter('brand', 'Samsung')">
-                                        <i class="ri-android-fill me-1"></i> Samsung
-                                    </span>
-                                    <span class="quick-filter {{ $filters['price_range'] === '0-50000' ? 'active' : '' }}" 
-                                          onclick="toggleFilter('price_range', '0-50000')">
-                                        💰 Under 50K
-                                    </span>
-                                    <span class="quick-filter {{ $filters['price_range'] === '50000-80000' ? 'active' : '' }}" 
-                                          onclick="toggleFilter('price_range', '50000-80000')">
-                                        💰 50K-80K
-                                    </span>
-                                    <span class="quick-filter {{ $filters['price_range'] === '80000+' ? 'active' : '' }}" 
-                                          onclick="toggleFilter('price_range', '80000+')">
-                                        💎 80K+
-                                    </span>
-                                    <span class="quick-filter {{ $filters['storage'] === '128' ? 'active' : '' }}" 
-                                          onclick="toggleFilter('storage', '128')">
-                                        📱 128GB
-                                    </span>
-                                    <span class="quick-filter {{ $filters['storage'] === '256' ? 'active' : '' }}" 
-                                          onclick="toggleFilter('storage', '256')">
-                                        📱 256GB
-                                    </span>
-                                    <span class="quick-filter {{ $filters['storage'] === '512' ? 'active' : '' }}" 
-                                          onclick="toggleFilter('storage', '512')">
-                                        📱 512GB
-                                    </span>
-                                </div>
-                            </div>
-                            
-                            <!-- Hidden Inputs for Quick Filters -->
-                            <input type="hidden" name="brand" id="brandInput" value="{{ $filters['brand'] ?? '' }}">
-                            <input type="hidden" name="price_range" id="priceRangeInput" value="{{ $filters['price_range'] ?? '' }}">
-                            <input type="hidden" name="storage" id="storageInput" value="{{ $filters['storage'] ?? '' }}">
-                            
-                            <!-- Advanced Filters -->
-                            <div class="row g-3">
-                                <div class="col-md-8">
-                                    <select class="form-select filter-control" name="sort">
-                                        <option value="random" {{ $filters['sort'] === 'random' ? 'selected' : '' }}>🎲 Random</option>
-                                        <option value="newest" {{ $filters['sort'] === 'newest' ? 'selected' : '' }}>⭐ Newest First</option>
-                                        <option value="price_asc" {{ $filters['sort'] === 'price_asc' ? 'selected' : '' }}>💲 Price: Low to High</option>
-                                        <option value="price_desc" {{ $filters['sort'] === 'price_desc' ? 'selected' : '' }}>💎 Price: High to Low</option>
-                                        <option value="name_asc" {{ $filters['sort'] === 'name_asc' ? 'selected' : '' }}>🔤 Name: A-Z</option>
-                                        <option value="name_desc" {{ $filters['sort'] === 'name_desc' ? 'selected' : '' }}>🔤 Name: Z-A</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="d-flex gap-2">
-                                        <button type="submit" class="btn btn-filter flex-fill" style="background: linear-gradient(135deg, #1a472a, #2e7d32); color: white; border: none; padding: 12px 30px; border-radius: 10px; font-weight: 600;">
-                                            <i class="ri-search-line me-1"></i> Search
-                                        </button>
-                                        <a href="{{ route('pricing') }}" class="btn btn-clear">
-                                            <i class="ri-refresh-line"></i>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
+    <div class="container catalogue-shell">
+        <form method="GET" action="{{ route('pricing') }}" id="filterForm" class="filter-panel">
+            <input type="hidden" name="payment_method" id="paymentMethodInput" value="{{ $filters['payment_method'] ?? 'full' }}">
+            <input type="hidden" name="brand" id="brandInput" value="{{ $filters['brand'] ?? '' }}">
+            <input type="hidden" name="price_range" id="priceRangeInput" value="{{ $filters['price_range'] ?? '' }}">
+            <input type="hidden" name="storage" id="storageInput" value="{{ $filters['storage'] ?? '' }}">
+
+            <div class="row g-2">
+                <div class="col-sm">
+                    <div class="search-wrap">
+                        <i class="ri-search-line"></i>
+                        <input class="form-control catalogue-search" name="search" value="{{ $filters['search'] ?? '' }}" placeholder="Search iPhone, Samsung, Pixel…" aria-label="Search phones">
                     </div>
                 </div>
-                
-                <!-- Results Summary -->
-                <div class="results-info">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                            <h6 class="mb-1">
-                                <i class="ri-smartphone-line me-2"></i>
-                                <span class="fw-bold">{{ $phones->total() }}</span> phones found
-                                @if(isset($filters['price_stats']) && $filters['price_stats'])
-                                    <span class="badge bg-white text-primary ms-2">KES {{ number_format($filters['price_stats']['min']) }} - {{ number_format($filters['price_stats']['max']) }}</span>
-                                @endif
-                            </h6>
-                            <small>
-                                @if($filters['search'])
-                                    Results for "{{ $filters['search'] }}"
-                                @elseif($filters['brand'] || $filters['price_range'] || $filters['storage'])
-                                    Filtered results
+                <div class="col-sm-auto"><button class="btn search-button" type="submit">Search phones</button></div>
+            </div>
+
+            <p class="filter-label">Popular filters</p>
+            <div class="filter-chips">
+                <button type="button" class="filter-chip {{ ($filters['brand'] ?? '') === 'Apple' ? 'active' : '' }}" onclick="toggleFilter('brand', 'Apple')"><i class="ri-apple-fill"></i> iPhone</button>
+                <button type="button" class="filter-chip {{ ($filters['brand'] ?? '') === 'Samsung' ? 'active' : '' }}" onclick="toggleFilter('brand', 'Samsung')"><i class="ri-android-fill"></i> Samsung</button>
+                <button type="button" class="filter-chip {{ ($filters['price_range'] ?? '') === '0-50000' ? 'active' : '' }}" onclick="toggleFilter('price_range', '0-50000')">Under KES 50K</button>
+                <button type="button" class="filter-chip {{ ($filters['price_range'] ?? '') === '50000-80000' ? 'active' : '' }}" onclick="toggleFilter('price_range', '50000-80000')">KES 50K–80K</button>
+                <button type="button" class="filter-chip {{ ($filters['price_range'] ?? '') === '80000+' ? 'active' : '' }}" onclick="toggleFilter('price_range', '80000+')">KES 80K+</button>
+                @foreach(['128', '256', '512'] as $storage)
+                    <button type="button" class="filter-chip {{ ($filters['storage'] ?? '') === $storage ? 'active' : '' }}" onclick="toggleFilter('storage', '{{ $storage }}')">{{ $storage }}GB</button>
+                @endforeach
+            </div>
+        </form>
+
+        <div class="catalogue-toolbar">
+            <div class="result-count">
+                {{ number_format($phones->total()) }} {{ Str::plural('phone', $phones->total()) }}
+                <small>{{ $hasActiveFilters ? 'Matching your selected filters' : 'Explore the complete collection' }}</small>
+            </div>
+            <div class="toolbar-actions">
+                <div class="payment-switch" aria-label="Payment method">
+                    <button type="button" class="payment-option {{ !$isLipa ? 'active' : '' }}" onclick="switchPaymentMethod('full')">Pay in full</button>
+                    <button type="button" class="payment-option {{ $isLipa ? 'active' : '' }}" onclick="switchPaymentMethod('lipa')">Lipa Mdogo Mdogo</button>
+                </div>
+                <select class="form-select sort-select" name="sort" form="filterForm" aria-label="Sort phones">
+                    <option value="random" @selected(($filters['sort'] ?? '') === 'random')>Featured</option>
+                    <option value="newest" @selected(($filters['sort'] ?? '') === 'newest')>Newest first</option>
+                    <option value="price_asc" @selected(($filters['sort'] ?? '') === 'price_asc')>Price: low to high</option>
+                    <option value="price_desc" @selected(($filters['sort'] ?? '') === 'price_desc')>Price: high to low</option>
+                    <option value="name_asc" @selected(($filters['sort'] ?? '') === 'name_asc')>Name: A–Z</option>
+                </select>
+                @if($hasActiveFilters)
+                    <a href="{{ route('pricing', ['payment_method' => $filters['payment_method'] ?? 'full']) }}" class="clear-filters"><i class="ri-close-line"></i> Clear</a>
+                @endif
+            </div>
+        </div>
+
+        @if($isLipa)
+            <div class="lipa-notice">
+                <i class="ri-information-line"></i>
+                <div><strong>Lipa Mdogo Mdogo for iPhones</strong><span>40% upfront, followed by 12 weekly payments. Approval requirements apply.</span></div>
+            </div>
+        @endif
+
+        @if($phones->isNotEmpty())
+            <div class="row catalogue-grid">
+                @foreach($phones as $phone)
+                    @php
+                        $isIphone = str_contains(strtolower($phone->name), 'iphone');
+                        $hasLipa = $isLipa && $isIphone && isset($lipaCalculations[$phone->id]);
+                        $hasImage = filled($phone->image_path) && is_file(public_path($phone->image_path));
+                        $whatsappUrl = 'https://wa.me/254721920545?text=' . urlencode("Hello, I am interested in {$phone->name}");
+                    @endphp
+                    <div class="col-xl-3 col-lg-4 col-md-6">
+                        <article class="catalogue-card">
+                            <div class="product-media">
+                                @if($hasLipa)<span class="plan-badge">Lipa Mdogo Mdogo</span>@endif
+                                @if($hasImage)
+                                    <img src="{{ asset($phone->image_path) }}" alt="{{ $phone->name }}" loading="lazy">
                                 @else
-                                    Browse our complete collection (Random order)
+                                    <div class="image-placeholder"><div><i class="ri-image-line"></i><span>Image coming soon</span></div></div>
                                 @endif
-                            </small>
-                        </div>
-                        <div>
-                            <i class="ri-shopping-bag-3-line fs-3 opacity-50"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Pricing Section -->
-<section class="section pt-0" id="pricing">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-lg-10">
-                <!-- Payment Method Tabs -->
-                <div class="d-flex justify-content-center mb-4">
-                    <ul class="nav nav-tabs mb-3 tab-style-6" id="paymentMethodTab" role="tablist" style="background: rgba(26, 71, 42, 0.1);">
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link {{ $filters['payment_method'] === 'full' ? 'active' : '' }}" 
-                                    type="button"
-                                    onclick="switchPaymentMethod('full')">
-                                <i class="ri-money-dollar-circle-line me-2"></i>Full Payment
-                            </button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link {{ $filters['payment_method'] === 'lipa' ? 'active' : '' }}" 
-                                    type="button"
-                                    onclick="switchPaymentMethod('lipa')"
-                                    @if(!$hasIphones) disabled title="No iPhones available for Lipa Mdogo Mdogo" @endif>
-                                <i class="ri-calendar-check-line me-2"></i>Lipa Mdogo Mdogo
-                            </button>
-                        </li>
-                    </ul>
-                </div>
-
-                <!-- Lipa Info (only show on lipa tab) -->
-                @if($filters['payment_method'] === 'lipa')
-                <div class="alert alert-info mb-4" style="background: #e8f5e9; border-left: 4px solid #1a472a; color: #1a472a;">
-                    <h6 class="alert-heading"><i class="ri-information-fill me-2"></i>Lipa Mdogo Mdogo Explained! 😃</h6>
-                    <p class="mb-0">
-                        <strong>For iPhones only:</strong> 40% upfront payment, then the remaining balance plus 50% interest divided into 12 weekly payments.
-                        <br><strong>Requirements:</strong> National ID and MPESA/Bank statements for the last 3 months.
-                    </p>
-                </div>
-                @endif
-
-                <!-- Phone Grid -->
-                @if($phones->count() > 0)
-                <div class="row">
-                    @foreach($phones as $phone)
-                        @php
-                            $isIphone = stripos($phone->name, 'iPhone') !== false;
-                            $hasLipaPrice = isset($filters['payment_method']) && $filters['payment_method'] === 'lipa' && $isIphone && isset($lipaCalculations[$phone->id]);
-                            $whatsappMessage = "Hello, I am interested in {$phone->name}";
-                            $whatsappUrl = "https://wa.me/254721920545?text=" . urlencode($whatsappMessage);
-                        @endphp
-                        
-                        <div class="col-xxl-3 col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-4">
-                            <div class="p-4 text-center border rounded-3 h-100 phone-card">
-                                <div class="card-body position-relative">
-                                    @if($hasLipaPrice)
-                                        <span class="lipa-polepole-badge">Lipa Mdogo Mdogo</span>
-                                    @endif
-                                    
-                                    <img src="{{ asset($phone->image_path) }}" alt="{{ $phone->name }}"
-                                        class="img-fluid mb-3 rounded-3" style="height:220px; object-fit:cover;">
-                                    <h6 class="fw-semibold">{{ $phone->name }}</h6>
-                                    
-                                    @if($hasLipaPrice)
-                                        @if($phone->price == 0)
-                                            <p class="fs-18 fw-semibold mb-1 text-info">Price on Request</p>
-                                            <p class="text-muted fs-11 fw-semibold mb-3">Contact for Lipa Mdogo Mdogo</p>
-                                        @else
-                                            <p class="fs-18 fw-semibold mb-1">Upfront: KES {{ number_format($lipaCalculations[$phone->id]['upfront']) }}</p>
-                                            <p class="fs-18 fw-semibold mb-1 text-success">Then: KES {{ number_format($lipaCalculations[$phone->id]['weekly']) }}/week</p>
-                                            <p class="text-muted fs-11 fw-semibold mb-3">12 weekly payments</p>
-                                        @endif
-                                    @else
-                                        <p class="fs-25 fw-semibold mb-1">
-                                            @if($phone->price == 0)
-                                                <span class="text-info">Price on Request</span>
-                                            @else
-                                                KES {{ number_format($phone->price) }}
-                                            @endif
-                                        </p>
-                                        <p class="text-muted fs-11 fw-semibold mb-3">
-                                            @if(isset($filters['payment_method']) && $filters['payment_method'] === 'lipa' && !$isIphone)
-                                                Full Payment Only (Not iPhone)
-                                            @else
-                                                Full Payment
-                                            @endif
-                                        </p>
-                                    @endif
-                                    
-                                    <a href="{{ $whatsappUrl }}"
-                                       target="_blank"
-                                       class="btn btn-primary-light btn-wave w-100" style="background: #e8f5e9; color: #1a472a; border: 2px solid #1a472a;">
-                                       <i class="ri-whatsapp-line me-1"></i> Buy Now
-                                    </a>
-                                </div>
                             </div>
-                        </div>
-                    @endforeach
-                </div>
-                
-                <div class="d-flex justify-content-center mt-4">
-                    {{ $phones->links('pagination::bootstrap-5') }}
-                </div>
-                @else
-                <!-- No Results Message -->
-                <div class="no-results" style="text-align: center; padding: 60px 20px; color: #6c757d;">
-                    <i class="ri-search-line" style="font-size: 4rem; margin-bottom: 20px; opacity: 0.5;"></i>
-                    <h5>No phones found</h5>
-                    <p>Try adjusting your search criteria or filters</p>
-                    
-                    @if(isset($filters['suggestions']) && count($filters['suggestions']) > 0)
-                        <div class="mt-3">
-                            <p class="text-muted">Suggestions:</p>
-                            <ul class="list-unstyled">
-                                @foreach($filters['suggestions'] as $suggestion)
-                                    <li><small>{{ $suggestion }}</small></li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
-                    
-                    <a href="{{ route('pricing') }}" class="btn btn-primary mt-3" style="background: #1a472a; border-color: #1a472a;">
-                        <i class="ri-refresh-line me-2"></i> Clear All Filters
-                    </a>
-                </div>
-                @endif
+                            <div class="product-content">
+                                <span class="product-kicker">{{ $hasLipa ? 'Flexible payment' : 'Pay in full' }}</span>
+                                <h2 class="product-name"><a href="{{ route('phones.show', $phone) }}">{{ $phone->name }}</a></h2>
+                                @if($hasLipa)
+                                    <p class="product-price">KES {{ number_format($lipaCalculations[$phone->id]['upfront']) }} upfront</p>
+                                    <span class="payment-detail">Then KES {{ number_format($lipaCalculations[$phone->id]['weekly']) }} weekly for 12 weeks</span>
+                                @elseif($phone->price > 0)
+                                    <p class="product-price">KES {{ number_format($phone->price) }}</p>
+                                    <span class="payment-detail">Current listed price</span>
+                                @else
+                                    <p class="product-price product-price--request">Price on request</p>
+                                    <span class="payment-detail">Ask our team for today’s price</span>
+                                @endif
+                                <a href="{{ $whatsappUrl }}" target="_blank" rel="noopener" class="product-action"><span>Enquire on WhatsApp</span><i class="ri-arrow-right-line"></i></a>
+                            </div>
+                        </article>
+                    </div>
+                @endforeach
             </div>
-        </div>
+            <div class="d-flex justify-content-center mt-5">{{ $phones->links('pagination::bootstrap-5') }}</div>
+        @else
+            <div class="empty-results">
+                <i class="ri-search-line"></i>
+                <h2 class="mt-3">No phones matched those filters</h2>
+                <p class="text-muted">Try another search or clear your filters to see the full collection.</p>
+                <a href="{{ route('pricing') }}" class="btn btn-primary mt-2">View all phones</a>
+            </div>
+        @endif
     </div>
-</section>
+</main>
 @endsection
 
 @section('scripts')
-    <!-- jQuery -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" 
-            integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" 
-            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    
-    <script>
-        function toggleFilter(filterName, value) {
-            const input = document.getElementById(filterName + 'Input');
-            if (input.value === value) {
-                // Toggle off if clicking same filter
-                input.value = '';
-            } else {
-                input.value = value;
-            }
-            document.getElementById('filterForm').submit();
-        }
+<script>
+    const filterForm = document.getElementById('filterForm');
 
-        function switchPaymentMethod(method) {
-            document.getElementById('paymentMethodInput').value = method;
-            document.getElementById('filterForm').submit();
-        }
+    function toggleFilter(filterName, value) {
+        const input = document.getElementById(`${filterName}Input`);
+        input.value = input.value === value ? '' : value;
+        filterForm.submit();
+    }
 
-        // Auto-submit on sort change
-        document.querySelector('select[name="sort"]').addEventListener('change', function() {
-            document.getElementById('filterForm').submit();
-        });
+    function switchPaymentMethod(method) {
+        document.getElementById('paymentMethodInput').value = method;
+        filterForm.submit();
+    }
 
-        // Maintain scroll position after filter
-        $(document).ready(function() {
-            if (localStorage.getItem('scrollPosition')) {
-                window.scrollTo(0, localStorage.getItem('scrollPosition'));
-                localStorage.removeItem('scrollPosition');
-            }
-        });
-
-        $('#filterForm').on('submit', function() {
-            localStorage.setItem('scrollPosition', window.pageYOffset);
-        });
-    </script>
+    document.querySelector('.sort-select').addEventListener('change', () => filterForm.submit());
+</script>
 @endsection
