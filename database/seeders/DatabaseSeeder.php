@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             VivoSeeder::class,
             TecnoSeeder::class,
             InfinixSeeder::class,
+            CatalogueSeeder::class,
             PolicyArticleSeeder::class,
             AdminUserSeeder::class,
         ]);
