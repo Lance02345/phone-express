@@ -6,7 +6,7 @@ $secondaryColor = '#2e7d32';
 $lightColor = '#e8f5e9';
 
 // Optimize image paths
-$landingImage = asset('Images/phoniana.jpeg');
+$landingImage = asset('Images/herowq.jpeg');
 $aboutImage = asset('Images/phoniana.jpeg');
 $logoImage = asset('Images/logo-removebg-preview.png');
 

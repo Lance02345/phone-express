@@ -96,11 +96,11 @@ The last verified seed run produced 210 phone rows. A prior asset audit found 38
 | --- | --- |
 | `npm run build` | Pass |
 | Unit example test | Pass |
-| Feature `/` smoke test | Fails in this sandbox because the PostgreSQL connection is unavailable to the test process |
+| Feature `/` smoke test | Passes when the configured local PostgreSQL database is available |
 | Business/domain tests | Absent |
 | Route inventory | 184 total |
 
-The smoke-test failure exposes a test isolation problem: tests rely on the developer database instead of a dedicated, disposable test database.
+The test configuration still exposes an isolation problem: tests rely on the developer database instead of a dedicated, disposable test database.
 
 ## Priority risks
 
