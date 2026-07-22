@@ -887,7 +887,7 @@ $lipaPhonesOptimized = $lipaPhones->map(function($phone) use ($whatsappBase) {
                 <div class="col-md-4 col-sm-6 col-12 mb-md-0 mb-3">
                     <div class="px-4">
                         <p class="fw-semibold mb-3">
-                            <a href="{{ url('index') }}">
+                            <a href="{{ route('home') }}">
                                 <img src="{{ $logoImage }}" alt="Phone Express Kenya"
                                     class="img-fluid" style="max-height: 60px;" loading="lazy">
                             </a>
@@ -907,9 +907,9 @@ $lipaPhonesOptimized = $lipaPhones->map(function($phone) use ($whatsappBase) {
                         <h6 class="fw-semibold mb-3 text-fixed-white">PAGES</h6>
                         <ul class="list-unstyled op-6 fw-normal landing-footer-list">
                             <li><a href="{{ route('pricing') }}" class="text-fixed-white">Shop</a></li>
-                            <li><a href="{{ url('index') }}#about" class="text-fixed-white">About Us</a></li>
-                            <li><a href="{{ url('index') }}#contact" class="text-fixed-white">Contact</a></li>
-                            <li><a href="{{ url('index') }}#faq" class="text-fixed-white">FAQs</a></li>
+                            <li><a href="{{ route('home') }}#about" class="text-fixed-white">About Us</a></li>
+                            <li><a href="{{ route('home') }}#contact" class="text-fixed-white">Contact</a></li>
+                            <li><a href="{{ route('home') }}#faq" class="text-fixed-white">FAQs</a></li>
                             <li><a href="{{ route('policies.index') }}" class="text-fixed-white">Shopping help</a></li>
                         </ul>
                     </div>

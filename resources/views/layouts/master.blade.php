@@ -15,8 +15,8 @@
 		<title> YNEX - Laravel Bootstrap 5 Premium Admin & Dashboard Template </title>
 
         <!-- FAVICON -->
-        <link rel="icon" href="{{ asset('Images/faviconapple.png') }}" type="image/png">
-        <link rel="apple-touch-icon" href="{{ asset('Images/faviconapple.png') }}">
+        <link rel="icon" href="{{ asset('Images/faviconapple.png') }}?v=2" type="image/png">
+        <link rel="apple-touch-icon" href="{{ asset('Images/faviconapple.png') }}?v=2">
 
         <!-- BOOTSTRAP CSS -->
 	    <link  id="style" href="{{asset('build/assets/libs/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet">

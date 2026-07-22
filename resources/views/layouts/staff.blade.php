@@ -3,8 +3,8 @@
 <head>
     <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@yield('title', 'Staff') | Phone Express</title>
-    <link rel="icon" href="{{ asset('Images/faviconapple.png') }}" type="image/png">
-    <link rel="apple-touch-icon" href="{{ asset('Images/faviconapple.png') }}">
+    <link rel="icon" href="{{ asset('Images/faviconapple.png') }}?v=2" type="image/png">
+    <link rel="apple-touch-icon" href="{{ asset('Images/faviconapple.png') }}?v=2">
     <link href="{{ asset('build/assets/libs/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('build/assets/icon-fonts/icons.css') }}" rel="stylesheet">
     <style>

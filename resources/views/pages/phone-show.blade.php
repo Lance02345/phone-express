@@ -50,7 +50,7 @@
 <main class="product-page">
     <div class="container">
         <nav class="product-breadcrumb" aria-label="Breadcrumb">
-            <a href="{{ url('index') }}">Home</a> <i class="ri-arrow-right-s-line"></i>
+            <a href="{{ route('home') }}">Home</a> <i class="ri-arrow-right-s-line"></i>
             <a href="{{ route('pricing') }}">Phones</a> <i class="ri-arrow-right-s-line"></i>
             <span>{{ $phone->name }}</span>
         </nav>

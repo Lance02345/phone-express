@@ -15,8 +15,8 @@
 		<title>@yield('title', 'Phone Express Kenya')</title>
 
         <!-- FAVICON -->
-        <link rel="icon" href="{{ asset('Images/faviconapple.png') }}" type="image/png">
-        <link rel="apple-touch-icon" href="{{ asset('Images/faviconapple.png') }}">
+        <link rel="icon" href="{{ asset('Images/faviconapple.png') }}?v=2" type="image/png">
+        <link rel="apple-touch-icon" href="{{ asset('Images/faviconapple.png') }}?v=2">
 
         <!-- BOOTSTRAP CSS -->
 	    <link  id="style" href="{{asset('build/assets/libs/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet">
@@ -263,6 +263,8 @@
                 font-size: 0.8rem;
                 font-weight: 600;
             }
+
+            [id="home"], section[id] { scroll-margin-top: 92px; }
             
             /* Responsive font sizes */
             @media (max-width: 768px) {
@@ -331,24 +333,48 @@
 		<script src="{{asset('build/assets/sticky.js')}}"></script>
 
         <script>
-            // Smooth scroll for navigation links
             document.addEventListener('DOMContentLoaded', function() {
-                // Add smooth scrolling to all links
-                document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                const sectionLinks = document.querySelectorAll('[data-nav-section]');
+
+                sectionLinks.forEach(anchor => {
                     anchor.addEventListener('click', function (e) {
+                        const destination = new URL(this.href, window.location.href);
+                        const onHomepage = window.location.pathname === '{{ route('home', [], false) }}';
+
+                        if (!onHomepage || destination.pathname !== window.location.pathname || !destination.hash) return;
+
+                        const target = document.querySelector(destination.hash);
+                        if (!target) return;
+
                         e.preventDefault();
-                        const target = document.querySelector(this.getAttribute('href'));
-                        if (target) {
-                            target.scrollIntoView({
-                                behavior: 'smooth',
-                                block: 'start'
-                            });
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        history.replaceState(null, '', destination.hash);
+
+                        if (window.innerWidth < 992 && document.body.classList.contains('sidenav-toggled')) {
+                            document.querySelector('.sidemenu-toggle')?.click();
                         }
                     });
                 });
+
+                if (window.location.pathname === '{{ route('home', [], false) }}') {
+                    const sections = [...sectionLinks]
+                        .map(link => document.getElementById(link.dataset.navSection))
+                        .filter(Boolean);
+
+                    const observer = new IntersectionObserver(entries => {
+                        const visible = entries
+                            .filter(entry => entry.isIntersecting)
+                            .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+
+                        if (!visible) return;
+                        sectionLinks.forEach(link => link.classList.toggle('active', link.dataset.navSection === visible.target.id));
+                    }, { rootMargin: '-18% 0px -66% 0px', threshold: [0, .15, .4] });
+
+                    sections.forEach(section => observer.observe(section));
+                }
                 
-                // Update copyright year
-                document.getElementById('year').textContent = new Date().getFullYear();
+                const year = document.getElementById('year');
+                if (year) year.textContent = new Date().getFullYear();
             });
         </script>
 

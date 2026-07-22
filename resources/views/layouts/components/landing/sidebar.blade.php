@@ -6,7 +6,7 @@
             <nav class="main-menu-container nav nav-pills sub-open">
                 <div class="landing-logo-container">
                     <div class="horizontal-logo">
-                        <a href="{{ url('index') }}" class="header-logo">
+                        <a href="{{ route('home') }}" class="header-logo" aria-label="Phone Express home">
                             <img src="{{ asset('Images/logo-header2.png') }}" alt="Phone Express Kenya" class="desktop-logo"
                                 style="width:190px; height:auto;">
                             <img src="{{ asset('Images/logo-header2.png') }}" alt="Phone Express Kenya" class="desktop-white"
@@ -24,13 +24,13 @@
                 <ul class="main-menu">
                     <!-- Start::slide -->
                     <li class="slide">
-                        <a class="side-menu__item {{ request()->routeIs('pricing', 'phones.show', 'policies.*') ? '' : 'active' }}" href="{{ url('index') }}#home">
+                        <a class="side-menu__item {{ request()->routeIs('home') ? 'active' : '' }}" href="{{ route('home') }}#home" data-nav-section="home">
                             <span class="side-menu__label">Home</span>
                         </a>
                     </li>
                     
                     <li class="slide">
-                        <a href="{{ url('index') }}#categories" class="side-menu__item">
+                        <a href="{{ route('home') }}#categories" class="side-menu__item" data-nav-section="categories">
                             <span class="side-menu__label">Categories</span>
                         </a>
                     </li>
@@ -42,19 +42,19 @@
                     </li>
                     
                     <li class="slide">
-                        <a href="{{ url('index') }}#about" class="side-menu__item">
+                        <a href="{{ route('home') }}#about" class="side-menu__item" data-nav-section="about">
                             <span class="side-menu__label">About</span>
                         </a>
                     </li>
                     
                     <li class="slide">
-                        <a href="{{ url('index') }}#testimonials" class="side-menu__item">
+                        <a href="{{ route('home') }}#testimonials" class="side-menu__item" data-nav-section="testimonials">
                             <span class="side-menu__label">Clients</span>
                         </a>
                     </li>
                     
                     <li class="slide">
-                        <a href="{{ url('index') }}#faq" class="side-menu__item">
+                        <a href="{{ route('home') }}#faq" class="side-menu__item" data-nav-section="faq">
                             <span class="side-menu__label">FAQ's</span>
                         </a>
                     </li>
@@ -66,7 +66,7 @@
                     </li>
                     
                     <li class="slide">
-                        <a href="{{ url('index') }}#contact" class="side-menu__item">
+                        <a href="{{ route('home') }}#contact" class="side-menu__item" data-nav-section="contact">
                             <span class="side-menu__label">Contact</span>
                         </a>
                     </li>

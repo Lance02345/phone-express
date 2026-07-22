@@ -40,7 +40,7 @@ use Illuminate\Support\Facades\Route;
 // Route::get('', [Controller::class, 'index']);
 
 // DASHBOARDS //
-Route::get('/', [DashboardsController::class, 'index']);
+Route::get('/', [DashboardsController::class, 'index'])->name('home');
 Route::get('index', [DashboardsController::class, 'index']);
 Route::get('index2', [DashboardsController::class, 'index2']);
 Route::get('index3', [DashboardsController::class, 'index3']);
