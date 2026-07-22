@@ -11,24 +11,22 @@ class DashboardsController extends Controller
 {
     public function index(PaymentPlanCalculator $paymentPlans)
     {
-        $fullPhones = Cache::remember('landing_catalogue_full_v2', now()->addHour(), fn () => ProductVariant::query()
+        $fullPhones = ProductVariant::query()
             ->published()
             ->with(['product.brand', 'media'])
             ->whereNotNull('price_minor')
-            ->orderByDesc('created_at')
-            ->orderByDesc('id')
+            ->inRandomOrder()
             ->limit(6)
-            ->get());
+            ->get();
 
-        $lipaPhones = Cache::remember('landing_catalogue_lipa_v2', now()->addHour(), fn () => ProductVariant::query()
+        $lipaPhones = ProductVariant::query()
             ->published()
             ->with(['product.brand', 'media'])
             ->whereNotNull('price_minor')
             ->where('payment_plan_eligible', true)
-            ->orderByDesc('created_at')
-            ->orderByDesc('id')
+            ->inRandomOrder()
             ->limit(6)
-            ->get());
+            ->get();
 
         $lipaPhones->each(function (ProductVariant $phone) use ($paymentPlans): void {
             $estimate = $paymentPlans->estimate($phone->price);

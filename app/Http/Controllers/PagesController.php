@@ -88,7 +88,7 @@ class PagesController extends Controller
         $suggestions = ProductVariant::query()
             ->published()
             ->search($search)
-            ->orderBy('label')
+            ->inRandomOrder()
             ->limit(5)
             ->pluck('label')
             ->all();
@@ -167,7 +167,7 @@ class PagesController extends Controller
     private function applySorting(Builder $query, string $sort): void
     {
         if (! isset(self::SORT_OPTIONS[$sort])) {
-            $query->orderByDesc('created_at')->orderByDesc('id');
+            $query->inRandomOrder();
 
             return;
         }

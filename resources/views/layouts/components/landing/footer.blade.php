@@ -7,6 +7,7 @@
             <a href="{{ route('policies.show', 'warranty') }}" class="text-white-50 fs-13">Warranty</a>
             <a href="{{ route('policies.show', 'returns') }}" class="text-white-50 fs-13">Returns</a>
             <a href="{{ route('policies.show', 'payment-plans') }}" class="text-white-50 fs-13">Payment plans</a>
+            <a href="{{ auth()->check() ? route('staff.dashboard') : route('login') }}" class="text-white-50 fs-13"><i class="ri-lock-2-line me-1"></i>{{ auth()->check() ? 'Staff dashboard' : 'Admin login' }}</a>
         </nav>
     </div>
 </footer>

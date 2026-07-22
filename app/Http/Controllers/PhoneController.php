@@ -29,8 +29,7 @@ class PhoneController extends Controller
             ->whereKeyNot($phone->getKey())
             ->whereHas('product', fn ($query) => $query->where('brand_id', $phone->product->brand_id))
             ->whereNotNull('price_minor')
-            ->orderByDesc('created_at')
-            ->orderByDesc('id')
+            ->inRandomOrder()
             ->limit(4)
             ->get();
 
