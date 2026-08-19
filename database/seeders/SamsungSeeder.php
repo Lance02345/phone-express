@@ -10,6 +10,33 @@ class SamsungSeeder extends Seeder
     public function run(): void
     {
         $samsungs = [
+            // BRAND NEW EAST AFRICA STOCK
+            ["name" => "Samsung Galaxy S26 Ultra 5G 256GB (East Africa)", "price" => 124000, "image_path" => "Images/samsung/samsungs24ultrae.jpg"],
+            ["name" => "Samsung Galaxy S26 Ultra 5G 512GB (East Africa)", "price" => 154000, "image_path" => "Images/samsung/samsungs24ultrae.jpg"],
+            ["name" => "Samsung Galaxy S25 Ultra 5G 512GB (East Africa)", "price" => 130000, "image_path" => "Images/samsung/samsungs24ultrae.jpg"],
+            ["name" => "Samsung Galaxy A57 256GB + 8GB RAM (East Africa)", "price" => 52000, "image_path" => "Images/samsung/samsungs24.jpg"],
+            ["name" => "Samsung Galaxy A57 128GB + 8GB RAM (East Africa)", "price" => 45000, "image_path" => "Images/samsung/samsungs24.jpg"],
+            ["name" => "Samsung Galaxy A37 256GB + 8GB RAM (East Africa)", "price" => 42000, "image_path" => "Images/samsung/samsungs24.jpg"],
+            ["name" => "Samsung Galaxy A56 256GB + 8GB RAM (East Africa)", "price" => 48000, "image_path" => "Images/samsung/samsungs24.jpg"],
+            ["name" => "Samsung Galaxy A27 5G 128GB + 6GB RAM (East Africa)", "price" => 32000, "image_path" => "Images/samsung/samsungs24.jpg"],
+            ["name" => "Samsung Galaxy A27 5G 256GB + 8GB RAM (East Africa)", "price" => 38000, "image_path" => "Images/samsung/samsungs24.jpg"],
+            ["name" => "Samsung Galaxy A17 256GB + 8GB RAM (East Africa)", "price" => 0, "image_path" => "Images/samsung/samsungs24.jpg"],
+            ["name" => "Samsung Galaxy A17 128GB + 4GB RAM (East Africa)", "price" => 21500, "image_path" => "Images/samsung/samsungs24.jpg"],
+            ["name" => "Samsung Galaxy A16 128GB + 4GB RAM (East Africa)", "price" => 18500, "image_path" => "Images/samsung/samsungs24.jpg"],
+            ["name" => "Samsung Galaxy A07 128GB + 4GB RAM (East Africa)", "price" => 17500, "image_path" => "Images/samsung/samsungs24.jpg"],
+            ["name" => "Samsung Galaxy Tab A11 64GB (East Africa)", "price" => 18500, "image_path" => "Images/samsung/samsungs24.jpg"],
+
+            // BRAND NEW DUBAI STOCK
+            ["name" => "Samsung Galaxy Fold 7 5G 256GB (Dubai)", "price" => 170000, "image_path" => "Images/samsung/samsungfold5.jpg"],
+            ["name" => "Samsung Galaxy S25 Ultra 5G 256GB (Dubai)", "price" => 110000, "image_path" => "Images/samsung/samsungs24ultrae.jpg"],
+            ["name" => "Samsung Galaxy A56 256GB + 8GB RAM (Dubai)", "price" => 47500, "image_path" => "Images/samsung/samsungs24.jpg"],
+            ["name" => "Samsung Galaxy A36 128GB + 8GB RAM (Dubai)", "price" => 35000, "image_path" => "Images/samsung/samsungs24.jpg"],
+            ["name" => "Samsung Galaxy A26 128GB + 6GB RAM (Dubai)", "price" => 28500, "image_path" => "Images/samsung/samsungs24.jpg"],
+            ["name" => "Samsung Galaxy A17 128GB + 4GB RAM (Dubai)", "price" => 18800, "image_path" => "Images/samsung/samsungs24.jpg"],
+            ["name" => "Samsung Galaxy A17 128GB + 6GB RAM (Dubai)", "price" => 24000, "image_path" => "Images/samsung/samsungs24.jpg"],
+            ["name" => "Samsung Galaxy A17 256GB + 8GB RAM (Dubai)", "price" => 28500, "image_path" => "Images/samsung/samsungs24.jpg"],
+            ["name" => "Samsung Galaxy A16 128GB + 4GB RAM (Dubai)", "price" => 18500, "image_path" => "Images/samsung/samsungs24.jpg"],
+
             // NOTE SERIES
             ["name" => "Samsung Galaxy Note 10 5G 256GB", "price" => 26000, "image_path" => "Images/samsung/samsungnote10.jpg"],
             ["name" => "Samsung Galaxy Note 10+ 5G 256GB", "price" => 33000, "image_path" => "Images/samsung/samsungnote10plus.jpg"],

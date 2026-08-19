@@ -80,6 +80,23 @@ class LegacyPhoneMapperTest extends TestCase
         $this->assertNotSame($standard['product_slug'], $plus['product_slug']);
     }
 
+    public function test_it_recognizes_new_brands_and_keeps_samsung_regions_out_of_colour(): void
+    {
+        $samsung = $this->mapper->map($this->phone(
+            52,
+            'Samsung Galaxy A56 256GB + 8GB RAM (East Africa)',
+            48000,
+            null
+        ));
+        $honor = $this->mapper->map($this->phone(53, 'Honor X5c 64GB + 4GB RAM', 14400, null));
+        $itel = $this->mapper->map($this->phone(54, 'Itel A06 64GB + 2GB RAM', 10500, null));
+
+        $this->assertSame('Samsung Galaxy A56', $samsung['product_name']);
+        $this->assertNull($samsung['colour']);
+        $this->assertSame('Honor', $honor['brand']);
+        $this->assertSame('Itel', $itel['brand']);
+    }
+
     private function phone(int $id, string $name, int $price, ?string $imagePath): Phone
     {
         $phone = new Phone([

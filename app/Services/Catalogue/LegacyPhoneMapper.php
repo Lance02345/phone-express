@@ -16,6 +16,8 @@ class LegacyPhoneMapper
         'vivo' => 'Vivo',
         'tecno' => 'Tecno',
         'infinix' => 'Infinix',
+        'honor' => 'Honor',
+        'itel' => 'Itel',
     ];
 
     /**
@@ -107,7 +109,7 @@ class LegacyPhoneMapper
 
         $value = trim($matches[1]);
 
-        return Str::contains(Str::lower($value), ['sim card', 'model']) ? null : $value;
+        return Str::contains(Str::lower($value), ['sim card', 'model', 'east africa', 'dubai']) ? null : $value;
     }
 
     private function connectivity(string $name): ?string
@@ -130,6 +132,8 @@ class LegacyPhoneMapper
     private function productName(string $name, ?string $colour): string
     {
         $productName = $name;
+
+        $productName = preg_replace('/\s*\((?:East Africa|Dubai)\)\s*$/i', '', $productName);
 
         if ($colour !== null) {
             $productName = preg_replace('/\s*\('.preg_quote($colour, '/').'\)\s*$/i', '', $productName);
