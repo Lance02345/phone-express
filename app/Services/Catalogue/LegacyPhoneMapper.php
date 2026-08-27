@@ -9,6 +9,7 @@ class LegacyPhoneMapper
 {
     private const BRANDS = [
         'iphone' => 'Apple',
+        'macbook' => 'Apple',
         'samsung' => 'Samsung',
         'google pixel' => 'Google',
         'redmi' => 'Redmi',
@@ -51,7 +52,7 @@ class LegacyPhoneMapper
             'source_key' => (string) $phone->getKey(),
             'brand' => $brand,
             'brand_slug' => Str::slug($brand),
-            'category' => $this->isTablet($phone->name) ? 'Tablets' : 'Smartphones',
+            'category' => $this->category($phone->name),
             'product_name' => $productName,
             'product_slug' => Str::slug(str_replace('+', ' plus ', $productName)),
             'sku' => sprintf('LEGACY-PHONE-%06d', $phone->getKey()),
@@ -64,7 +65,7 @@ class LegacyPhoneMapper
             'price_minor' => $phone->price > 0 ? $phone->price * 100 : null,
             'currency' => 'KES',
             'quote_required' => $phone->price <= 0,
-            'payment_plan_eligible' => $brand === 'Apple',
+            'payment_plan_eligible' => $brand === 'Apple' && ! $this->isLaptop($phone->name),
             'image_path' => $phone->image_path,
             'warnings' => $warnings,
         ];
@@ -83,8 +84,28 @@ class LegacyPhoneMapper
         return 'Unknown';
     }
 
+    private function category(string $name): string
+    {
+        if ($this->isLaptop($name)) {
+            return 'Laptops';
+        }
+
+        return $this->isTablet($name) ? 'Tablets' : 'Smartphones';
+    }
+
+    private function isLaptop(string $name): bool
+    {
+        return Str::startsWith(Str::lower($name), 'macbook');
+    }
+
     private function storageGb(string $name): ?int
     {
+        if (preg_match('/\b(\d+)\s*(GB|TB)\s+SSD\b/i', $name, $matches)) {
+            $value = (int) $matches[1];
+
+            return Str::upper($matches[2]) === 'TB' ? $value * 1024 : $value;
+        }
+
         if (! preg_match('/\b(\d+)\s*(GB|TB)\b/i', $name, $matches)) {
             return null;
         }
@@ -139,8 +160,8 @@ class LegacyPhoneMapper
             $productName = preg_replace('/\s*\('.preg_quote($colour, '/').'\)\s*$/i', '', $productName);
         }
 
-        $productName = preg_replace('/\s*\+\s*\d+\s*GB\s+RAM\b/i', '', $productName);
-        $productName = preg_replace('/\s+\d+\s*(?:GB|TB)\b/i', '', $productName);
+        $productName = preg_replace('/\s*(?:\+\s*)?\d+\s*GB\s+RAM\b/i', '', $productName);
+        $productName = preg_replace('/\s+\d+\s*(?:GB|TB)(?:\s+SSD)?\b/i', '', $productName);
         $productName = preg_replace('/\s+E-?Sim\b/i', '', $productName);
         $productName = preg_replace('/\s+(?:4G|5G)\b/i', '', $productName);
         $productName = preg_replace('/\s+/', ' ', (string) $productName);

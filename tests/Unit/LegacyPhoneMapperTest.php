@@ -70,6 +70,22 @@ class LegacyPhoneMapperTest extends TestCase
         $this->assertSame('Redmi Pad 2', $mapped['product_name']);
     }
 
+    public function test_it_classifies_macbooks_and_excludes_them_from_payment_plans(): void
+    {
+        $mapped = $this->mapper->map($this->phone(
+            45,
+            'MacBook Pro 14-inch M5 Pro 24GB RAM 1TB SSD',
+            350000,
+            null
+        ));
+
+        $this->assertSame('Apple', $mapped['brand']);
+        $this->assertSame('Laptops', $mapped['category']);
+        $this->assertSame(1024, $mapped['storage_gb']);
+        $this->assertSame(24, $mapped['ram_gb']);
+        $this->assertFalse($mapped['payment_plan_eligible']);
+    }
+
     public function test_plus_models_receive_distinct_url_slugs(): void
     {
         $standard = $this->mapper->map($this->phone(50, 'Samsung Galaxy Note 10 5G 256GB', 26000, null));

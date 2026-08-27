@@ -84,6 +84,28 @@ class PhoneSeeder extends Seeder
             ["name" => "iPhone 17 Pro Max 512GB E-Sim (Blue)", "price" => 202000, "image_path" => "Images/iphone17promax-blue.jpg"],
             ["name" => "iPhone 17 Pro Max 512GB E-Sim (Silver)", "price" => 202000, "image_path" => "Images/iphone17promax-silver.jpg"],
             ["name" => "iPhone 17 Pro Max 1TB E-Sim (Orange)", "price" => 234000, "image_path" => "Images/iphone17promax-orange.jpg"],
+
+            // MacBook Air Series - full payment only
+            ["name" => "MacBook Air 13-inch M5 16GB RAM 512GB SSD", "price" => 182000, "image_path" => null],
+            ["name" => "MacBook Air 13-inch M5 16GB RAM 1TB SSD", "price" => 205000, "image_path" => null],
+            ["name" => "MacBook Air 13-inch M5 24GB RAM 1TB SSD", "price" => 273000, "image_path" => null],
+            ["name" => "MacBook Air 15-inch M5 16GB RAM 512GB SSD", "price" => 213000, "image_path" => null],
+            ["name" => "MacBook Air 15-inch M5 16GB RAM 1TB SSD", "price" => 253000, "image_path" => null],
+            ["name" => "MacBook Air 15-inch M5 24GB RAM 1TB SSD", "price" => 278000, "image_path" => null],
+            ["name" => "MacBook Neo 13-inch 8GB RAM 256GB SSD", "price" => 99000, "image_path" => null],
+            ["name" => "MacBook Neo 13-inch 8GB RAM 512GB SSD", "price" => 113000, "image_path" => null],
+
+            // MacBook Pro Series - full payment only
+            ["name" => "MacBook Pro 16-inch M5 Max 48GB RAM 2TB SSD", "price" => 675000, "image_path" => null],
+            ["name" => "MacBook Pro 16-inch M5 Max 36GB RAM 2TB SSD", "price" => 565000, "image_path" => null],
+            ["name" => "MacBook Pro 16-inch M5 Pro 24GB RAM 1TB SSD", "price" => 415000, "image_path" => null],
+            ["name" => "MacBook Pro 16-inch M5 Pro 48GB RAM 1TB SSD", "price" => 505000, "image_path" => null],
+            ["name" => "MacBook Pro 14-inch M5 Max 36GB RAM 2TB SSD", "price" => 555000, "image_path" => null],
+            ["name" => "MacBook Pro 14-inch M5 Pro 24GB RAM 1TB SSD", "price" => 350000, "image_path" => null],
+            ["name" => "MacBook Pro 14-inch M5 Pro 24GB RAM 2TB SSD", "price" => 375000, "image_path" => null],
+            ["name" => "MacBook Pro 14-inch M5 16GB RAM 512GB SSD", "price" => 270000, "image_path" => null],
+            ["name" => "MacBook Pro 14-inch M5 16GB RAM 1TB SSD", "price" => 277000, "image_path" => null],
+            ["name" => "MacBook Pro 14-inch M5 24GB RAM 1TB SSD", "price" => 310000, "image_path" => null],
         ];
 
 
