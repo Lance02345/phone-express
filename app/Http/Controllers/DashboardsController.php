@@ -35,10 +35,14 @@ class DashboardsController extends Controller
             $phone->lipa_weeks = $estimate['weeks'] ?? null;
         });
 
-        $categories = Cache::remember('catalogue_category_counts_v2', now()->addHour(), fn () => [
+        $categories = Cache::remember('catalogue_category_counts_v3', now()->addHour(), fn () => [
             'all' => Product::query()->where('status', 'active')->count(),
             'iphone' => Product::query()->where('status', 'active')
-                ->whereHas('brand', fn ($query) => $query->where('name', 'Apple'))->count(),
+                ->whereHas('brand', fn ($query) => $query->where('name', 'Apple'))
+                ->whereHas('category', fn ($query) => $query->where('name', 'Smartphones'))->count(),
+            'macbook' => Product::query()->where('status', 'active')
+                ->whereHas('brand', fn ($query) => $query->where('name', 'Apple'))
+                ->whereHas('category', fn ($query) => $query->where('name', 'Laptops'))->count(),
             'samsung' => Product::query()->where('status', 'active')
                 ->whereHas('brand', fn ($query) => $query->where('name', 'Samsung'))->count(),
         ]);

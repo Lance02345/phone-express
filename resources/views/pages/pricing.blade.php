@@ -2,6 +2,7 @@
     $isLipa = ($filters['payment_method'] ?? 'full') === 'lipa';
     $hasActiveFilters = filled($filters['search'] ?? null)
         || filled($filters['brand'] ?? null)
+        || filled($filters['category'] ?? null)
         || filled($filters['price_range'] ?? null)
         || filled($filters['storage'] ?? null);
 
@@ -122,8 +123,8 @@
     <header class="catalogue-hero">
         <div class="container catalogue-hero__content">
             <span class="catalogue-eyebrow">PHONE EXPRESS COLLECTION</span>
-            <h1 class="catalogue-title">Find a phone that <span>fits your life.</span></h1>
-            <p class="catalogue-subtitle">Compare smartphones, filter by what matters, and talk to our team when you are ready.</p>
+            <h1 class="catalogue-title">Find a device that <span>fits your life.</span></h1>
+            <p class="catalogue-subtitle">Compare smartphones and laptops, filter by what matters, and talk to our team when you are ready.</p>
         </div>
     </header>
 
@@ -131,6 +132,7 @@
         <form method="GET" action="{{ route('pricing') }}" id="filterForm" class="filter-panel">
             <input type="hidden" name="payment_method" id="paymentMethodInput" value="{{ $filters['payment_method'] ?? 'full' }}">
             <input type="hidden" name="brand" id="brandInput" value="{{ $filters['brand'] ?? '' }}">
+            <input type="hidden" name="category" id="categoryInput" value="{{ $filters['category'] ?? '' }}">
             <input type="hidden" name="price_range" id="priceRangeInput" value="{{ $filters['price_range'] ?? '' }}">
             <input type="hidden" name="storage" id="storageInput" value="{{ $filters['storage'] ?? '' }}">
 
@@ -146,10 +148,13 @@
 
             <p class="filter-label">Popular filters</p>
             <div class="filter-chips">
+                @foreach(['Smartphones' => 'Smartphones', 'Laptops' => 'MacBooks', 'Tablets' => 'Tablets'] as $category => $label)
+                    <button type="button" class="filter-chip {{ ($filters['category'] ?? '') === $category ? 'active' : '' }}" onclick="toggleFilter('category', '{{ $category }}')">{{ $label }}</button>
+                @endforeach
                 @foreach($brands as $brand)
                     <button type="button" class="filter-chip {{ ($filters['brand'] ?? '') === $brand->name ? 'active' : '' }}" data-value="{{ $brand->name }}" onclick="toggleFilter('brand', this.dataset.value)">
                         @if($brand->name === 'Apple')<i class="ri-apple-fill"></i>@elseif($brand->name === 'Samsung')<i class="ri-android-fill"></i>@endif
-                        {{ $brand->name === 'Apple' ? 'iPhone' : $brand->name }}
+                        {{ $brand->name }}
                     </button>
                 @endforeach
                 <button type="button" class="filter-chip {{ ($filters['price_range'] ?? '') === '0-50000' ? 'active' : '' }}" onclick="toggleFilter('price_range', '0-50000')">Under KES 50K</button>
@@ -163,7 +168,7 @@
 
         <div class="catalogue-toolbar">
             <div class="result-count">
-                {{ number_format($phones->total()) }} {{ Str::plural('phone', $phones->total()) }}
+                {{ number_format($phones->total()) }} {{ Str::plural('product', $phones->total()) }}
                 <small>{{ $hasActiveFilters ? 'Matching your selected filters' : 'Explore the complete collection' }}</small>
             </div>
             <div class="toolbar-actions">
@@ -233,9 +238,9 @@
         @else
             <div class="empty-results">
                 <i class="ri-search-line"></i>
-                <h2 class="mt-3">No phones matched those filters</h2>
+                <h2 class="mt-3">No products matched those filters</h2>
                 <p class="text-muted">Try another search or clear your filters to see the full collection.</p>
-                <a href="{{ route('pricing') }}" class="btn btn-primary mt-2">View all phones</a>
+                <a href="{{ route('pricing') }}" class="btn btn-primary mt-2">View all products</a>
             </div>
         @endif
     </div>

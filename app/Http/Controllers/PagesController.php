@@ -63,6 +63,7 @@ class PagesController extends Controller
         $filters = [
             'search' => $request->string('search')->toString(),
             'brand' => $request->string('brand')->toString(),
+            'category' => $request->string('category')->toString(),
             'price_range' => $request->string('price_range')->toString(),
             'storage' => $request->string('storage')->toString(),
             'sort' => $sort,
@@ -128,7 +129,7 @@ class PagesController extends Controller
                 'last_page' => $phones->lastPage(),
                 'total' => $phones->total(),
             ],
-            'filters' => $request->only(['search', 'brand', 'price_range', 'storage', 'sort']),
+            'filters' => $request->only(['search', 'brand', 'category', 'price_range', 'storage', 'sort']),
         ]);
     }
 
@@ -147,6 +148,11 @@ class PagesController extends Controller
         $brand = trim($request->string('brand')->limit(80)->toString());
         if ($brand !== '') {
             $query->whereHas('product.brand', fn (Builder $brandQuery) => $brandQuery->where('name', $brand));
+        }
+
+        $category = trim($request->string('category')->limit(80)->toString());
+        if (in_array($category, ['Smartphones', 'Laptops', 'Tablets'], true)) {
+            $query->whereHas('product.category', fn (Builder $categoryQuery) => $categoryQuery->where('name', $category));
         }
 
         $priceRange = $request->string('price_range')->toString();

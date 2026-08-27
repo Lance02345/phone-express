@@ -302,25 +302,31 @@ $lipaPhonesOptimized = $lipaPhones->map(function($phone) use ($whatsappBase) {
         <div class="container text-center">
             <div class="section-intro">
                 <p class="fs-12 fw-semibold text-success mb-2"><span class="landing-section-heading">SHOP BY CATEGORY</span></p>
-                <h3 class="fw-semibold mb-3">Find the right phone, faster.</h3>
-                <p class="text-muted fs-15 mb-0">Start with your preferred brand or browse the complete collection.</p>
+                <h3 class="fw-semibold mb-3">Find the right device, faster.</h3>
+                <p class="text-muted fs-15 mb-0">Browse phones and MacBooks from our complete collection.</p>
             </div>
             <div class="row g-4 category-grid">
-                <div class="col-lg-4">
-                    <a href="{{ route('pricing', ['brand' => 'Apple']) }}" class="category-tile category-tile--dark">
+                <div class="col-lg-3 col-md-6">
+                    <a href="{{ route('pricing', ['brand' => 'Apple', 'category' => 'Smartphones']) }}" class="category-tile category-tile--dark">
                         <div class="category-tile__content"><span class="category-tile__count">{{ $categories['iphone'] ?? 0 }} MODELS</span><h4>Apple iPhone</h4><span class="category-tile__link">Browse iPhones <i class="ri-arrow-right-line ms-1"></i></span></div>
                         <i class="ri-apple-fill category-tile__icon"></i>
                     </a>
                 </div>
-                <div class="col-lg-4">
+                <div class="col-lg-3 col-md-6">
                     <a href="{{ route('pricing', ['brand' => 'Samsung']) }}" class="category-tile category-tile--gold">
                         <div class="category-tile__content"><span class="category-tile__count">{{ $categories['samsung'] ?? 0 }} MODELS</span><h4>Samsung Galaxy</h4><span class="category-tile__link">Browse Samsung <i class="ri-arrow-right-line ms-1"></i></span></div>
                         <i class="ri-android-fill category-tile__icon"></i>
                     </a>
                 </div>
-                <div class="col-lg-4">
+                <div class="col-lg-3 col-md-6">
+                    <a href="{{ route('pricing', ['brand' => 'Apple', 'category' => 'Laptops']) }}" class="category-tile category-tile--dark">
+                        <div class="category-tile__content"><span class="category-tile__count">{{ $categories['macbook'] ?? 0 }} MODELS</span><h4>Apple MacBook</h4><span class="category-tile__link">Browse MacBooks <i class="ri-arrow-right-line ms-1"></i></span></div>
+                        <i class="ri-macbook-line category-tile__icon"></i>
+                    </a>
+                </div>
+                <div class="col-lg-3 col-md-6">
                     <a href="{{ route('pricing') }}" class="category-tile">
-                        <div class="category-tile__content"><span class="category-tile__count">{{ $categories['all'] ?? 0 }} PHONES</span><h4>All smartphones</h4><span class="category-tile__link">View collection <i class="ri-arrow-right-line ms-1"></i></span></div>
+                        <div class="category-tile__content"><span class="category-tile__count">{{ $categories['all'] ?? 0 }} PRODUCTS</span><h4>All products</h4><span class="category-tile__link">View collection <i class="ri-arrow-right-line ms-1"></i></span></div>
                         <i class="ri-smartphone-line category-tile__icon"></i>
                     </a>
                 </div>
