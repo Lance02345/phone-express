@@ -32,9 +32,9 @@ class RedmiSeeder extends Seeder
             ["name" => "Redmi 15C 128GB + 4GB RAM", "price" => 18600, "image_path" => "Images/redmi/redmi15c.jpg"],
 
             // REDMI A7 SERIES
-            ["name" => "Redmi A7 128GB + 4GB RAM", "price" => 0, "image_path" => "Images/redmi/redmia7.jpg"],
-            ["name" => "Redmi A7 Pro 64GB + 4GB RAM", "price" => 14500, "image_path" => "Images/redmi/redmia7pro.jpg"],
-            ["name" => "Redmi A7 64GB + 3GB RAM", "price" => 13600, "image_path" => "Images/redmi/redmia7.jpg"],
+            ["name" => "Redmi A7 128GB + 4GB RAM", "price" => 0, "image_path" => "Images/redmi/redmia7.webp"],
+            ["name" => "Redmi A7 Pro 64GB + 4GB RAM", "price" => 14500, "image_path" => "Images/redmi/redmia7pro.png"],
+            ["name" => "Redmi A7 64GB + 3GB RAM", "price" => 13600, "image_path" => "Images/redmi/redmia7.webp"],
 
             // TABLETS
             ["name" => "Redmi Pad SE 8.7\" 128GB + 4GB RAM", "price" => 0, "image_path" => "Images/redmi/redmipadse.jpg"],

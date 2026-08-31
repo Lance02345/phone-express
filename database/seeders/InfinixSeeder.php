@@ -14,7 +14,7 @@ class InfinixSeeder extends Seeder
             ["name" => "Infinix ZERO Flip 512GB + 8GB RAM (X6962)", "price" => 80000, "image_path" => "Images/infinix/zeroflip.jpg"],
 
             // NOTE SERIES
-            ["name" => "Infinix Note 60 Pro 256GB + 8GB RAM (X6878)", "price" => 40800, "image_path" => "Images/infinix/note60pro.jpg"],
+            ["name" => "Infinix Note 60 Pro 256GB + 8GB RAM (X6878)", "price" => 40800, "image_path" => "Images/infinix/note60pro.png"],
             ["name" => "Infinix Note EDGE 256GB + 8GB RAM (X6887)", "price" => 32400, "image_path" => "Images/infinix/noteedge.jpg"],
             ["name" => "Infinix Note 50 Pro 256GB + 8GB RAM (X6855)", "price" => 30900, "image_path" => "Images/infinix/note50pro.jpg"],
 
@@ -28,7 +28,7 @@ class InfinixSeeder extends Seeder
             ["name" => "Infinix Hot 60i 128GB + 4GB RAM (X6728B)", "price" => 15000, "image_path" => "Images/infinix/hot60i.jpg"],
 
             // SMART SERIES
-            ["name" => "Infinix Smart 20 128GB + 4GB RAM (X6840)", "price" => 14900, "image_path" => "Images/infinix/smart20.jpg"],
+            ["name" => "Infinix Smart 20 128GB + 4GB RAM (X6840)", "price" => 14900, "image_path" => "Images/infinix/smart20.png"],
             ["name" => "Infinix Smart 10 64GB + 4GB RAM (X6725)", "price" => 12100, "image_path" => "Images/infinix/smart10.jpg"],
 
             // XPAD
