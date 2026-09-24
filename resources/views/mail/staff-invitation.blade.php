@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Phone Express staff invitation</title>
+    <title>Phone District staff invitation</title>
     <style>
         @media only screen and (max-width: 620px) {
             .email-shell { width: 100% !important; }
@@ -13,7 +13,7 @@
     </style>
 </head>
 <body style="margin:0;padding:0;background:#eef3f0;color:#183126;font-family:Arial,Helvetica,sans-serif;">
-<div style="display:none;max-height:0;overflow:hidden;opacity:0;">Your secure invitation to join the Phone Express Kenya staff workspace.</div>
+<div style="display:none;max-height:0;overflow:hidden;opacity:0;">Your secure invitation to join the Phone District Kenya staff workspace.</div>
 <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#eef3f0;">
     <tr>
         <td align="center" style="padding:36px 14px;">
@@ -23,7 +23,7 @@
                         <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
                             <tr>
                                 <td>
-                                    <img src="{{ asset('Images/logo-header2.png') }}" width="190" alt="Phone Express Kenya" style="display:block;width:190px;max-width:100%;height:auto;border:0;">
+                                    <img src="{{ asset('Images/logo-header2.png') }}" width="190" alt="Phone District Kenya" style="display:block;width:190px;max-width:100%;height:auto;border:0;">
                                 </td>
                                 <td align="right" style="color:#cfe2d8;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;">Staff workspace</td>
                             </tr>
@@ -33,8 +33,8 @@
                 <tr>
                     <td class="email-pad" style="padding:46px 42px 24px;">
                         <span style="display:inline-block;padding:7px 11px;border-radius:99px;background:#e8f5ed;color:#176b45;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;">Private invitation</span>
-                        <h1 class="hero-title" style="margin:20px 0 14px;color:#102a1f;font-size:38px;line-height:1.12;letter-spacing:-1.2px;">Welcome to the<br>Phone Express team.</h1>
-                        <p style="margin:0;color:#65756d;font-size:16px;line-height:1.7;">Hello {{ $invitation->name ?: 'there' }}, you’ve been invited to join the private Phone Express Kenya staff workspace as <strong style="color:#173f2e;">{{ ucfirst($invitation->role) }}</strong>.</p>
+                        <h1 class="hero-title" style="margin:20px 0 14px;color:#102a1f;font-size:38px;line-height:1.12;letter-spacing:-1.2px;">Welcome to the<br>Phone District team.</h1>
+                        <p style="margin:0;color:#65756d;font-size:16px;line-height:1.7;">Hello {{ $invitation->name ?: 'there' }}, you’ve been invited to join the private Phone District Kenya staff workspace as <strong style="color:#173f2e;">{{ ucfirst($invitation->role) }}</strong>.</p>
                     </td>
                 </tr>
                 <tr>
@@ -63,7 +63,7 @@
                 </tr>
                 <tr>
                     <td class="email-pad" style="padding:24px 42px;background:#f8faf9;border-top:1px solid #e5ece8;color:#839087;font-size:12px;line-height:1.6;">
-                        This invitation was sent by Phone Express Kenya. If you were not expecting it, you can safely ignore this email.<br>
+                        This invitation was sent by Phone District Kenya. If you were not expecting it, you can safely ignore this email.<br>
                         <span style="color:#315b47;font-weight:700;">Elevate your digital lifestyle.</span>
                     </td>
                 </tr>

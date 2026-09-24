@@ -10,7 +10,7 @@ class InviteStaff extends Command
 {
     protected $signature = 'staff:invite {email} {--name=} {--role=staff} {--hours=48}';
 
-    protected $description = 'Send an expiring invite to a Phone Express staff member';
+    protected $description = 'Send an expiring invite to a Phone District staff member';
 
     public function handle(StaffInvitationService $invitations): int
     {

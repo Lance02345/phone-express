@@ -1,8 +1,8 @@
-You’re invited to the Phone Express team
+You’re invited to the Phone District team
 
 Hello {{ $invitation->name ?: 'there' }},
 
-You’ve been invited to join the private Phone Express Kenya staff workspace as {{ ucfirst($invitation->role) }}.
+You’ve been invited to join the private Phone District Kenya staff workspace as {{ ucfirst($invitation->role) }}.
 
 Accept your invitation: {{ $acceptUrl }}
 
@@ -10,5 +10,5 @@ This secure link can only be used once and expires on {{ $invitation->expires_at
 
 If you were not expecting this invitation, you can safely ignore this email.
 
-Phone Express Kenya
+Phone District Kenya
 Elevate your digital lifestyle.

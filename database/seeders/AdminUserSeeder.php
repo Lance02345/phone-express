@@ -9,7 +9,7 @@ class AdminUserSeeder extends Seeder
 {
     public function run(): void
     {
-        $user = User::firstOrNew(['email' => env('STAFF_ADMIN_EMAIL', 'info@phoneexpresskenya.co.ke')]);
+        $user = User::firstOrNew(['email' => env('STAFF_ADMIN_EMAIL', 'info@phonedistrictkenya.co.ke')]);
         $password = env('STAFF_ADMIN_PASSWORD');
 
         if (blank($password)) {
@@ -18,7 +18,7 @@ class AdminUserSeeder extends Seeder
 
         if (! $user->exists || ! $user->is_active) {
             $user->fill([
-                'name' => env('STAFF_ADMIN_NAME', 'Phone Express Admin'),
+                'name' => env('STAFF_ADMIN_NAME', 'Phone District Admin'),
                 'password' => $password,
                 'is_active' => true,
             ]);

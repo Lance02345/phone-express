@@ -1,7 +1,7 @@
 @extends('layouts.landing-master')
 
-@section('title', $phone->name . ' | Phone Express Kenya')
-@section('meta_description', 'View the current price and payment options for ' . $phone->name . ' at Phone Express Kenya.')
+@section('title', $phone->name . ' | Phone District Kenya')
+@section('meta_description', 'View the current price and payment options for ' . $phone->name . ' at Phone District Kenya.')
 
 @section('styles')
 <style>

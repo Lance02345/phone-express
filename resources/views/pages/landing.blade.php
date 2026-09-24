@@ -267,7 +267,7 @@ $lipaPhonesOptimized = $lipaPhones->map(function($phone) use ($whatsappBase) {
                                 <a href="{{ route('pricing') }}" class="btn btn-primary">
                                     Explore phones <i class="ri-arrow-right-line ms-2"></i>
                                 </a>
-                                <a href="{{ $whatsappBase . urlencode('Hello Phone Express, I would like help choosing a phone.') }}" target="_blank" rel="noopener" class="btn btn-outline-light">
+                                <a href="{{ $whatsappBase . urlencode('Hello Phone District, I would like help choosing a phone.') }}" target="_blank" rel="noopener" class="btn btn-outline-light">
                                     <i class="ri-whatsapp-line me-2"></i> Talk to us
                                 </a>
                             </div>
@@ -281,7 +281,7 @@ $lipaPhonesOptimized = $lipaPhones->map(function($phone) use ($whatsappBase) {
                     <div class="col-xl-5 col-lg-5">
                         <div class="hero-visual">
                             <div class="hero-photo-frame">
-                                <img src="{{ $landingImage }}" alt="A selection of premium smartphones at Phone Express" width="640" height="720" fetchpriority="high">
+                                <img src="{{ $landingImage }}" alt="A selection of premium smartphones at Phone District" width="640" height="720" fetchpriority="high">
                             </div>
                             <div class="hero-rating"><i class="ri-star-fill me-1"></i> Trusted locally</div>
                             <div class="hero-price-card">
@@ -465,7 +465,7 @@ $lipaPhonesOptimized = $lipaPhones->map(function($phone) use ($whatsappBase) {
             <div class="row justify-content-center">
                 <div class="col-xl-7">
                     <p class="text-muted fs-15 mb-5 fw-normal">
-                        At Phone Express, we pride ourselves on delivering the latest smartphones with flexible payment
+                        At Phone District, we pride ourselves on delivering the latest smartphones with flexible payment
                         options like <strong>Lipa PolePole</strong>. Here's a glimpse of our growth and trust among our
                         clients.
                     </p>
@@ -535,7 +535,7 @@ $lipaPhonesOptimized = $lipaPhones->map(function($phone) use ($whatsappBase) {
             <div class="row justify-content-center">
                 <div class="col-xl-7">
                     <p class="text-muted fs-15 mb-3 fw-normal">
-                        Phone Express offers a wide selection of smartphones and accessories, all at competitive prices.
+                        Phone District offers a wide selection of smartphones and accessories, all at competitive prices.
                         Enjoy the convenience of our <strong>Lipa PolePole</strong> plan and shop with confidence.
                     </p>
                 </div>
@@ -543,7 +543,7 @@ $lipaPhonesOptimized = $lipaPhones->map(function($phone) use ($whatsappBase) {
             <div class="row justify-content-between align-items-center mx-0">
                 <div class="col-xxl-5 col-xl-5 col-lg-5 customize-image text-center">
                     <div class="text-lg-end">
-                        <img src="{{ $aboutImage }}" alt="A selection of phones from Phone Express" class="about-photo" loading="lazy" width="500" height="500">
+                        <img src="{{ $aboutImage }}" alt="A selection of phones from Phone District" class="about-photo" loading="lazy" width="500" height="500">
                     </div>
                 </div>
 
@@ -605,7 +605,7 @@ $lipaPhonesOptimized = $lipaPhones->map(function($phone) use ($whatsappBase) {
             <div class="row justify-content-center mb-5">
                 <div class="col-xl-7">
                     <p class="text-muted fs-15 mb-0 fw-normal">
-                        At Phone Express, we aim to provide the latest smartphones, excellent customer service, and flexible
+                        At Phone District, we aim to provide the latest smartphones, excellent customer service, and flexible
                         payment options like <strong>Lipa PolePole</strong> to make owning a phone simple and affordable.
                     </p>
                 </div>
@@ -650,7 +650,7 @@ $lipaPhonesOptimized = $lipaPhones->map(function($phone) use ($whatsappBase) {
             <p class="fs-12 fw-semibold text-success mb-1">
                 <span class="landing-section-heading">TESTIMONIALS</span>
             </p>
-            <h3 class="fw-semibold mb-2">Our customers love Phone Express!</h3>
+            <h3 class="fw-semibold mb-2">Our customers love Phone District!</h3>
             <div class="row justify-content-center">
                 <div class="col-xl-7">
                     <p class="text-muted fs-15 mb-5 fw-normal">
@@ -662,9 +662,9 @@ $lipaPhonesOptimized = $lipaPhones->map(function($phone) use ($whatsappBase) {
             <div class="swiper pagination-dynamic text-start">
                 <div class="swiper-wrapper">
                     @foreach([
-                        ['name' => 'Nancy Wambui', 'role' => 'Entrepreneur', 'img' => '15.jpg', 'testimonial' => 'I love my new phone from Phone Express! The Lipa PolePole plan made it so easy to afford.', 'rating' => 4.5, 'time' => '3 days ago'],
+                        ['name' => 'Nancy Wambui', 'role' => 'Entrepreneur', 'img' => '15.jpg', 'testimonial' => 'I love my new phone from Phone District! The Lipa PolePole plan made it so easy to afford.', 'rating' => 4.5, 'time' => '3 days ago'],
                         ['name' => 'James Mwangi', 'role' => 'Student', 'img' => '4.jpg', 'testimonial' => 'Great service and very helpful staff. My phone arrived quickly and the installment plan is very convenient.', 'rating' => 4.5, 'time' => '1 week ago'],
-                        ['name' => 'Alice Njeri', 'role' => 'Freelancer', 'img' => '2.jpg', 'testimonial' => 'Amazing variety of phones and excellent customer support. I recommend Phone Express to everyone.', 'rating' => 5, 'time' => '2 weeks ago']
+                        ['name' => 'Alice Njeri', 'role' => 'Freelancer', 'img' => '2.jpg', 'testimonial' => 'Amazing variety of phones and excellent customer support. I recommend Phone District to everyone.', 'rating' => 5, 'time' => '2 weeks ago']
                     ] as $testimonial)
                     <div class="swiper-slide">
                         <div class="card custom-card testimonial-card h-100">
@@ -724,7 +724,7 @@ $lipaPhonesOptimized = $lipaPhones->map(function($phone) use ($whatsappBase) {
             <div class="row justify-content-center">
                 <div class="col-xl-7">
                     <p class="text-muted fs-15 mb-5 fw-normal">
-                        Here are some of the most common questions our customers ask about Phone Express Kenya.
+                        Here are some of the most common questions our customers ask about Phone District Kenya.
                     </p>
                 </div>
             </div>
@@ -736,7 +736,7 @@ $lipaPhonesOptimized = $lipaPhones->map(function($phone) use ($whatsappBase) {
                             <div class="accordion accordion-customicon1 accordion-primary accordions-items-seperate"
                                 id="accordionFAQ1">
                                 @foreach([
-                                    ['id' => 'One', 'question' => 'What types of phones do you sell?', 'answer' => 'At Phone Express Kenya, we offer a wide range of top-end smartphones including iPhones (10, 11, 12, 13, 14, 15, 16), Samsung Galaxy, and other premium devices. You can choose between Brand New, UK Used, or US Used phones.', 'show' => true],
+                                    ['id' => 'One', 'question' => 'What types of phones do you sell?', 'answer' => 'At Phone District Kenya, we offer a wide range of top-end smartphones including iPhones (10, 11, 12, 13, 14, 15, 16), Samsung Galaxy, and other premium devices. You can choose between Brand New, UK Used, or US Used phones.', 'show' => true],
                                     ['id' => 'Two', 'question' => 'Can I pay in installments (Lipa PolePole)?', 'answer' => 'Payment-plan estimates are shown for eligible catalogue items. Our team must confirm eligibility, requirements and the final schedule before payment.', 'show' => false],
                                     ['id' => 'Three', 'question' => 'Do your phones come with a warranty?', 'answer' => 'Warranty terms can vary by device and condition. Ask our team to confirm the exact written coverage for the phone you choose.', 'show' => false]
                                 ] as $faq)
@@ -818,7 +818,7 @@ $lipaPhonesOptimized = $lipaPhones->map(function($phone) use ($whatsappBase) {
                             <iframe
                                 src="https://www.google.com/maps?q=Kimathi+House,+Suite+507,+5th+Floor,+Opposite+Sarova+Stanley+Hotel,+Kimathi+Street,+Nairobi+CBD&output=embed"
                                 height="365" style="border:0;width:100%" allowfullscreen="" loading="lazy"
-                                referrerpolicy="no-referrer-when-downgrade" title="Phone Express Location"></iframe>
+                                referrerpolicy="no-referrer-when-downgrade" title="Phone District Location"></iframe>
                         </div>
                     </div>
                 </div>
@@ -894,12 +894,12 @@ $lipaPhonesOptimized = $lipaPhones->map(function($phone) use ($whatsappBase) {
                     <div class="px-4">
                         <p class="fw-semibold mb-3">
                             <a href="{{ route('home') }}">
-                                <img src="{{ $logoImage }}" alt="Phone Express Kenya"
+                                <img src="{{ $logoImage }}" alt="Phone District Kenya"
                                     class="img-fluid" style="max-height: 60px;" loading="lazy">
                             </a>
                         </p>
                         <p class="mb-2 op-6 fw-normal">
-                            At Phone Express Kenya, we bring you the latest iPhones, Samsungs, and other premium smartphones
+                            At Phone District Kenya, we bring you the latest iPhones, Samsungs, and other premium smartphones
                             at unbeatable prices. Choose between paying in full or using our flexible <strong>Lipa
                                 PolePole</strong> plan.
                         </p>
@@ -945,20 +945,20 @@ $lipaPhonesOptimized = $lipaPhones->map(function($phone) use ($whatsappBase) {
                                 </a>
                             </li>
                             <li>
-                                <a href="https://www.instagram.com/phoneexpresskenya._" target="_blank"
+                                <a href="https://www.instagram.com/phonedistrictkenya._" target="_blank"
                                     class="text-fixed-white op-6">
-                                    <i class="ri-instagram-line me-1 align-middle"></i> Instagram: @phoneexpresskenya._
+                                    <i class="ri-instagram-line me-1 align-middle"></i> Instagram: @phonedistrictkenya._
                                 </a>
                             </li>
                             <li>
-                                <a href="https://www.tiktok.com/@phoneexpresskenya" target="_blank"
+                                <a href="https://www.tiktok.com/@phonedistrictkenya" target="_blank"
                                     class="text-fixed-white op-6">
-                                    <i class="ri-tiktok-line me-1 align-middle"></i> TikTok: @phoneexpresskenya
+                                    <i class="ri-tiktok-line me-1 align-middle"></i> TikTok: @phonedistrictkenya
                                 </a>
                             </li>
                             <li>
-                                <a href="https://twitter.com/PhoneExpressKe" target="_blank" class="text-fixed-white op-6">
-                                    <i class="ri-twitter-line me-1 align-middle"></i> Twitter: @PhoneExpressKe
+                                <a href="https://twitter.com/PhoneDistrictKe" target="_blank" class="text-fixed-white op-6">
+                                    <i class="ri-twitter-line me-1 align-middle"></i> Twitter: @PhoneDistrictKe
                                 </a>
                             </li>
                         </ul>
@@ -969,8 +969,8 @@ $lipaPhonesOptimized = $lipaPhones->map(function($phone) use ($whatsappBase) {
     </section>
     <!-- End:: Section-11 -->
 
-    <a href="{{ $whatsappBase . urlencode('Hello Phone Express, I would like help choosing a phone.') }}"
-       class="floating-whatsapp" target="_blank" rel="noopener" aria-label="Chat with Phone Express on WhatsApp">
+    <a href="{{ $whatsappBase . urlencode('Hello Phone District, I would like help choosing a phone.') }}"
+       class="floating-whatsapp" target="_blank" rel="noopener" aria-label="Chat with Phone District on WhatsApp">
         <i class="ri-whatsapp-line fs-18"></i><span>Chat with us</span>
     </a>
 

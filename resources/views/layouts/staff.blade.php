@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>@yield('title', 'Staff') | Phone Express</title>
+    <title>@yield('title', 'Staff') | Phone District</title>
     <link rel="icon" href="{{ asset('Images/faviconapple.png') }}?v=2" type="image/png">
     <link rel="apple-touch-icon" href="{{ asset('Images/faviconapple.png') }}?v=2">
     <link href="{{ asset('build/assets/libs/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
@@ -22,7 +22,7 @@
     @yield('styles')
 </head>
 <body>
-<nav class="staff-nav py-2"><div class="container-fluid px-lg-5 d-flex align-items-center justify-content-between"><div class="d-flex align-items-center gap-4"><a href="{{ auth()->check() ? route('staff.dashboard') : url('/') }}"><img src="{{ asset('Images/logo-header2.png') }}" class="staff-logo" alt="Phone Express"></a>@auth<div class="staff-links"><a class="{{ request()->routeIs('staff.dashboard') ? 'active' : '' }}" href="{{ route('staff.dashboard') }}">Overview</a>@if(auth()->user()->role === 'admin')<a class="{{ request()->routeIs('staff.catalogue.*') ? 'active' : '' }}" href="{{ route('staff.catalogue.index') }}">Catalogue</a><a class="{{ request()->routeIs('staff.team.*') ? 'active' : '' }}" href="{{ route('staff.team.index') }}">Team</a>@endif</div>@endauth</div>@auth<div class="d-flex align-items-center gap-2 gap-md-3"><a href="{{ url('/') }}" class="view-site-link" title="View public website"><i class="ri-external-link-line"></i><span>View website</span></a><span class="staff-user">{{ auth()->user()->name }} · {{ ucfirst(auth()->user()->role) }}</span><form method="POST" action="{{ route('staff.logout') }}">@csrf<button class="btn btn-sm btn-outline-light rounded-pill px-3">Sign out</button></form></div>@endauth</div></nav>
+<nav class="staff-nav py-2"><div class="container-fluid px-lg-5 d-flex align-items-center justify-content-between"><div class="d-flex align-items-center gap-4"><a href="{{ auth()->check() ? route('staff.dashboard') : url('/') }}"><img src="{{ asset('Images/logo-header2.png') }}" class="staff-logo" alt="Phone District"></a>@auth<div class="staff-links"><a class="{{ request()->routeIs('staff.dashboard') ? 'active' : '' }}" href="{{ route('staff.dashboard') }}">Overview</a>@if(auth()->user()->role === 'admin')<a class="{{ request()->routeIs('staff.catalogue.*') ? 'active' : '' }}" href="{{ route('staff.catalogue.index') }}">Catalogue</a><a class="{{ request()->routeIs('staff.team.*') ? 'active' : '' }}" href="{{ route('staff.team.index') }}">Team</a>@endif</div>@endauth</div>@auth<div class="d-flex align-items-center gap-2 gap-md-3"><a href="{{ url('/') }}" class="view-site-link" title="View public website"><i class="ri-external-link-line"></i><span>View website</span></a><span class="staff-user">{{ auth()->user()->name }} · {{ ucfirst(auth()->user()->role) }}</span><form method="POST" action="{{ route('staff.logout') }}">@csrf<button class="btn btn-sm btn-outline-light rounded-pill px-3">Sign out</button></form></div>@endauth</div></nav>
 <main class="staff-shell"><div class="container-fluid px-lg-5">@yield('content')</div></main>
 </body>
 </html>

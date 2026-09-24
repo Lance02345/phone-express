@@ -6,10 +6,10 @@
             <nav class="main-menu-container nav nav-pills sub-open">
                 <div class="landing-logo-container">
                     <div class="horizontal-logo">
-                        <a href="{{ route('home') }}" class="header-logo" aria-label="Phone Express home">
-                            <img src="{{ asset('Images/logo-header2.png') }}" alt="Phone Express Kenya" class="desktop-logo"
+                        <a href="{{ route('home') }}" class="header-logo" aria-label="Phone District home">
+                            <img src="{{ asset('Images/logo-header2.png') }}" alt="Phone District Kenya" class="desktop-logo"
                                 style="width:190px; height:auto;">
-                            <img src="{{ asset('Images/logo-header2.png') }}" alt="Phone Express Kenya" class="desktop-white"
+                            <img src="{{ asset('Images/logo-header2.png') }}" alt="Phone District Kenya" class="desktop-white"
                                 style="width:190px; height:auto;">
                         </a>
                     </div>

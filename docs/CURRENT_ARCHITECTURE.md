@@ -2,7 +2,7 @@
 
 ## System shape
 
-Phone Express is currently a Laravel modular monolith in deployment shape, but not yet in domain organization. Controllers query Eloquent models directly and render Blade pages. MySQL stores users and phones; local files hold images, sessions, and cache data.
+Phone District is currently a Laravel modular monolith in deployment shape, but not yet in domain organization. Controllers query Eloquent models directly and render Blade pages. MySQL stores users and phones; local files hold images, sessions, and cache data.
 
 ```text
 Browser

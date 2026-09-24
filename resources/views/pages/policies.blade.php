@@ -1,7 +1,7 @@
 @extends('layouts.landing-master')
 
-@section('title', ($selectedPolicy?->title ?? 'Shopping help') . ' | Phone Express Kenya')
-@section('meta_description', $selectedPolicy?->summary ?? 'Important delivery, warranty, returns and payment-plan guidance for Phone Express Kenya customers.')
+@section('title', ($selectedPolicy?->title ?? 'Shopping help') . ' | Phone District Kenya')
+@section('meta_description', $selectedPolicy?->summary ?? 'Important delivery, warranty, returns and payment-plan guidance for Phone District Kenya customers.')
 
 @section('styles')
 <style>
@@ -83,7 +83,7 @@
 
                         <div class="confirmation-box"><i class="ri-customer-service-2-line"></i><span>This guidance avoids making assumptions. Our team will confirm the final terms for your specific phone, order and location.</span></div>
                         <div class="trust-actions">
-                            <a href="https://wa.me/254721920545?text={{ urlencode('Hello Phone Express, I would like to confirm your '.$activePolicy->title.'.') }}" target="_blank" rel="noopener" class="trust-action trust-action--primary"><i class="ri-whatsapp-line"></i> Confirm with our team</a>
+                            <a href="https://wa.me/254721920545?text={{ urlencode('Hello Phone District, I would like to confirm your '.$activePolicy->title.'.') }}" target="_blank" rel="noopener" class="trust-action trust-action--primary"><i class="ri-whatsapp-line"></i> Confirm with our team</a>
                             <a href="{{ route('pricing') }}" class="trust-action trust-action--secondary"><i class="ri-smartphone-line"></i> Browse phones</a>
                         </div>
                     </article>

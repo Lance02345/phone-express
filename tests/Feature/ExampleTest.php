@@ -47,7 +47,7 @@ class ExampleTest extends TestCase
 
     public function test_active_administrator_can_open_the_operations_dashboard(): void
     {
-        $administrator = User::where('email', 'info@phoneexpresskenya.co.ke')->firstOrFail();
+        $administrator = User::where('email', 'info@phonedistrictkenya.co.ke')->firstOrFail();
 
         $this->actingAs($administrator)->get('/staff')->assertOk();
         $this->actingAs($administrator)->get('/staff/team')->assertOk();

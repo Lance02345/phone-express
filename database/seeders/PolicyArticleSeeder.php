@@ -27,7 +27,7 @@ class PolicyArticleSeeder extends Seeder
                 'summary' => 'Confirm the destination, delivery charge and expected timing before completing payment.',
                 'content' => [
                     ['heading' => 'Before you pay', 'body' => 'Share your delivery location with our team so they can confirm whether delivery is available, the applicable charge and the expected timeline.'],
-                    ['heading' => 'When receiving an order', 'body' => 'Confirm the recipient details and inspect the package as directed by the Phone Express team.'],
+                    ['heading' => 'When receiving an order', 'body' => 'Confirm the recipient details and inspect the package as directed by the Phone District team.'],
                     ['heading' => 'Important', 'body' => 'Delivery availability, charges and timing can vary by destination and order. They are only confirmed when our team provides the final order details.'],
                 ],
                 'status' => 'guidance',
@@ -42,7 +42,7 @@ class PolicyArticleSeeder extends Seeder
                 'content' => [
                     ['heading' => 'Check the exact device', 'body' => 'Ask our team to confirm the warranty period and coverage for the specific phone or variant you are buying.'],
                     ['heading' => 'Keep your records', 'body' => 'Retain your receipt and any written warranty information supplied with the device.'],
-                    ['heading' => 'Before requesting support', 'body' => 'Contact Phone Express with your purchase details and a description of the issue. The team will confirm the applicable next steps.'],
+                    ['heading' => 'Before requesting support', 'body' => 'Contact Phone District with your purchase details and a description of the issue. The team will confirm the applicable next steps.'],
                 ],
                 'status' => 'guidance',
                 'version' => 1,
@@ -54,7 +54,7 @@ class PolicyArticleSeeder extends Seeder
                 'title' => 'Returns and exchanges guidance',
                 'summary' => 'Contact the team before returning a device so eligibility and the correct process can be confirmed.',
                 'content' => [
-                    ['heading' => 'Contact us first', 'body' => 'Do not send or hand over a device for return before the Phone Express team confirms the return or exchange process.'],
+                    ['heading' => 'Contact us first', 'body' => 'Do not send or hand over a device for return before the Phone District team confirms the return or exchange process.'],
                     ['heading' => 'Provide purchase details', 'body' => 'Have your receipt, device details, purchase date and reason for the request available.'],
                     ['heading' => 'Eligibility', 'body' => 'Eligibility depends on the device, its condition, the reported issue and the terms supplied at purchase. The team must review the request before confirming an outcome.'],
                 ],

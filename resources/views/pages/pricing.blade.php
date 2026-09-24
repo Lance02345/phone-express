@@ -122,7 +122,7 @@
 <main class="catalogue-page">
     <header class="catalogue-hero">
         <div class="container catalogue-hero__content">
-            <span class="catalogue-eyebrow">PHONE EXPRESS COLLECTION</span>
+            <span class="catalogue-eyebrow">PHONE DISTRICT COLLECTION</span>
             <h1 class="catalogue-title">Find a device that <span>fits your life.</span></h1>
             <p class="catalogue-subtitle">Compare smartphones and laptops, filter by what matters, and talk to our team when you are ready.</p>
         </div>

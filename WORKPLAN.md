@@ -1,8 +1,8 @@
-# Phone Express Kenya Automation Workplan
+# Phone District Kenya Automation Workplan
 
 ## Objective
 
-Extend the existing Phone Express Kenya website into a centralized product-enquiry, lead-management, and sales-automation platform.
+Extend the existing Phone District Kenya website into a centralized product-enquiry, lead-management, and sales-automation platform.
 
 The work must begin with a repository audit because the website already exists and its codebase is available.
 
