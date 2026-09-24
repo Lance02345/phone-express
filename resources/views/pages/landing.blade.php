@@ -8,7 +8,7 @@ $lightColor = '#e8f5e9';
 // Optimize image paths
 $landingImage = asset('Images/herowq.jpeg');
 $aboutImage = asset('Images/phoniana.jpeg');
-$logoImage = asset('Images/logo-removebg-preview.png');
+$logoImage = asset('Images/phone-district-logo.png');
 
 // Prepare phone data with optimized calculations
 $fullPhonesOptimized = $fullPhones->map(function($phone) use ($whatsappBase) {
@@ -895,7 +895,7 @@ $lipaPhonesOptimized = $lipaPhones->map(function($phone) use ($whatsappBase) {
                         <p class="fw-semibold mb-3">
                             <a href="{{ route('home') }}">
                                 <img src="{{ $logoImage }}" alt="Phone District Kenya"
-                                    class="img-fluid" style="max-height: 60px;" loading="lazy">
+                                    class="img-fluid" style="max-height: 60px; background:#fff; padding:4px 8px; border-radius:8px;" loading="lazy">
                             </a>
                         </p>
                         <p class="mb-2 op-6 fw-normal">

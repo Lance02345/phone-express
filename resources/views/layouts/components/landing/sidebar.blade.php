@@ -7,10 +7,10 @@
                 <div class="landing-logo-container">
                     <div class="horizontal-logo">
                         <a href="{{ route('home') }}" class="header-logo" aria-label="Phone District home">
-                            <img src="{{ asset('Images/logo-header2.png') }}" alt="Phone District Kenya" class="desktop-logo"
-                                style="width:190px; height:auto;">
-                            <img src="{{ asset('Images/logo-header2.png') }}" alt="Phone District Kenya" class="desktop-white"
-                                style="width:190px; height:auto;">
+                            <img src="{{ asset('Images/phone-district-logo.png') }}" alt="Phone District Kenya" class="desktop-logo"
+                                style="width:190px; height:auto; background:#fff; padding:4px 8px; border-radius:8px;">
+                            <img src="{{ asset('Images/phone-district-logo.png') }}" alt="Phone District Kenya" class="desktop-white"
+                                style="width:190px; height:auto; background:#fff; padding:4px 8px; border-radius:8px;">
                         </a>
                     </div>
                 </div>

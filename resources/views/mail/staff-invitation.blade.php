@@ -23,7 +23,7 @@
                         <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
                             <tr>
                                 <td>
-                                    <img src="{{ asset('Images/logo-header2.png') }}" width="190" alt="Phone District Kenya" style="display:block;width:190px;max-width:100%;height:auto;border:0;">
+                                    <img src="{{ asset('Images/phone-district-logo.png') }}" width="190" alt="Phone District Kenya" style="display:block;width:190px;max-width:100%;height:auto;border:0;background:#fff;padding:4px 8px;border-radius:8px;">
                                 </td>
                                 <td align="right" style="color:#cfe2d8;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;">Staff workspace</td>
                             </tr>
