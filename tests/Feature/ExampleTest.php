@@ -38,7 +38,7 @@ class ExampleTest extends TestCase
 
         $phone = ProductVariant::query()->published()->firstOrFail();
         $this->get(route('phones.show', $phone))->assertOk()
-            ->assertSee('Images/faviconapple.png?v=2', false)
+            ->assertSee('Images/digital-district-kenya-logo.png', false)
             ->assertSee(route('home').'#categories', false)
             ->assertSee(route('pricing'), false)
             ->assertSee(route('policies.index'), false)
@@ -47,7 +47,7 @@ class ExampleTest extends TestCase
 
     public function test_active_administrator_can_open_the_operations_dashboard(): void
     {
-        $administrator = User::where('email', 'info@phonedistrictkenya.co.ke')->firstOrFail();
+        $administrator = User::where('email', 'info@digitaldistrictkenya.co.ke')->firstOrFail();
 
         $this->actingAs($administrator)->get('/staff')->assertOk();
         $this->actingAs($administrator)->get('/staff/team')->assertOk();

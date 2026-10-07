@@ -17,7 +17,7 @@ class StaffInvitationMail extends Mailable
 
     public function envelope(): Envelope
     {
-        return new Envelope(subject: 'You’re invited to the Phone District team');
+        return new Envelope(subject: 'You’re invited to the Digital District Kenya team');
     }
 
     public function content(): Content

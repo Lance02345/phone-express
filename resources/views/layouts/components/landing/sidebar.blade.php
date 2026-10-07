@@ -6,11 +6,11 @@
             <nav class="main-menu-container nav nav-pills sub-open">
                 <div class="landing-logo-container">
                     <div class="horizontal-logo">
-                        <a href="{{ route('home') }}" class="header-logo" aria-label="Phone District home">
-                            <img src="{{ asset('Images/phone-district-logo.png') }}" alt="Phone District Kenya" class="desktop-logo"
-                                style="width:190px; height:auto; background:#fff; padding:4px 8px; border-radius:8px;">
-                            <img src="{{ asset('Images/phone-district-logo.png') }}" alt="Phone District Kenya" class="desktop-white"
-                                style="width:190px; height:auto; background:#fff; padding:4px 8px; border-radius:8px;">
+                        <a href="{{ route('home') }}" class="header-logo" aria-label="Digital District Kenya home">
+                            <img src="{{ asset('Images/digital-district-kenya-logo.png') }}" alt="Digital District Kenya" class="desktop-logo"
+                                style="width:72px; height:72px; object-fit:contain; background:#fff; padding:2px; border-radius:8px;">
+                            <img src="{{ asset('Images/digital-district-kenya-logo.png') }}" alt="Digital District Kenya" class="desktop-white"
+                                style="width:72px; height:72px; object-fit:contain; background:#fff; padding:2px; border-radius:8px;">
                         </a>
                     </div>
                 </div>

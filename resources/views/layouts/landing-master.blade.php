@@ -7,16 +7,16 @@
 		<meta charset="UTF-8">
         <meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=no'>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="description" content="@yield('meta_description', 'Shop smartphones at competitive prices from Phone District Kenya, with flexible payment options and delivery across Kenya.')">
-        <meta name="author" content="Phone District Kenya">
+        <meta name="description" content="@yield('meta_description', 'Shop smartphones at competitive prices from Digital District Kenya, with flexible payment options and delivery across Kenya.')">
+        <meta name="author" content="Digital District Kenya">
         <meta name="theme-color" content="#123f2b">
 
         <!-- TITLE -->
-		<title>@yield('title', 'Phone District Kenya')</title>
+		<title>@yield('title', 'Digital District Kenya')</title>
 
         <!-- FAVICON -->
-        <link rel="icon" href="{{ asset('Images/faviconapple.png') }}?v=2" type="image/png">
-        <link rel="apple-touch-icon" href="{{ asset('Images/faviconapple.png') }}?v=2">
+        <link rel="icon" href="{{ asset('Images/digital-district-kenya-logo.png') }}" type="image/png">
+        <link rel="apple-touch-icon" href="{{ asset('Images/digital-district-kenya-logo.png') }}">
 
         <!-- BOOTSTRAP CSS -->
 	    <link  id="style" href="{{asset('build/assets/libs/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet">

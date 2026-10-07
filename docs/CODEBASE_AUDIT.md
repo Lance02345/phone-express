@@ -1,4 +1,4 @@
-# Phone District codebase audit
+# Digital District Kenya codebase audit
 
 Audit date: 22 July 2026  
 Scope: the current local worktree, including uncommitted UI and catalogue fixes.

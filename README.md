@@ -1,10 +1,10 @@
-# Phone District Kenya Automation Platform
+# Digital District Kenya Automation Platform
 
 ## Project Context
 
-Phone District Kenya is an electronics and mobile-device retailer with an existing website at:
+Digital District Kenya is an electronics and mobile-device retailer with an existing website at:
 
-- https://phonedistrictkenya.co.ke/
+- https://digitaldistrictkenya.co.ke/
 
 The website was built by the project owner, and the full source code is available locally in the existing repository.
 
