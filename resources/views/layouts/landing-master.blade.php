@@ -294,6 +294,7 @@
 
         @include('layouts.components.landing.styles')
         @yield('styles')
+        @include('layouts.components.landing.looks')
 
 	</head>
 

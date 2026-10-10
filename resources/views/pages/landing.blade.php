@@ -168,6 +168,7 @@ background-image:
         .category-tile:hover { color: var(--ink); transform: translateY(-5px); border-color: #cfcfcf; box-shadow: 0 22px 50px rgba(0,0,0,.1); }
         .category-tile--dark { color: #fff; background: linear-gradient(145deg, #0a0a0a, #262626); border-color: transparent; }
         .category-tile--dark:hover { color: #fff; }
+        .category-tile--dark h4 { color: #fff !important; }
         .category-tile--light { background: linear-gradient(145deg, #f7f7f7, #e6e6e6); }
         .category-tile__content { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: flex-start; }
         .category-tile__count { padding: .35rem .65rem; border-radius: 999px; background: rgba(0,0,0,.06); color: var(--ink); font-size: .72rem; font-weight: 800; }
