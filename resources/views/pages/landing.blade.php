@@ -30,7 +30,7 @@ $lipaPhonesOptimized = $lipaPhones->map(function($phone) use ($whatsappBase) {
     <link rel="stylesheet" href="{{ asset('build/assets/libs/swiper/swiper-bundle.min.css') }}" media="print" onload="this.media='all'">
     
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@1&family=Manrope:wght@600;700;800&display=swap');
 
         :root {
             --primary-color: #0a0a0a;
@@ -60,8 +60,9 @@ $lipaPhonesOptimized = $lipaPhones->map(function($phone) use ($whatsappBase) {
             display: flex;
             align-items: center;
             background:
-                radial-gradient(circle at 82% 12%, rgba(255, 255, 255, .09), transparent 32%),
-                linear-gradient(125deg, #050505 0%, #111111 55%, #1c1c1c 100%) !important;
+                radial-gradient(ellipse 45% 60% at 74% 48%, rgba(255, 255, 255, .16), transparent 70%),
+                radial-gradient(ellipse 50% 40% at 0% 100%, rgba(255, 255, 255, .05), transparent 70%),
+                #000000 !important;
             padding-top: 82px !important;
             position: relative;
             overflow: hidden;
@@ -75,9 +76,13 @@ $lipaPhonesOptimized = $lipaPhones->map(function($phone) use ($whatsappBase) {
             width: auto;
             height: auto;
             background-color: transparent !important;
-            background-image: radial-gradient(rgba(255,255,255,.1) 1px, transparent 1px);
-            background-size: 30px 30px;
-            opacity: .18;
+background-image:
+                linear-gradient(rgba(255,255,255,.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,.05) 1px, transparent 1px);
+            background-size: 64px 64px;
+            -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 30%, transparent 80%);
+            mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 30%, transparent 80%);
+            opacity: 1;
             pointer-events: none;
         }
         .hero-kicker {
@@ -103,7 +108,7 @@ $lipaPhonesOptimized = $lipaPhones->map(function($phone) use ($whatsappBase) {
             text-wrap: balance;
             text-shadow: none;
         }
-        .hero-highlight { color: #d4d4d4; background: linear-gradient(90deg, #ffffff 0%, #8f8f8f 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+        .hero-highlight { color: #ffffff; font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 400; letter-spacing: -.01em; }
         .hero-copy { max-width: 650px; font-size: 1.12rem; line-height: 1.75; color: rgba(255,255,255,.72); }
         .hero-actions .btn {
             min-height: 54px;
@@ -125,12 +130,12 @@ $lipaPhonesOptimized = $lipaPhones->map(function($phone) use ($whatsappBase) {
             position: relative;
             overflow: hidden;
             min-height: 460px;
-            border: 1px solid rgba(255,255,255,.16);
+            border: 1px solid rgba(255,255,255,.22);
             border-radius: 28px;
             background: rgba(255,255,255,.08);
-            box-shadow: 0 30px 70px rgba(0,0,0,.3);
+            box-shadow: 0 0 0 8px rgba(255,255,255,.04), 0 40px 120px rgba(255,255,255,.1);
         }
-        .hero-photo-frame img { width: 100%; height: 460px; object-fit: cover; object-position: 50% center; filter: grayscale(1) contrast(1.05); }
+        .hero-photo-frame img { width: 100%; height: 460px; object-fit: cover; object-position: 50% center; }
         .hero-photo-frame::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 55%, rgba(0,0,0,.5)); }
         .hero-price-card {
             position: absolute;
@@ -155,6 +160,7 @@ $lipaPhonesOptimized = $lipaPhones->map(function($phone) use ($whatsappBase) {
             font-weight: 800;
             letter-spacing: .14em;
         }
+        .landing-section-heading::before { background-image: linear-gradient(to right, #0a0a0a, rgba(10,10,10,.1)) !important; opacity: .85 !important; }
         .section-intro { max-width: 680px; margin-inline: auto; }
         .section-intro h2, .section-intro h3 { font-size: clamp(2rem, 3.2vw, 3rem); line-height: 1.12; }
         .category-grid { margin-top: 2.25rem; }
@@ -201,7 +207,7 @@ $lipaPhonesOptimized = $lipaPhones->map(function($phone) use ($whatsappBase) {
         .dashboard-image-placeholder i { display: block; margin-bottom: .4rem; color: #b0b0b0; font-size: 2.4rem; }
         .dashboard-image-placeholder span { font-size: .75rem; font-weight: 700; }
         #testimonials { background: #fff !important; }
-        .about-photo { width: 100%; height: 500px; object-fit: cover; border-radius: 24px !important; box-shadow: 0 24px 60px rgba(0,0,0,.12); filter: grayscale(1) contrast(1.05); }
+        .about-photo { width: 100%; height: 500px; object-fit: cover; border-radius: 24px !important; box-shadow: 0 24px 60px rgba(0,0,0,.12); }
         .floating-whatsapp { position: fixed; z-index: 999; right: 22px; bottom: 22px; display: inline-flex; align-items: center; gap: .55rem; padding: .85rem 1rem; color: #fff; background: #0a0a0a; border: 1px solid rgba(255,255,255,.14); border-radius: 999px; box-shadow: 0 16px 38px rgba(0,0,0,.3); font-weight: 800; text-decoration: none; }
         .floating-whatsapp:hover { color: #fff; background: #262626; transform: translateY(-2px); }
         .stat-card, .testimonial-card, .contact-card, .landing-missions { border: 1px solid var(--border) !important; border-radius: 18px !important; box-shadow: 0 10px 34px rgba(0,0,0,.04) !important; }

@@ -11,6 +11,7 @@
 @extends('layouts.landing-master')
 
 @section('styles')
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@1&display=swap">
 <style>
     .catalogue-page { background: #fafafa; }
     .catalogue-hero {
@@ -18,8 +19,8 @@
         overflow: hidden;
         padding: 8.5rem 0 6.5rem !important;
         background:
-            radial-gradient(circle at 82% 10%, rgba(255, 255, 255, .09), transparent 32%),
-            linear-gradient(125deg, #050505, #1a1a1a) !important;
+            radial-gradient(ellipse 50% 70% at 80% 20%, rgba(255, 255, 255, .14), transparent 70%),
+            #000000 !important;
     }
     .catalogue-hero::before {
         content: '';
@@ -28,15 +29,19 @@
         width: auto;
         height: auto;
         background-color: transparent !important;
-        background-image: radial-gradient(rgba(255,255,255,.11) 1px, transparent 1px);
-        background-size: 30px 30px;
-        opacity: .16;
+background-image:
+            linear-gradient(rgba(255,255,255,.05) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255,255,255,.05) 1px, transparent 1px);
+        background-size: 64px 64px;
+        -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 30%, transparent 80%);
+        mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 30%, transparent 80%);
+        opacity: 1;
     }
     .catalogue-hero__content { position: relative; z-index: 1; max-width: 760px; }
     .catalogue-eyebrow { display: inline-flex; align-items: center; gap: .5rem; margin-bottom: 1rem; color: #bdbdbd; font-size: .75rem; font-weight: 800; letter-spacing: .13em; }
     .catalogue-eyebrow::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: #ffffff; }
     .catalogue-title { margin-bottom: 1rem; color: #fff; font-size: clamp(2.7rem, 5vw, 4.4rem); font-weight: 800; line-height: 1.04; letter-spacing: -.05em; text-shadow: none; }
-    .catalogue-title span { color: #d4d4d4; background: linear-gradient(90deg, #ffffff 0%, #8f8f8f 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+    .catalogue-title span { color: #ffffff; font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 400; letter-spacing: -.01em; }
     .catalogue-subtitle { max-width: 620px; margin: 0; color: rgba(255,255,255,.7); font-size: 1.05rem; line-height: 1.7; }
 
     .catalogue-shell { position: relative; z-index: 5; margin-top: -3.4rem; padding-bottom: 6rem; }
