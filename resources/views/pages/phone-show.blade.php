@@ -5,38 +5,38 @@
 
 @section('styles')
 <style>
-    .product-page { padding: 9rem 0 6rem; background: #f7f9f7; }
-    .product-breadcrumb { margin-bottom: 1.5rem; color: #748078; font-size: .8rem; }
-    .product-breadcrumb a { color: #27724b; font-weight: 700; }
-    .product-detail { padding: 1rem; background: #fff; border: 1px solid #e2e9e4; border-radius: 24px; box-shadow: 0 24px 65px rgba(20,34,27,.08); }
-    .product-detail__media { display: grid; min-height: 540px; place-items: center; overflow: hidden; background: #f1f5f2; border-radius: 18px; }
+    .product-page { padding: 9rem 0 6rem; background: #fafafa; }
+    .product-breadcrumb { margin-bottom: 1.5rem; color: #737373; font-size: .8rem; }
+    .product-breadcrumb a { color: #0a0a0a; font-weight: 700; }
+    .product-detail { padding: 1rem; background: #fff; border: 1px solid #e8e8e8; border-radius: 24px; box-shadow: 0 24px 65px rgba(0,0,0,.07); }
+    .product-detail__media { display: grid; min-height: 540px; place-items: center; overflow: hidden; background: #f4f4f4; border-radius: 18px; }
     .product-detail__media img { width: 100%; height: 520px; padding: 2rem; object-fit: contain; }
-    .detail-placeholder { color: #8b9890; text-align: center; }
-    .detail-placeholder i { display: block; margin-bottom: .7rem; color: #abb6af; font-size: 4rem; }
+    .detail-placeholder { color: #8a8a8a; text-align: center; }
+    .detail-placeholder i { display: block; margin-bottom: .7rem; color: #b0b0b0; font-size: 4rem; }
     .product-detail__content { padding: clamp(1.5rem, 4vw, 3.5rem); }
-    .detail-brand { display: inline-flex; padding: .4rem .65rem; color: #27724b; background: #eaf4ed; border-radius: 999px; font-size: .7rem; font-weight: 800; letter-spacing: .09em; text-transform: uppercase; }
-    .detail-title { margin: 1rem 0; color: #17251d; font-size: clamp(2rem, 4vw, 3.4rem); font-weight: 800; line-height: 1.08; letter-spacing: -.05em; }
-    .detail-price { margin-bottom: 1.5rem; color: #17251d; font-family: 'Manrope', sans-serif; font-size: 1.75rem; font-weight: 800; }
+    .detail-brand { display: inline-flex; padding: .4rem .65rem; color: #fff; background: #0a0a0a; border-radius: 999px; font-size: .7rem; font-weight: 800; letter-spacing: .09em; text-transform: uppercase; }
+    .detail-title { margin: 1rem 0; color: #0a0a0a; font-size: clamp(2rem, 4vw, 3.4rem); font-weight: 800; line-height: 1.08; letter-spacing: -.05em; }
+    .detail-price { margin-bottom: 1.5rem; color: #0a0a0a; font-family: 'Manrope', sans-serif; font-size: 1.75rem; font-weight: 800; }
     .detail-facts { display: grid; grid-template-columns: repeat(2, 1fr); gap: .7rem; margin: 1.5rem 0; }
-    .detail-fact { padding: .9rem; background: #f7f9f7; border: 1px solid #e5ebe7; border-radius: 12px; }
-    .detail-fact small { display: block; margin-bottom: .2rem; color: #7b877f; font-size: .68rem; font-weight: 800; letter-spacing: .07em; text-transform: uppercase; }
-    .detail-fact strong { color: #26362c; font-size: .9rem; }
-    .availability-note { display: flex; gap: .65rem; margin-bottom: 1.3rem; padding: .85rem; color: #526158; background: #fff8e8; border: 1px solid #f0dfb7; border-radius: 11px; font-size: .8rem; }
+    .detail-fact { padding: .9rem; background: #fafafa; border: 1px solid #ebebeb; border-radius: 12px; }
+    .detail-fact small { display: block; margin-bottom: .2rem; color: #7a7a7a; font-size: .68rem; font-weight: 800; letter-spacing: .07em; text-transform: uppercase; }
+    .detail-fact strong { color: #1a1a1a; font-size: .9rem; }
+    .availability-note { display: flex; gap: .65rem; margin-bottom: 1.3rem; padding: .85rem; color: #525252; background: #f4f4f4; border: 1px solid #e5e5e5; border-radius: 11px; font-size: .8rem; }
     .detail-actions { display: grid; grid-template-columns: 1fr auto; gap: .7rem; }
     .detail-whatsapp, .detail-back { display: inline-flex; min-height: 52px; align-items: center; justify-content: center; border-radius: 12px; font-weight: 800; }
-    .detail-whatsapp { gap: .5rem; color: #fff; background: #1f9d55; }
-    .detail-whatsapp:hover { color: #fff; background: #168447; }
-    .detail-back { padding-inline: 1rem; color: #123f2b; background: #eaf4ed; }
-    .payment-card { margin-top: 1rem; padding: 1rem; color: #4d5b52; background: #f7f9f7; border: 1px solid #e3e9e5; border-radius: 12px; font-size: .8rem; }
-    .payment-card strong { color: #17251d; }
+    .detail-whatsapp { gap: .5rem; color: #fff; background: #0a0a0a; }
+    .detail-whatsapp:hover { color: #fff; background: #262626; }
+    .detail-back { padding-inline: 1rem; color: #0a0a0a; background: #f0f0f0; }
+    .payment-card { margin-top: 1rem; padding: 1rem; color: #4d4d4d; background: #fafafa; border: 1px solid #e8e8e8; border-radius: 12px; font-size: .8rem; }
+    .payment-card strong { color: #0a0a0a; }
     .related-section { padding-top: 5rem; }
-    .related-heading { margin-bottom: 1.5rem; color: #17251d; font-size: 1.8rem; font-weight: 800; }
-    .related-card { display: block; height: 100%; padding: .7rem; color: #17251d; background: #fff; border: 1px solid #e3e9e5; border-radius: 16px; transition: .2s ease; }
-    .related-card:hover { color: #17251d; transform: translateY(-4px); box-shadow: 0 16px 36px rgba(20,34,27,.09); }
-    .related-card img, .related-placeholder { width: 100%; height: 190px; object-fit: contain; background: #f2f5f3; border-radius: 11px; }
-    .related-placeholder { display: grid; place-items: center; color: #9aa69e; font-size: 2rem; }
+    .related-heading { margin-bottom: 1.5rem; color: #0a0a0a; font-size: 1.8rem; font-weight: 800; }
+    .related-card { display: block; height: 100%; padding: .7rem; color: #0a0a0a; background: #fff; border: 1px solid #e8e8e8; border-radius: 16px; transition: .2s ease; }
+    .related-card:hover { color: #0a0a0a; transform: translateY(-4px); box-shadow: 0 16px 36px rgba(0,0,0,.08); }
+    .related-card img, .related-placeholder { width: 100%; height: 190px; object-fit: contain; background: #f4f4f4; border-radius: 11px; }
+    .related-placeholder { display: grid; place-items: center; color: #a3a3a3; font-size: 2rem; }
     .related-card h3 { margin: .85rem .35rem .35rem; font-size: .9rem; font-weight: 800; line-height: 1.35; }
-    .related-card p { margin: 0 .35rem .45rem; color: #27724b; font-weight: 800; }
+    .related-card p { margin: 0 .35rem .45rem; color: #0a0a0a; font-weight: 800; }
     @media (max-width: 767.98px) {
         .product-page { padding-top: 7rem; }
         .product-detail__media { min-height: 360px; }
@@ -84,7 +84,7 @@
 
                         <div class="availability-note"><i class="ri-information-line"></i><span>{{ $availability['message'] }} Price and product details are read directly from our catalogue; confirm warranty details before payment.</span></div>
 
-                        <p class="mb-3"><a href="{{ route('policies.index') }}" class="fw-semibold text-success">Review delivery, warranty, returns and payment guidance <i class="ri-arrow-right-line"></i></a></p>
+                        <p class="mb-3"><a href="{{ route('policies.index') }}" class="fw-semibold text-dark text-decoration-underline">Review delivery, warranty, returns and payment guidance <i class="ri-arrow-right-line"></i></a></p>
 
                         <div class="detail-actions">
                             <a href="{{ $whatsappUrl }}" target="_blank" rel="noopener" class="detail-whatsapp"><i class="ri-whatsapp-line"></i> Ask about this phone</a>

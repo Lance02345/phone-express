@@ -1,9 +1,6 @@
 @php
 // Pre-calculate values for better performance
 $whatsappBase = 'https://wa.me/254721920545?text=';
-$primaryColor = '#1a472a';
-$secondaryColor = '#2e7d32';
-$lightColor = '#e8f5e9';
 
 // Optimize image paths
 $landingImage = asset('Images/herowq.jpeg');
@@ -36,15 +33,15 @@ $lipaPhonesOptimized = $lipaPhones->map(function($phone) use ($whatsappBase) {
         @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap');
 
         :root {
-            --primary-color: #123f2b;
-            --primary-dark: #092a1c;
-            --primary-light: #eaf4ed;
-            --accent-color: #f3b33d;
-            --page-bg: #fbfcfa;
+            --primary-color: #0a0a0a;
+            --primary-dark: #000000;
+            --primary-light: #f2f2f2;
+            --accent-color: #ffffff;
+            --page-bg: #fafafa;
             --surface: #ffffff;
-            --ink: #14221b;
-            --muted: #66736c;
-            --border: #e4e9e5;
+            --ink: #0a0a0a;
+            --muted: #6b6b6b;
+            --border: #e8e8e8;
         }
 
         html { scroll-padding-top: 84px; }
@@ -56,15 +53,15 @@ $lipaPhonesOptimized = $lipaPhones->map(function($phone) use ($whatsappBase) {
         h1, h2, h3, h4, h5, h6,
         .landing-banner-heading { font-family: 'Manrope', sans-serif; letter-spacing: -0.035em; }
         .section { padding-block: clamp(4rem, 7vw, 7rem); }
-        .section-bg { background: #f2f6f3 !important; }
+        .section-bg { background: #f4f4f4 !important; }
 
         .landing-banner {
             min-height: calc(100vh - 84px);
             display: flex;
             align-items: center;
             background:
-                radial-gradient(circle at 82% 12%, rgba(71, 151, 104, .22), transparent 25%),
-                linear-gradient(125deg, #082a1c 0%, #0d3725 55%, #12442e 100%) !important;
+                radial-gradient(circle at 82% 12%, rgba(255, 255, 255, .09), transparent 32%),
+                linear-gradient(125deg, #050505 0%, #111111 55%, #1c1c1c 100%) !important;
             padding-top: 82px !important;
             position: relative;
             overflow: hidden;
@@ -91,7 +88,7 @@ $lipaPhonesOptimized = $lipaPhones->map(function($phone) use ($whatsappBase) {
             border: 1px solid rgba(255,255,255,.14);
             border-radius: 999px;
             background: rgba(255,255,255,.08);
-            color: #dcece2;
+            color: #e5e5e5;
             font-size: .78rem;
             font-weight: 700;
             letter-spacing: .1em;
@@ -106,7 +103,7 @@ $lipaPhonesOptimized = $lipaPhones->map(function($phone) use ($whatsappBase) {
             text-wrap: balance;
             text-shadow: none;
         }
-        .hero-highlight { color: #f7c965; }
+        .hero-highlight { color: #d4d4d4; background: linear-gradient(90deg, #ffffff 0%, #8f8f8f 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
         .hero-copy { max-width: 650px; font-size: 1.12rem; line-height: 1.75; color: rgba(255,255,255,.72); }
         .hero-actions .btn {
             min-height: 54px;
@@ -117,12 +114,12 @@ $lipaPhonesOptimized = $lipaPhones->map(function($phone) use ($whatsappBase) {
             font-size: .95rem;
             font-weight: 700;
         }
-        .hero-actions .btn-primary { background: var(--accent-color) !important; border-color: var(--accent-color) !important; color: #172219 !important; box-shadow: 0 12px 34px rgba(243,179,61,.22); }
-        .hero-actions .btn-primary:hover { background: #ffc85a !important; transform: translateY(-2px); }
+        .hero-actions .btn-primary { background: var(--accent-color) !important; border-color: var(--accent-color) !important; color: #0a0a0a !important; box-shadow: 0 12px 34px rgba(255,255,255,.12); }
+        .hero-actions .btn-primary:hover { background: #e5e5e5 !important; transform: translateY(-2px); }
         .hero-actions .btn-outline-light { border-color: rgba(255,255,255,.28) !important; background: rgba(255,255,255,.04); }
         .hero-trust { display: flex; flex-wrap: wrap; gap: .7rem 1.4rem; color: rgba(255,255,255,.74); font-size: .88rem; }
         .hero-trust span { display: inline-flex; align-items: center; gap: .45rem; }
-        .hero-trust i { color: #8fd2a8; font-size: 1rem; }
+        .hero-trust i { color: #ffffff; font-size: 1rem; }
         .hero-visual { position: relative; padding: 10px 12px 10px 24px; }
         .hero-photo-frame {
             position: relative;
@@ -133,8 +130,8 @@ $lipaPhonesOptimized = $lipaPhones->map(function($phone) use ($whatsappBase) {
             background: rgba(255,255,255,.08);
             box-shadow: 0 30px 70px rgba(0,0,0,.3);
         }
-        .hero-photo-frame img { width: 100%; height: 460px; object-fit: cover; object-position: 50% center; }
-        .hero-photo-frame::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 55%, rgba(6,25,17,.48)); }
+        .hero-photo-frame img { width: 100%; height: 460px; object-fit: cover; object-position: 50% center; filter: grayscale(1) contrast(1.05); }
+        .hero-photo-frame::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 55%, rgba(0,0,0,.5)); }
         .hero-price-card {
             position: absolute;
             z-index: 3;
@@ -150,25 +147,25 @@ $lipaPhonesOptimized = $lipaPhones->map(function($phone) use ($whatsappBase) {
         .hero-price-card small { color: var(--muted); }
         .hero-price-card strong { display: block; color: var(--ink); font-family: 'Manrope', sans-serif; font-size: 1.05rem; }
         .hero-rating { position: absolute; z-index: 3; right: -2px; top: 34px; padding: .65rem .85rem; border-radius: 999px; background: #fff; color: var(--ink); font-weight: 700; box-shadow: 0 14px 35px rgba(0,0,0,.18); }
-        .hero-rating i { color: var(--accent-color); }
+        .hero-rating i { color: var(--ink); }
 
         .landing-section-heading {
             display: inline-block;
-            color: #27724b !important;
+            color: var(--muted) !important;
             font-weight: 800;
             letter-spacing: .14em;
         }
         .section-intro { max-width: 680px; margin-inline: auto; }
         .section-intro h2, .section-intro h3 { font-size: clamp(2rem, 3.2vw, 3rem); line-height: 1.12; }
         .category-grid { margin-top: 2.25rem; }
-        .category-tile { position: relative; display: flex; min-height: 210px; padding: 1.5rem; overflow: hidden; color: var(--ink); text-align: left; text-decoration: none; background: #fff; border: 1px solid var(--border); border-radius: 20px; box-shadow: 0 12px 38px rgba(20,34,27,.06); transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease; }
-        .category-tile:hover { color: var(--ink); transform: translateY(-5px); border-color: #bfd7c6; box-shadow: 0 22px 50px rgba(20,34,27,.11); }
-        .category-tile--dark { color: #fff; background: linear-gradient(145deg, #0d3725, #18543a); border-color: transparent; }
+        .category-tile { position: relative; display: flex; min-height: 210px; padding: 1.5rem; overflow: hidden; color: var(--ink); text-align: left; text-decoration: none; background: #fff; border: 1px solid var(--border); border-radius: 20px; box-shadow: 0 12px 38px rgba(0,0,0,.05); transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease; }
+        .category-tile:hover { color: var(--ink); transform: translateY(-5px); border-color: #cfcfcf; box-shadow: 0 22px 50px rgba(0,0,0,.1); }
+        .category-tile--dark { color: #fff; background: linear-gradient(145deg, #0a0a0a, #262626); border-color: transparent; }
         .category-tile--dark:hover { color: #fff; }
-        .category-tile--gold { background: linear-gradient(145deg, #fff8e8, #f9e4b4); }
+        .category-tile--light { background: linear-gradient(145deg, #f7f7f7, #e6e6e6); }
         .category-tile__content { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: flex-start; }
-        .category-tile__count { padding: .35rem .65rem; border-radius: 999px; background: rgba(18,63,43,.08); color: #27724b; font-size: .72rem; font-weight: 800; }
-        .category-tile--dark .category-tile__count { color: #dff2e5; background: rgba(255,255,255,.1); }
+        .category-tile__count { padding: .35rem .65rem; border-radius: 999px; background: rgba(0,0,0,.06); color: var(--ink); font-size: .72rem; font-weight: 800; }
+        .category-tile--dark .category-tile__count { color: #f5f5f5; background: rgba(255,255,255,.1); }
         .category-tile h4 { margin: auto 0 .25rem; font-size: 1.5rem; }
         .category-tile__link { font-size: .82rem; font-weight: 700; opacity: .72; }
         .category-tile__icon { position: absolute; right: 1.25rem; top: 1.3rem; font-size: 4.75rem; opacity: .1; transform: rotate(-8deg); }
@@ -177,43 +174,43 @@ $lipaPhonesOptimized = $lipaPhones->map(function($phone) use ($whatsappBase) {
         }
         .landing-body .section h2, .landing-body .section h3 { color: var(--ink); font-weight: 800 !important; }
         .landing-body .text-muted { color: var(--muted) !important; }
-        .category-filter { background: #fff; border: 1px solid var(--border); border-radius: 16px; padding: .55rem; box-shadow: 0 8px 30px rgba(20,34,27,.05); }
-        .category-btn { border: 0 !important; border-radius: 10px !important; color: #415047 !important; padding: .75rem 1rem; }
+        .category-filter { background: #fff; border: 1px solid var(--border); border-radius: 16px; padding: .55rem; box-shadow: 0 8px 30px rgba(0,0,0,.04); }
+        .category-btn { border: 0 !important; border-radius: 10px !important; color: #404040 !important; padding: .75rem 1rem; }
         .category-btn.active, .category-btn:hover { background: var(--primary-color) !important; color: #fff !important; }
         .phone-card {
             background: #fff;
             transition: transform .25s ease, box-shadow .25s ease;
             border: 1px solid var(--border) !important;
-            box-shadow: 0 10px 35px rgba(20,34,27,.06);
+            box-shadow: 0 10px 35px rgba(0,0,0,.05);
             border-radius: 20px !important;
             overflow: hidden;
             padding: .75rem !important;
             text-align: left !important;
         }
-        .phone-card img { width: 100%; height: 250px !important; padding: 1rem; margin-bottom: 1rem !important; background: #f5f7f5; border-radius: 14px !important; object-fit: contain !important; }
-        .phone-card:hover { transform: translateY(-6px); box-shadow: 0 22px 50px rgba(20,34,27,.12); }
+        .phone-card img { width: 100%; height: 250px !important; padding: 1rem; margin-bottom: 1rem !important; background: #f5f5f5; border-radius: 14px !important; object-fit: contain !important; }
+        .phone-card:hover { transform: translateY(-6px); box-shadow: 0 22px 50px rgba(0,0,0,.1); }
         .phone-card__body { display: flex; flex: 1; flex-direction: column; padding: .25rem .5rem .5rem; }
-        .phone-card__meta { color: #27724b; font-size: .7rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+        .phone-card__meta { color: var(--muted); font-size: .7rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
         .phone-card__name { min-height: 2.6rem; margin: .45rem 0 .8rem; font-size: 1rem; line-height: 1.35; }
         .phone-card__name a { color: var(--ink); }
-        .phone-card__name a:hover { color: #27724b; }
+        .phone-card__name a:hover { color: var(--muted); }
         .phone-card__price { margin: 0; color: var(--ink); font-family: 'Manrope', sans-serif; font-size: 1.35rem; font-weight: 800; letter-spacing: -.03em; }
         .phone-card__action { display: flex; align-items: center; justify-content: space-between; margin-top: 1rem; padding: .8rem .9rem; border-radius: 11px; background: var(--primary-light); color: var(--primary-color); font-size: .86rem; font-weight: 800; }
         .phone-card__action:hover { background: var(--primary-color); color: #fff; }
-        .dashboard-image-placeholder { display: grid; width: 100%; height: 250px; margin-bottom: 1rem; place-items: center; color: #8b9890; text-align: center; background: #f3f6f4; border-radius: 14px; }
-        .dashboard-image-placeholder i { display: block; margin-bottom: .4rem; color: #aab5ae; font-size: 2.4rem; }
+        .dashboard-image-placeholder { display: grid; width: 100%; height: 250px; margin-bottom: 1rem; place-items: center; color: #8a8a8a; text-align: center; background: #f4f4f4; border-radius: 14px; }
+        .dashboard-image-placeholder i { display: block; margin-bottom: .4rem; color: #b0b0b0; font-size: 2.4rem; }
         .dashboard-image-placeholder span { font-size: .75rem; font-weight: 700; }
         #testimonials { background: #fff !important; }
-        .about-photo { width: 100%; height: 500px; object-fit: cover; border-radius: 24px !important; box-shadow: 0 24px 60px rgba(20,34,27,.13); }
-        .floating-whatsapp { position: fixed; z-index: 999; right: 22px; bottom: 22px; display: inline-flex; align-items: center; gap: .55rem; padding: .85rem 1rem; color: #fff; background: #1f9d55; border-radius: 999px; box-shadow: 0 16px 38px rgba(13,94,49,.3); font-weight: 800; text-decoration: none; }
-        .floating-whatsapp:hover { color: #fff; background: #168447; transform: translateY(-2px); }
-        .stat-card, .testimonial-card, .contact-card, .landing-missions { border: 1px solid var(--border) !important; border-radius: 18px !important; box-shadow: 0 10px 34px rgba(20,34,27,.05) !important; }
-        .alert-info { color: #25583c; background: #edf7f0; border-color: #d5eadb; border-radius: 14px; }
+        .about-photo { width: 100%; height: 500px; object-fit: cover; border-radius: 24px !important; box-shadow: 0 24px 60px rgba(0,0,0,.12); filter: grayscale(1) contrast(1.05); }
+        .floating-whatsapp { position: fixed; z-index: 999; right: 22px; bottom: 22px; display: inline-flex; align-items: center; gap: .55rem; padding: .85rem 1rem; color: #fff; background: #0a0a0a; border: 1px solid rgba(255,255,255,.14); border-radius: 999px; box-shadow: 0 16px 38px rgba(0,0,0,.3); font-weight: 800; text-decoration: none; }
+        .floating-whatsapp:hover { color: #fff; background: #262626; transform: translateY(-2px); }
+        .stat-card, .testimonial-card, .contact-card, .landing-missions { border: 1px solid var(--border) !important; border-radius: 18px !important; box-shadow: 0 10px 34px rgba(0,0,0,.04) !important; }
+        .alert-info { color: #262626; background: #f4f4f4; border-color: #e5e5e5; border-radius: 14px; }
         .accordion-item { margin-bottom: .75rem; overflow: hidden; border: 1px solid var(--border) !important; border-radius: 14px !important; }
         .accordion-button { font-weight: 700; }
         .accordion-button:not(.collapsed) { color: var(--primary-color); background: var(--primary-light); box-shadow: none; }
         .form-control { border-color: var(--border); border-radius: 10px; padding: .75rem .9rem; }
-        .landing-footer { background: #0b2b1d !important; }
+        .landing-footer { background: #0a0a0a !important; }
         .deferred-styles {
             display: none;
         }
@@ -313,7 +310,7 @@ $lipaPhonesOptimized = $lipaPhones->map(function($phone) use ($whatsappBase) {
                     </a>
                 </div>
                 <div class="col-lg-3 col-md-6">
-                    <a href="{{ route('pricing', ['brand' => 'Samsung']) }}" class="category-tile category-tile--gold">
+                    <a href="{{ route('pricing', ['brand' => 'Samsung']) }}" class="category-tile category-tile--light">
                         <div class="category-tile__content"><span class="category-tile__count">{{ $categories['samsung'] ?? 0 }} MODELS</span><h4>Samsung Galaxy</h4><span class="category-tile__link">Browse Samsung <i class="ri-arrow-right-line ms-1"></i></span></div>
                         <i class="ri-android-fill category-tile__icon"></i>
                     </a>
@@ -371,7 +368,7 @@ $lipaPhonesOptimized = $lipaPhones->map(function($phone) use ($whatsappBase) {
                         <button class="nav-link" id="lipa-tab" data-bs-toggle="tab" data-bs-target="#lipa-polepole"
                             type="button" role="tab" aria-controls="lipa-polepole" aria-selected="false">
                             <i class="ri-calendar-check-line me-1"></i> Lipa PolePole
-                            <span class="badge bg-warning ms-1">iPhone Only</span>
+                            <span class="badge bg-dark ms-1">iPhone Only</span>
                         </button>
                     </li>
                 </ul>
@@ -686,7 +683,7 @@ $lipaPhonesOptimized = $lipaPhones->map(function($phone) use ($whatsappBase) {
                                 <div class="d-flex align-items-center justify-content-between mt-auto">
                                     <div class="d-flex align-items-center">
                                         <span class="text-muted">Rating: </span>
-                                        <span class="text-warning d-block ms-1">
+                                        <span class="text-dark d-block ms-1">
                                             @for($i = 1; $i <= 5; $i++)
                                                 @if($i <= floor($testimonial['rating']))
                                                     <i class="ri-star-fill"></i>
@@ -869,7 +866,7 @@ $lipaPhonesOptimized = $lipaPhones->map(function($phone) use ($whatsappBase) {
                                         </div>
                                         <div class="ms-auto">
                                             <a href="https://wa.me/254721920545?text=Hello%20Phone%20Express,%20I%20would%20like%20to%20inquire%20about..."
-                                                target="_blank" class="btn btn-success btn-wave">
+                                                target="_blank" class="btn btn-dark btn-wave">
                                                 <i class="ri-whatsapp-line me-1"></i> Send via WhatsApp
                                             </a>
                                         </div>
@@ -983,13 +980,13 @@ $lipaPhonesOptimized = $lipaPhones->map(function($phone) use ($whatsappBase) {
                 padding: 12px 30px;
                 font-weight: 600;
                 font-size: 1.1rem;
-                box-shadow: 0 4px 15px rgba(26, 71, 42, 0.3);
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
                 transition: all 0.3s ease;
             }
 
             .btn-primary:hover {
                 transform: translateY(-2px);
-                box-shadow: 0 8px 25px rgba(26, 71, 42, 0.4);
+                box-shadow: 0 8px 25px rgba(0, 0, 0, 0.28);
             }
 
             .btn-outline-light {
@@ -1073,7 +1070,7 @@ $lipaPhonesOptimized = $lipaPhones->map(function($phone) use ($whatsappBase) {
             }
 
             .lipa-polepole-badge {
-                background: linear-gradient(45deg, #ff6b35, #ff8e35);
+                background: #0a0a0a;
                 color: white;
                 font-size: 0.7rem;
                 padding: 3px 8px;
@@ -1109,7 +1106,7 @@ $lipaPhonesOptimized = $lipaPhones->map(function($phone) use ($whatsappBase) {
                 border: none !important;
                 color: white !important;
                 transform: translateY(-2px);
-                box-shadow: 0 4px 15px rgba(26, 71, 42, 0.3);
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
             }
 
             .accordion-button:not(.collapsed) {
@@ -1189,8 +1186,8 @@ $lipaPhonesOptimized = $lipaPhones->map(function($phone) use ($whatsappBase) {
             
             const badges = [
                 { top: '20%', left: '10%', text: 'iPhone', icon: 'ri-smartphone-line', color: 'bg-primary', delay: '0s' },
-                { top: '60%', right: '15%', text: 'Samsung', icon: 'ri-android-line', color: 'bg-success', delay: '1.5s' },
-                { bottom: '20%', left: '20%', text: 'Accessories', icon: 'ri-shopping-bag-line', color: 'bg-warning text-dark', delay: '3s' }
+                { top: '60%', right: '15%', text: 'Samsung', icon: 'ri-android-line', color: 'bg-dark', delay: '1.5s' },
+                { bottom: '20%', left: '20%', text: 'Accessories', icon: 'ri-shopping-bag-line', color: 'bg-light text-dark', delay: '3s' }
             ];
             
             badges.forEach(badge => {

@@ -9,7 +9,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="description" content="@yield('meta_description', 'Shop smartphones at competitive prices from Digital District Kenya, with flexible payment options and delivery across Kenya.')">
         <meta name="author" content="Digital District Kenya">
-        <meta name="theme-color" content="#123f2b">
+        <meta name="theme-color" content="#0a0a0a">
 
         <!-- TITLE -->
 		<title>@yield('title', 'Digital District Kenya')</title>
@@ -29,17 +29,15 @@
 
         <style>
             :root {
-                --primary-color: #1a472a !important;
-                --primary-light: #e8f5e9 !important;
-                --primary-dark: #0a2e1a !important;
+                --primary-color: #0a0a0a !important;
+                --primary-light: #f2f2f2 !important;
+                --primary-dark: #000000 !important;
                 --text-on-primary: #ffffff !important;
             }
             
             /* Override Bootstrap primary color globally */
             .btn-primary, 
-            .bg-primary,
-            .text-primary,
-            .border-primary {
+            .bg-primary {
                 background-color: var(--primary-color) !important;
                 border-color: var(--primary-color) !important;
                 color: var(--text-on-primary) !important;
@@ -57,8 +55,8 @@
             }
             
             .btn-primary-light:hover {
-                background-color: #d4edda !important;
-                border-color: #d4edda !important;
+                background-color: #e5e5e5 !important;
+                border-color: #e5e5e5 !important;
                 color: var(--primary-dark) !important;
             }
             
@@ -67,12 +65,12 @@
             }
             
             .bg-primary-transparent {
-                background-color: rgba(26, 71, 42, 0.1) !important;
+                background-color: rgba(10, 10, 10, 0.06) !important;
             }
             
             /* Landing banner */
             .landing-banner {
-                background: linear-gradient(135deg, var(--primary-color) 0%, #2e7d32 100%) !important;
+                background: linear-gradient(135deg, #0a0a0a 0%, #262626 100%) !important;
                 padding-top: 100px !important;
             }
             
@@ -100,10 +98,10 @@
             
             /* Sidebar styling */
             .app-sidebar {
-                background: rgba(7, 37, 25, .92) !important;
+                background: rgba(10, 10, 10, .88) !important;
                 backdrop-filter: blur(22px) saturate(140%);
                 border-bottom: 1px solid rgba(255,255,255,.08) !important;
-                box-shadow: 0 12px 35px rgba(3, 25, 16, .12);
+                box-shadow: 0 12px 35px rgba(0, 0, 0, .18);
             }
 
             .landing-body .main-menu-container {
@@ -141,7 +139,7 @@
                 left: 1rem;
                 height: 2px;
                 border-radius: 2px;
-                background: #f3b33d;
+                background: #ffffff;
             }
 
             .landing-body .app-sidebar .side-menu__item.active .side-menu__label,
@@ -155,11 +153,11 @@
                 gap: .45rem;
                 margin-inline-start: 1rem;
                 padding: .72rem 1rem;
-                color: #172219;
+                color: #0a0a0a;
                 white-space: nowrap;
-                background: #f3b33d;
+                background: #ffffff;
                 border-radius: 999px;
-                box-shadow: 0 10px 24px rgba(243, 179, 61, .18);
+                box-shadow: 0 10px 24px rgba(0, 0, 0, .25);
                 font-size: .82rem;
                 font-weight: 800;
                 text-decoration: none;
@@ -167,8 +165,8 @@
             }
 
             .landing-nav-cta:hover {
-                color: #172219;
-                background: #ffc85a;
+                color: #0a0a0a;
+                background: #e5e5e5;
                 transform: translateY(-2px);
             }
             
@@ -178,7 +176,7 @@
             
             /* Header styling */
             .app-header {
-                background-color: rgba(11, 44, 30, .98) !important;
+                background-color: rgba(10, 10, 10, .98) !important;
                 border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
             }
             
@@ -197,7 +195,7 @@
             }
             
             .landing-main-footer .text-primary {
-                color: #e8f5e9 !important;
+                color: #e5e5e5 !important;
             }
             
             .landing-section-heading {
@@ -218,7 +216,7 @@
             }
             
             .text-secondary {
-                color: #e8f5e9 !important;
+                color: #e5e5e5 !important;
             }
             
             .op-7 {

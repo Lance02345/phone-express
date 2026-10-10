@@ -43,7 +43,7 @@
                                 <a href="{{url('signup-basic')}}" class="btn btn-primary-light">
                                     Sign Up
                                 </a>
-                                <button class="btn btn-icon btn-success switcher-icon" data-bs-toggle="offcanvas" data-bs-target="#switcher-canvas">
+                                <button class="btn btn-icon btn-dark switcher-icon" data-bs-toggle="offcanvas" data-bs-target="#switcher-canvas">
                                     <i class="ri-settings-3-line"></i>
                                 </button>
                             </div> --}}
