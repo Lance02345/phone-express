@@ -1,7 +1,6 @@
 {{--
-    Look switcher: previews alternative black & white looks on the live pages.
-    Hidden from customers. Visit any page with ?looks to reveal it (remembered in this browser),
-    or ?look=gallery|editorial|chrome|split to open a specific look. "Hide" turns it off again.
+    Look switcher: lets every visitor pick one of five black & white looks; the choice is remembered
+    in their browser. ?look=gallery|editorial|chrome|split opens a specific look (handy for sharing).
     The default look ("spotlight") is the styling in the layout and page files; everything here only
     applies while html[data-look] is set.
 --}}
@@ -12,12 +11,7 @@
         var looks = ['spotlight', 'gallery', 'editorial', 'chrome', 'split'];
         try {
             var query = new URLSearchParams(window.location.search);
-            if (query.has('looks')) localStorage.setItem('ddk-looks', '1');
-            if (looks.indexOf(query.get('look')) > -1) {
-                localStorage.setItem('ddk-looks', '1');
-                localStorage.setItem('ddk-look', query.get('look'));
-            }
-            if (localStorage.getItem('ddk-looks') !== '1') return;
+            if (looks.indexOf(query.get('look')) > -1) localStorage.setItem('ddk-look', query.get('look'));
             var look = localStorage.getItem('ddk-look');
             if (looks.indexOf(look) > 0) document.documentElement.setAttribute('data-look', look);
         } catch (e) {}
@@ -31,7 +25,10 @@
     .look-switcher button { padding: .55rem .7rem; color: rgba(255,255,255,.8); white-space: nowrap; background: transparent; border: 0; border-radius: 9px; cursor: pointer; }
     .look-switcher button:hover { color: #fff; background: rgba(255,255,255,.1); }
     .look-switcher button.active { color: #0a0a0a; background: #fff; }
-    .look-switcher .look-switcher__hide { color: rgba(255,255,255,.5); }
+    @media (max-width: 576px) {
+        .look-switcher { left: 12px; right: 76px; bottom: 22px; max-width: none; }
+        .look-switcher__label { display: none; }
+    }
 
     /* ================= 1. Gallery: white-first, Apple-store bright ================= */
     html[data-look="gallery"] body.landing-body { background: #fff; }
@@ -227,14 +224,12 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        try { if (localStorage.getItem('ddk-looks') !== '1') return; } catch (e) { return; }
-
         var looks = [['spotlight', 'Spotlight'], ['gallery', 'Gallery'], ['editorial', 'Editorial'], ['chrome', 'Chrome'], ['split', 'Split']];
         var root = document.documentElement;
         var bar = document.createElement('div');
         bar.className = 'look-switcher';
         bar.setAttribute('role', 'toolbar');
-        bar.setAttribute('aria-label', 'Preview site look');
+        bar.setAttribute('aria-label', 'Choose site look');
         bar.innerHTML = '<span class="look-switcher__label">Look</span>';
 
         looks.forEach(function (look) {
@@ -250,17 +245,6 @@
             });
             bar.appendChild(button);
         });
-
-        var hide = document.createElement('button');
-        hide.type = 'button';
-        hide.className = 'look-switcher__hide';
-        hide.textContent = 'Hide ×';
-        hide.addEventListener('click', function () {
-            try { localStorage.removeItem('ddk-looks'); localStorage.removeItem('ddk-look'); } catch (e) {}
-            root.removeAttribute('data-look');
-            bar.remove();
-        });
-        bar.appendChild(hide);
 
         function sync() {
             var current = root.getAttribute('data-look') || 'spotlight';
