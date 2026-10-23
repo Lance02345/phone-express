@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr" data-nav-layout="horizontal" data-nav-style="menu-click" data-menu-position="fixed" data-theme-mode="light">
+<html lang="en" dir="ltr" data-look="editorial" data-nav-layout="horizontal" data-nav-style="menu-click" data-menu-position="fixed" data-theme-mode="light">
 
     <head>
 
@@ -262,7 +262,20 @@
                 font-weight: 600;
             }
 
-            [id="home"], section[id] { scroll-margin-top: 92px; }
+            /* Land section links just below the fixed header (60px on phones, ~116px on desktop). */
+            [id="home"], section[id] { scroll-margin-top: 68px; }
+            @media (min-width: 992px) {
+                [id="home"], section[id] { scroll-margin-top: 120px; }
+            }
+
+            /* Keep all nav links and the CTA on one row on small laptops. */
+            @media (min-width: 992px) and (max-width: 1199.98px) {
+                .landing-body .main-menu-container .main-menu { gap: 0; }
+                .landing-body .app-sidebar .side-menu__item { padding: .6rem .55rem !important; }
+                .landing-body .app-sidebar .side-menu__label { font-size: .82rem; }
+                .landing-body .app-sidebar .side-menu__item.active::after { right: .55rem; left: .55rem; }
+                .landing-nav-cta { margin-inline-start: .5rem; padding: .62rem .85rem; font-size: .85rem; }
+            }
             
             /* Responsive font sizes */
             @media (max-width: 768px) {
@@ -294,7 +307,7 @@
 
         @include('layouts.components.landing.styles')
         @yield('styles')
-        @include('layouts.components.landing.looks')
+        @include('layouts.components.landing.editorial-theme')
 
 	</head>
 

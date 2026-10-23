@@ -41,11 +41,10 @@ class FetchCatalogueImages extends Command
             return self::SUCCESS;
         }
 
-        if (! $this->option('dry-run') && ! $this->hasSearchProvider() && $targets->keys()->diff(array_keys($sources))->isNotEmpty()) {
-            $this->error('No image search API configured. Set GOOGLE_CSE_KEY + GOOGLE_CSE_CX or BRAVE_SEARCH_KEY in .env,');
-            $this->error('or add direct image URLs to '.self::SOURCES_FILE.'.');
+        $canSearch = $this->hasSearchProvider();
 
-            return self::FAILURE;
+        if (! $this->option('dry-run') && ! $canSearch && $targets->keys()->diff(array_keys($sources))->isNotEmpty()) {
+            $this->warn('No image search API configured (GOOGLE_CSE_KEY + GOOGLE_CSE_CX or BRAVE_SEARCH_KEY), so only images with a URL in '.self::SOURCES_FILE.' will be downloaded.');
         }
 
         $saved = 0;
@@ -54,6 +53,12 @@ class FetchCatalogueImages extends Command
         foreach ($targets as $path => $query) {
             if ($this->option('dry-run')) {
                 $this->line(sprintf('%-45s %s%s', $path, $query, isset($sources[$path]) ? '  [source set]' : ''));
+
+                continue;
+            }
+
+            if (! isset($sources[$path]) && ! $canSearch) {
+                $failed[] = $path;
 
                 continue;
             }

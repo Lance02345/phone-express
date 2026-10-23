@@ -40,6 +40,12 @@
                             <span class="side-menu__label">Shop</span>
                         </a>
                     </li>
+
+                    <li class="slide">
+                        <a href="{{ route('home') }}#accessories" class="side-menu__item" data-nav-section="accessories">
+                            <span class="side-menu__label">Accessories</span>
+                        </a>
+                    </li>
                     
                     <li class="slide">
                         <a href="{{ route('home') }}#about" class="side-menu__item" data-nav-section="about">
@@ -73,7 +79,7 @@
                 </ul>
 
                 <a href="{{ route('pricing') }}" class="landing-nav-cta">
-                    Shop phones <i class="ri-arrow-right-line"></i>
+                    Shop now <i class="ri-arrow-right-line"></i>
                 </a>
                 
                 <div class="slide-right" id="slide-right">

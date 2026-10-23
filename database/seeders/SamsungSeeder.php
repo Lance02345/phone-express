@@ -135,9 +135,9 @@ class SamsungSeeder extends Seeder
             ["name" => "Samsung Galaxy Fold 4 5G 256GB", "price" => 63000, "image_path" => "Images/samsung/samsungfold4.jpeg"],
             ["name" => "Samsung Galaxy Fold 5 5G 256GB", "price" => 68000, "image_path" => "Images/samsung/samsungfold5.jpg"],
             ["name" => "Samsung Galaxy Fold 5 5G 512GB", "price" => 70000, "image_path" => "Images/samsung/samsungfold5.jpg"],
-            ["name" => "Samsung Galaxy Fold 6 5G 256GB", "price" => 95000, "image_path" => "Images/samsung/samsungfold5.jpg"],
-            ["name" => "Samsung Galaxy Fold 6 5G 512GB", "price" => 100000, "image_path" => "Images/samsung/samsungfold5.jpg"],
-            ["name" => "Samsung Galaxy Fold 7 512GB", "price" => 157000, "image_path" => "Images/samsung/samsungfold5.jpg"],
+            ["name" => "Samsung Galaxy Fold 6 5G 256GB", "price" => 95000, "image_path" => "Images/samsung/samsungfold6.jpg"],
+            ["name" => "Samsung Galaxy Fold 6 5G 512GB", "price" => 100000, "image_path" => "Images/samsung/samsungfold6.jpg"],
+            ["name" => "Samsung Galaxy Fold 7 512GB", "price" => 157000, "image_path" => "Images/samsung/samsungfold7.jpg"],
         ];
 
         foreach ($samsungs as $phone) {

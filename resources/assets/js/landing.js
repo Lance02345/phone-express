@@ -299,17 +299,19 @@ function reveal() {
     }
   }
   reveal();
+  // Only same-page "#section" links are smooth-scrolled here; links to other pages (Shop, Shopping help)
+  // and full URLs (handled by the layout script) must navigate normally.
+  const isSectionHref = (href) => typeof href === "string" && /^#[\w-]+$/.test(href);
   const pageLink = document.querySelectorAll(".side-menu__item");
   pageLink.forEach((elem) => {
-    if (elem != "javascript:void(0);" && elem !== "#") {
-      elem.addEventListener("click", (e) => {
-        e.preventDefault();
-        document.querySelector(elem.getAttribute("href"))?.scrollIntoView({
-          behavior: "smooth",
-          offsetTop: 1 - 60,
-        });
-      });
-    }
+    const href = elem.getAttribute("href");
+    if (!isSectionHref(href)) return;
+    elem.addEventListener("click", (e) => {
+      const target = document.querySelector(href);
+      if (!target) return;
+      e.preventDefault();
+      target.scrollIntoView({ behavior: "smooth" });
+    });
   });
 // section menu active
 function onScroll(event) {
@@ -322,9 +324,8 @@ function onScroll(event) {
     sections.forEach((elem) => {
       const val = elem.getAttribute("href");
       let refElement;
-      if (val != "javascript:void(0);" && val !== "#") {
-        refElement = document.querySelector(val);
-      }
+      if (!isSectionHref(val)) return;
+      refElement = document.querySelector(val);
       const scrollTopMinus = scrollPos + 73;
       if (
         refElement?.offsetTop <= scrollTopMinus &&

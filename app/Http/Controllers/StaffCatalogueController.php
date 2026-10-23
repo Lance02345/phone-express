@@ -85,6 +85,7 @@ class StaffCatalogueController extends Controller
         Cache::forget('landing_catalogue_lipa_v2');
         Cache::forget('catalogue_category_counts_v2');
         Cache::forget('catalogue_category_counts_v3');
+        Cache::forget('catalogue_category_counts_v4');
 
         return redirect()->route('staff.catalogue.edit', $variant)->with('status', 'Catalogue item updated.');
     }

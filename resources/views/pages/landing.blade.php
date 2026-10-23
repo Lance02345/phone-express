@@ -44,7 +44,6 @@ $lipaPhonesOptimized = $lipaPhones->map(function($phone) use ($whatsappBase) {
             --border: #e8e8e8;
         }
 
-        html { scroll-padding-top: 84px; }
         body.landing-body {
             background: var(--page-bg);
             color: var(--ink);
@@ -179,6 +178,36 @@ background-image:
         .text-fixed-white {
             color: #ffffff !important;
         }
+
+        /* Accessories & wearables */
+        .accessory-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 1.5rem; text-align: left; }
+        .accessory-head .section-intro { margin: 0; }
+        .accessory-head__links { display: flex; flex-wrap: wrap; gap: .5rem; }
+        .accessory-pill { display: inline-flex; align-items: center; gap: .45rem; padding: .7rem 1rem; color: var(--ink); background: #fff; border: 1px solid var(--border); border-radius: 999px; font-size: .85rem; font-weight: 800; text-decoration: none; transition: .2s ease; }
+        .accessory-pill small { color: var(--muted); font-size: .72rem; font-weight: 700; }
+        .accessory-pill:hover { color: #fff; background: #0a0a0a; border-color: #0a0a0a; }
+        .accessory-pill:hover small { color: rgba(255,255,255,.6); }
+        .accessory-pill i { font-size: 1.05rem; }
+        .accessory-strip { display: grid; grid-auto-columns: minmax(220px, 1fr); grid-auto-flow: column; gap: 1rem; margin: 2.25rem -.75rem 0; padding: .75rem .75rem 1.25rem; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: thin; text-align: left; }
+        .accessory-card { display: flex; flex-direction: column; padding: .65rem; color: var(--ink); background: #fff; border: 1px solid var(--border); border-radius: 18px; box-shadow: 0 10px 30px rgba(0,0,0,.045); text-decoration: none; scroll-snap-align: start; transition: transform .25s ease, box-shadow .25s ease; }
+        .accessory-card:hover { color: var(--ink); transform: translateY(-4px); box-shadow: 0 20px 44px rgba(0,0,0,.1); }
+        .accessory-card__media { display: grid; aspect-ratio: 1 / 1; place-items: center; overflow: hidden; background: #f4f4f4; border-radius: 13px; }
+        .accessory-card__media img { width: 100%; height: 100%; padding: 1rem; object-fit: contain; mix-blend-mode: multiply; }
+        .accessory-card__media i { color: #b0b0b0; font-size: 2.6rem; }
+        .accessory-card__body { padding: .85rem .35rem .3rem; }
+        .accessory-card__meta { color: var(--muted); font-size: .66rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+        .accessory-card__name { margin: .3rem 0 .45rem; font-size: .95rem; font-weight: 800; line-height: 1.35; }
+        .accessory-card__price { font-size: 1.02rem; font-weight: 800; }
+        .accessory-card__price small { color: var(--muted); font-size: .7rem; font-weight: 700; }
+        .accessory-banner { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; margin-top: 1rem; padding: 1.25rem 1.5rem; color: #fff; text-align: left; background: linear-gradient(135deg, #0a0a0a, #2a2a2a); border-radius: 18px; }
+        .accessory-banner strong { display: block; font-size: 1.1rem; }
+        .accessory-banner span { color: rgba(255,255,255,.7); font-size: .88rem; }
+        .accessory-banner a { display: inline-flex; align-items: center; gap: .4rem; padding: .75rem 1.1rem; color: #0a0a0a; background: #fff; border-radius: 12px; font-weight: 800; text-decoration: none; white-space: nowrap; }
+        .accessory-banner a:hover { color: #0a0a0a; background: #e9e9e9; }
+        @media (max-width: 575.98px) {
+            .accessory-strip { grid-auto-columns: 62%; }
+            .accessory-pill { flex: 1 1 auto; justify-content: center; }
+        }
         .landing-body .section h2, .landing-body .section h3 { color: var(--ink); font-weight: 800 !important; }
         .landing-body .text-muted { color: var(--muted) !important; }
         .category-filter { background: #fff; border: 1px solid var(--border); border-radius: 16px; padding: .55rem; box-shadow: 0 8px 30px rgba(0,0,0,.04); }
@@ -307,7 +336,7 @@ background-image:
             <div class="section-intro">
                 <p class="fs-12 fw-semibold text-success mb-2"><span class="landing-section-heading">SHOP BY CATEGORY</span></p>
                 <h3 class="fw-semibold mb-3">Find the right device, faster.</h3>
-                <p class="text-muted fs-15 mb-0">Browse phones and MacBooks from our complete collection.</p>
+                <p class="text-muted fs-15 mb-0">Browse phones, MacBooks, tablets, watches, audio and accessories from our complete collection.</p>
             </div>
             <div class="row g-4 category-grid">
                 <div class="col-lg-3 col-md-6">
@@ -338,6 +367,63 @@ background-image:
         </div>
     </section>
     <!-- End:: Categories Section -->
+
+    <!-- Start:: Accessories Section -->
+    @php
+        $accessoryLinks = [
+            'Audio' => ['AirPods & Buds', 'ri-headphone-line', $categories['audio'] ?? 0],
+            'Watches' => ['Smartwatches', 'ri-time-line', $categories['watches'] ?? 0],
+            'Accessories' => ['Pencils, keyboards & more', 'ri-keyboard-line', $categories['accessories'] ?? 0],
+        ];
+    @endphp
+    <section class="section" id="accessories">
+        <div class="container">
+            <div class="accessory-head">
+                <div class="section-intro">
+                    <p class="fs-12 fw-semibold text-success mb-2"><span class="landing-section-heading">ACCESSORIES &amp; WEARABLES</span></p>
+                    <h3 class="fw-semibold mb-3">Complete your setup.</h3>
+                    <p class="text-muted fs-15 mb-0">Genuine AirPods, Galaxy Buds, Apple Watch, Galaxy Watch, Apple Pencil and Magic Keyboard. Get them with your new device or on their own.</p>
+                </div>
+                <div class="accessory-head__links">
+                    @foreach($accessoryLinks as $category => [$label, $icon, $count])
+                        @continue($count === 0)
+                        <a href="{{ route('pricing', ['category' => $category]) }}" class="accessory-pill"><i class="{{ $icon }}"></i> {{ $label }} <small>{{ $count }}</small></a>
+                    @endforeach
+                </div>
+            </div>
+
+            @if($accessories->isNotEmpty())
+                <div class="accessory-strip" aria-label="Featured accessories">
+                    @foreach($accessories as $accessory)
+                        @php($accessoryImage = filled($accessory->image_path) && is_file(public_path($accessory->image_path)))
+                        <a href="{{ route('phones.show', $accessory) }}" class="accessory-card">
+                            <div class="accessory-card__media">
+                                @if($accessoryImage)
+                                    <img src="{{ asset($accessory->image_path) }}" alt="{{ $accessory->product->name }}" loading="lazy">
+                                @else
+                                    <i class="{{ $accessoryLinks[$accessory->product->category->name][1] ?? 'ri-image-line' }}"></i>
+                                @endif
+                            </div>
+                            <div class="accessory-card__body">
+                                <span class="accessory-card__meta">{{ $accessory->product->brand->name }}</span>
+                                <h4 class="accessory-card__name">{{ $accessory->product->name }}</h4>
+                                <span class="accessory-card__price">@if($accessory->has_price_spread)<small>From</small> @endif KES {{ number_format($accessory->price) }}</span>
+                            </div>
+                        </a>
+                    @endforeach
+                </div>
+            @endif
+
+            <div class="accessory-banner">
+                <div>
+                    <strong>Buying a phone, tablet or MacBook?</strong>
+                    <span>Ask us to add AirPods, a watch or a Pencil to your order.</span>
+                </div>
+                <a href="https://wa.me/254721920545?text={{ urlencode('Hello, I would like to add accessories to my order') }}" target="_blank" rel="noopener"><i class="ri-whatsapp-line"></i> Add accessories</a>
+            </div>
+        </div>
+    </section>
+    <!-- End:: Accessories Section -->
 
     <!-- Top-End Smartphones Pricing Section -->
     <section class="section" id="pricing">
