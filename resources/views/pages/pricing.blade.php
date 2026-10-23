@@ -153,7 +153,7 @@ background-image:
 
             <p class="filter-label">Popular filters</p>
             <div class="filter-chips">
-                @foreach(['Smartphones' => 'Smartphones', 'Laptops' => 'MacBooks', 'Tablets' => 'Tablets'] as $category => $label)
+                @foreach(['Smartphones' => 'Smartphones', 'Laptops' => 'MacBooks', 'Desktops' => 'Mac mini', 'Tablets' => 'Tablets', 'Watches' => 'Watches', 'Audio' => 'Audio', 'Accessories' => 'Accessories'] as $category => $label)
                     <button type="button" class="filter-chip {{ ($filters['category'] ?? '') === $category ? 'active' : '' }}" onclick="toggleFilter('category', '{{ $category }}')">{{ $label }}</button>
                 @endforeach
                 @foreach($brands as $brand)

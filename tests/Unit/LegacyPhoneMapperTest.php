@@ -113,6 +113,46 @@ class LegacyPhoneMapperTest extends TestCase
         $this->assertSame('Itel', $itel['brand']);
     }
 
+    public function test_it_classifies_wearables_audio_accessories_and_desktops(): void
+    {
+        $watch = $this->mapper->map($this->phone(60, 'Apple Watch Ultra 3 49mm (Stainless)', 108000, null));
+        $buds = $this->mapper->map($this->phone(61, 'Samsung Galaxy Buds3 Pro', 18500, null));
+        $airpods = $this->mapper->map($this->phone(62, 'AirPods Pro 3 (2 Years Warranty)', 32000, null));
+        $pencil = $this->mapper->map($this->phone(63, 'Apple Pencil Pro', 18500, null));
+        $macMini = $this->mapper->map($this->phone(64, 'Mac mini M4 16GB RAM 256GB SSD', 113500, null));
+
+        $this->assertSame('Watches', $watch['category']);
+        $this->assertSame('Stainless', $watch['colour']);
+        $this->assertSame('Audio', $buds['category']);
+        $this->assertSame('Apple', $airpods['brand']);
+        $this->assertSame('Audio', $airpods['category']);
+        $this->assertNull($airpods['colour']);
+        $this->assertSame('Accessories', $pencil['category']);
+        $this->assertNotContains('Storage could not be identified', $pencil['warnings']);
+        $this->assertFalse($pencil['payment_plan_eligible']);
+        $this->assertSame('Apple', $macMini['brand']);
+        $this->assertSame('Desktops', $macMini['category']);
+        $this->assertSame(256, $macMini['storage_gb']);
+        $this->assertFalse($macMini['payment_plan_eligible']);
+    }
+
+    public function test_it_reads_tablet_connectivity_and_new_brands(): void
+    {
+        $tab = $this->mapper->map($this->phone(70, 'Samsung Galaxy Tab S10 FE 128GB + 8GB RAM (WiFi)', 58000, null));
+        $oneplus = $this->mapper->map($this->phone(71, 'OnePlus 15 256GB + 12GB RAM', 107000, null));
+        $nothing = $this->mapper->map($this->phone(72, 'Nothing Phone 3a Lite 128GB + 8GB RAM', 37000, null));
+        $poco = $this->mapper->map($this->phone(73, 'Poco X8 Pro 512GB + 12GB RAM', 63000, null));
+
+        $this->assertSame('Tablets', $tab['category']);
+        $this->assertSame('WiFi', $tab['connectivity']);
+        $this->assertNull($tab['colour']);
+        $this->assertSame('Samsung Galaxy Tab S10 FE', $tab['product_name']);
+        $this->assertSame('OnePlus', $oneplus['brand']);
+        $this->assertSame('Nothing', $nothing['brand']);
+        $this->assertSame('Xiaomi', $poco['brand']);
+        $this->assertSame('Poco X8 Pro', $poco['product_name']);
+    }
+
     private function phone(int $id, string $name, int $price, ?string $imagePath): Phone
     {
         $phone = new Phone([

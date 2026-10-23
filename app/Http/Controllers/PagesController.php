@@ -151,7 +151,7 @@ class PagesController extends Controller
         }
 
         $category = trim($request->string('category')->limit(80)->toString());
-        if (in_array($category, ['Smartphones', 'Laptops', 'Tablets'], true)) {
+        if (in_array($category, ['Smartphones', 'Laptops', 'Desktops', 'Tablets', 'Watches', 'Audio', 'Accessories'], true)) {
             $query->whereHas('product.category', fn (Builder $categoryQuery) => $categoryQuery->where('name', $category));
         }
 

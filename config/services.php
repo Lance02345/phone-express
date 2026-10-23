@@ -31,4 +31,11 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    // Used by `php artisan catalogue:fetch-images`; Brave is preferred when both are set.
+    'image_search' => [
+        'brave_key' => env('BRAVE_SEARCH_KEY'),
+        'google_key' => env('GOOGLE_CSE_KEY'),
+        'google_cx' => env('GOOGLE_CSE_CX'),
+    ],
+
 ];

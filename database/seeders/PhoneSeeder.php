@@ -86,13 +86,13 @@ class PhoneSeeder extends Seeder
             ["name" => "iPhone 17 Pro Max 1TB E-Sim (Orange)", "price" => 234000, "image_path" => "Images/iphone17promax-orange.jpg"],
 
             // MacBook Air Series - full payment only
-            ["name" => "MacBook Air 13-inch M5 16GB RAM 512GB SSD", "price" => 182000, "image_path" => "Images/macs/mac air 13 m5.jpeg"],
+            ["name" => "MacBook Air 13-inch M5 16GB RAM 512GB SSD", "price" => 200000, "image_path" => "Images/macs/mac air 13 m5.jpeg"],
             ["name" => "MacBook Air 13-inch M5 16GB RAM 1TB SSD", "price" => 205000, "image_path" => "Images/macs/mac air 13 m5.jpeg"],
             ["name" => "MacBook Air 13-inch M5 24GB RAM 1TB SSD", "price" => 273000, "image_path" => "Images/macs/mac air 13 m5.jpeg"],
             ["name" => "MacBook Air 15-inch M5 16GB RAM 512GB SSD", "price" => 213000, "image_path" => "Images/macs/mac air 15 m5.jpeg"],
             ["name" => "MacBook Air 15-inch M5 16GB RAM 1TB SSD", "price" => 253000, "image_path" => "Images/macs/mac air 15 m5.jpeg"],
             ["name" => "MacBook Air 15-inch M5 24GB RAM 1TB SSD", "price" => 278000, "image_path" => "Images/macs/mac air 15 m5.jpeg"],
-            ["name" => "MacBook Neo 13-inch 8GB RAM 256GB SSD", "price" => 99000, "image_path" => "Images/macs/Apple MacBook Neo 13_ 2026 Silver 256 SDD 8GB [Open Box].jpeg"],
+            ["name" => "MacBook Neo 13-inch 8GB RAM 256GB SSD", "price" => 98000, "image_path" => "Images/macs/Apple MacBook Neo 13_ 2026 Silver 256 SDD 8GB [Open Box].jpeg"],
             ["name" => "MacBook Neo 13-inch 8GB RAM 512GB SSD", "price" => 113000, "image_path" => "Images/macs/Apple MacBook Neo 13_ 2026 Silver 256 SDD 8GB [Open Box].jpeg"],
 
             // MacBook Pro Series - full payment only
@@ -101,11 +101,15 @@ class PhoneSeeder extends Seeder
             ["name" => "MacBook Pro 16-inch M5 Pro 24GB RAM 1TB SSD", "price" => 415000, "image_path" => "Images/macs/Macbook Pro Max M5 16 inch.jpeg"],
             ["name" => "MacBook Pro 16-inch M5 Pro 48GB RAM 1TB SSD", "price" => 505000, "image_path" => "Images/macs/Macbook Pro Max M5 16 inch.jpeg"],
             ["name" => "MacBook Pro 14-inch M5 Max 36GB RAM 2TB SSD", "price" => 555000, "image_path" => "Images/macs/macbookpro14.jpeg"],
-            ["name" => "MacBook Pro 14-inch M5 Pro 24GB RAM 1TB SSD", "price" => 350000, "image_path" => "Images/macs/macbookpro14.jpeg"],
+            ["name" => "MacBook Pro 14-inch M5 Pro 24GB RAM 1TB SSD", "price" => 340000, "image_path" => "Images/macs/macbookpro14.jpeg"],
             ["name" => "MacBook Pro 14-inch M5 Pro 24GB RAM 2TB SSD", "price" => 375000, "image_path" => "Images/macs/macbookpro14.jpeg"],
             ["name" => "MacBook Pro 14-inch M5 16GB RAM 512GB SSD", "price" => 270000, "image_path" => "Images/macs/macbookpro14.jpeg"],
-            ["name" => "MacBook Pro 14-inch M5 16GB RAM 1TB SSD", "price" => 277000, "image_path" => "Images/macs/macbookpro14.jpeg"],
+            ["name" => "MacBook Pro 14-inch M5 16GB RAM 1TB SSD", "price" => 280000, "image_path" => "Images/macs/macbookpro14.jpeg"],
             ["name" => "MacBook Pro 14-inch M5 24GB RAM 1TB SSD", "price" => 310000, "image_path" => "Images/macs/macbookpro14.jpeg"],
+
+            // Mac mini - full payment only
+            ["name" => "Mac mini M4 16GB RAM 256GB SSD", "price" => 113500, "image_path" => "Images/macs/macminim4.jpg"],
+            ["name" => "Mac mini M4 16GB RAM 512GB SSD", "price" => 170000, "image_path" => "Images/macs/macminim4.jpg"],
         ];
 
 

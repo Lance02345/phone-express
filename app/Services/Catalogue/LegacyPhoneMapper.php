@@ -10,6 +10,10 @@ class LegacyPhoneMapper
     private const BRANDS = [
         'iphone' => 'Apple',
         'macbook' => 'Apple',
+        'mac mini' => 'Apple',
+        'apple' => 'Apple',
+        'airpods' => 'Apple',
+        'magic' => 'Apple',
         'samsung' => 'Samsung',
         'google pixel' => 'Google',
         'redmi' => 'Redmi',
@@ -19,7 +23,13 @@ class LegacyPhoneMapper
         'infinix' => 'Infinix',
         'honor' => 'Honor',
         'itel' => 'Itel',
+        'oneplus' => 'OnePlus',
+        'nothing' => 'Nothing',
+        'xiaomi' => 'Xiaomi',
+        'poco' => 'Xiaomi',
     ];
+
+    private const STORAGE_CATEGORIES = ['Smartphones', 'Tablets', 'Laptops', 'Desktops'];
 
     /**
      * @return array<string, mixed>
@@ -27,6 +37,7 @@ class LegacyPhoneMapper
     public function map(Phone $phone): array
     {
         $brand = $this->brand($phone->name);
+        $category = $this->category($phone->name);
         $storageGb = $this->storageGb($phone->name);
         $ramGb = $this->ramGb($phone->name);
         $colour = $this->colour($phone->name);
@@ -38,7 +49,7 @@ class LegacyPhoneMapper
             $warnings[] = 'Brand could not be identified';
         }
 
-        if ($storageGb === null) {
+        if ($storageGb === null && in_array($category, self::STORAGE_CATEGORIES, true)) {
             $warnings[] = 'Storage could not be identified';
         }
 
@@ -52,7 +63,7 @@ class LegacyPhoneMapper
             'source_key' => (string) $phone->getKey(),
             'brand' => $brand,
             'brand_slug' => Str::slug($brand),
-            'category' => $this->category($phone->name),
+            'category' => $category,
             'product_name' => $productName,
             'product_slug' => Str::slug(str_replace('+', ' plus ', $productName)),
             'sku' => sprintf('LEGACY-PHONE-%06d', $phone->getKey()),
@@ -65,7 +76,7 @@ class LegacyPhoneMapper
             'price_minor' => $phone->price > 0 ? $phone->price * 100 : null,
             'currency' => 'KES',
             'quote_required' => $phone->price <= 0,
-            'payment_plan_eligible' => $brand === 'Apple' && ! $this->isLaptop($phone->name),
+            'payment_plan_eligible' => $brand === 'Apple' && $category === 'Smartphones',
             'image_path' => $phone->image_path,
             'warnings' => $warnings,
         ];
@@ -88,6 +99,22 @@ class LegacyPhoneMapper
     {
         if ($this->isLaptop($name)) {
             return 'Laptops';
+        }
+
+        if (Str::startsWith(Str::lower($name), 'mac mini')) {
+            return 'Desktops';
+        }
+
+        if (preg_match('/\bWatch\d*\b/i', $name) === 1) {
+            return 'Watches';
+        }
+
+        if (preg_match('/\b(?:AirPods|Buds\d*)\b/i', $name) === 1) {
+            return 'Audio';
+        }
+
+        if (preg_match('/\b(?:Pencil|Magic Mouse|Magic Keyboard|Adapter)\b/i', $name) === 1) {
+            return 'Accessories';
         }
 
         return $this->isTablet($name) ? 'Tablets' : 'Smartphones';
@@ -130,13 +157,21 @@ class LegacyPhoneMapper
 
         $value = trim($matches[1]);
 
-        return Str::contains(Str::lower($value), ['sim card', 'model', 'east africa', 'dubai']) ? null : $value;
+        return Str::contains(Str::lower($value), ['sim card', 'model', 'east africa', 'dubai', 'wifi', 'cellular', 'warranty']) ? null : $value;
     }
 
     private function connectivity(string $name): ?string
     {
         if (preg_match('/\bE-?Sim\b/i', $name)) {
             return 'E-SIM';
+        }
+
+        if (preg_match('/\(Wi-?Fi\)/i', $name)) {
+            return 'WiFi';
+        }
+
+        if (preg_match('/\(Cellular\)/i', $name)) {
+            return 'Cellular';
         }
 
         if (preg_match('/\b5G\b/i', $name)) {
@@ -154,7 +189,7 @@ class LegacyPhoneMapper
     {
         $productName = $name;
 
-        $productName = preg_replace('/\s*\((?:East Africa|Dubai)\)\s*$/i', '', $productName);
+        $productName = preg_replace('/\s*\((?:East Africa|Dubai|Wi-?Fi|Cellular)\)\s*$/i', '', $productName);
 
         if ($colour !== null) {
             $productName = preg_replace('/\s*\('.preg_quote($colour, '/').'\)\s*$/i', '', $productName);
@@ -171,6 +206,6 @@ class LegacyPhoneMapper
 
     private function isTablet(string $name): bool
     {
-        return preg_match('/\b(?:Pad|XPAD|Megapad)\b/i', $name) === 1;
+        return preg_match('/\b(?:Pad|XPAD|Megapad|Tab)\b/i', $name) === 1;
     }
 }
