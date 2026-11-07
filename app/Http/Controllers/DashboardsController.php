@@ -63,7 +63,30 @@ class DashboardsController extends Controller
 
         $accessories = $this->featuredAccessories();
 
-        return view('pages.landing', compact('fullPhones', 'lipaPhones', 'categories', 'statistics', 'accessories'));
+        $newArrivals = $this->newArrivals();
+
+        return view('pages.landing', compact('fullPhones', 'lipaPhones', 'categories', 'statistics', 'accessories', 'newArrivals'));
+    }
+
+    /**
+     * Each promoted product's cheapest option, in the order listed in config/catalogue.php.
+     *
+     * @return Collection<int, ProductVariant>
+     */
+    private function newArrivals(): Collection
+    {
+        $names = config('catalogue.new_arrivals', []);
+
+        return ProductVariant::query()
+            ->published()
+            ->with(['product', 'media'])
+            ->whereHas('product', fn ($query) => $query->whereIn('name', $names))
+            ->whereNotNull('price_minor')
+            ->orderBy('price_minor')
+            ->get()
+            ->unique('product_id')
+            ->sortBy(fn (ProductVariant $variant) => array_search($variant->product->name, $names, true))
+            ->values();
     }
 
     private function countInCategory(string $category): int

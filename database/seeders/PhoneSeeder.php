@@ -85,6 +85,27 @@ class PhoneSeeder extends Seeder
             ["name" => "iPhone 17 Pro Max 512GB E-Sim (Silver)", "price" => 202000, "image_path" => "Images/iphone17promax-silver.jpg"],
             ["name" => "iPhone 17 Pro Max 1TB E-Sim (Orange)", "price" => 234000, "image_path" => "Images/iphone17promax-orange.jpg"],
 
+            // iPhone 18 Series - E-Sim Only models
+            ["name" => "iPhone Duo 256GB E-Sim", "price" => 325000, "image_path" => "Images/iphoneduo.jpg"],
+            ["name" => "iPhone Duo 512GB E-Sim", "price" => 358000, "image_path" => "Images/iphoneduo.jpg"],
+            ["name" => "iPhone 18 Pro 256GB E-Sim", "price" => 177000, "image_path" => "Images/iphone18pro.jpg"],
+            ["name" => "iPhone 18 Pro 512GB E-Sim", "price" => 210000, "image_path" => "Images/iphone18pro.jpg"],
+            ["name" => "iPhone 18 Pro Max 256GB E-Sim (Burgundy)", "price" => 205000, "image_path" => "Images/iphone18promax-burgundy.jpg"],
+            ["name" => "iPhone 18 Pro Max 256GB E-Sim (Glacier/Silver/Black)", "price" => 201000, "image_path" => "Images/iphone18promax-glacier.jpg"],
+            ["name" => "iPhone 18 Pro Max 512GB E-Sim", "price" => 233000, "image_path" => "Images/iphone18promax.jpg"],
+            ["name" => "iPhone 18 Pro Max 1TB E-Sim", "price" => 300000, "image_path" => "Images/iphone18promax.jpg"],
+
+            // iPhone 18 Series - Physical Sim models
+            ["name" => "iPhone 18 Pro 256GB (Burgundy)", "price" => 191000, "image_path" => "Images/iphone18pro-burgundy.jpg"],
+            ["name" => "iPhone 18 Pro 256GB (Black)", "price" => 190000, "image_path" => "Images/iphone18pro-black.jpg"],
+            ["name" => "iPhone 18 Pro 256GB (Glacier/Silver)", "price" => 185000, "image_path" => "Images/iphone18pro-glacier.jpg"],
+            ["name" => "iPhone 18 Pro 512GB", "price" => 218000, "image_path" => "Images/iphone18pro.jpg"],
+            ["name" => "iPhone 18 Pro Max 256GB (Burgundy)", "price" => 213000, "image_path" => "Images/iphone18promax-burgundy.jpg"],
+            ["name" => "iPhone 18 Pro Max 256GB (Glacier/Silver/Black)", "price" => 205000, "image_path" => "Images/iphone18promax-glacier.jpg"],
+            ["name" => "iPhone 18 Pro Max 512GB (Burgundy)", "price" => 240000, "image_path" => "Images/iphone18promax-burgundy.jpg"],
+            ["name" => "iPhone 18 Pro Max 512GB (Glacier/Silver/Black)", "price" => 235000, "image_path" => "Images/iphone18promax-glacier.jpg"],
+            ["name" => "iPhone 18 Pro Max 1TB", "price" => 313000, "image_path" => "Images/iphone18promax.jpg"],
+
             // MacBook Air Series - full payment only
             ["name" => "MacBook Air 13-inch M5 16GB RAM 512GB SSD", "price" => 200000, "image_path" => "Images/macs/mac air 13 m5.jpeg"],
             ["name" => "MacBook Air 13-inch M5 16GB RAM 1TB SSD", "price" => 205000, "image_path" => "Images/macs/mac air 13 m5.jpeg"],

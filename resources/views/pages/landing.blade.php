@@ -179,6 +179,23 @@ background-image:
             color: #ffffff !important;
         }
 
+        /* New arrivals */
+        .landing-main #new-arrivals { color: #fff; background: #0a0a0a !important; }
+        .landing-body #new-arrivals :is(h2, h3, h4) { color: #fff !important; }
+        .new-arrivals__kicker { color: rgba(255,255,255,.65); font-size: .72rem; font-weight: 800; letter-spacing: .3em; text-transform: uppercase; }
+        .new-arrivals__copy { max-width: 620px; margin: 0 auto; color: rgba(255,255,255,.72); font-size: 1.05rem; }
+        .new-arrivals__grid { margin-top: 2.5rem; }
+        .new-card { display: flex; height: 100%; flex-direction: column; color: #0a0a0a; text-align: left; text-decoration: none; background: #fff; transition: transform .25s ease; }
+        .new-card:hover { color: #0a0a0a; transform: translateY(-4px); }
+        .new-card__media { display: grid; aspect-ratio: 1 / 1; place-items: center; padding: 1.25rem; background: #f4f4f4; }
+        .new-card__media img { width: 100%; height: 100%; object-fit: contain; mix-blend-mode: multiply; }
+        .new-card__body { display: flex; flex: 1; flex-direction: column; padding: 1.1rem 1.25rem 1.25rem; }
+        .new-card__tag { color: #525252; font-size: .68rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+        .landing-body #new-arrivals .new-card__name { margin: .35rem 0 .5rem; color: #0a0a0a !important; font-size: 1.9rem; line-height: 1.1; }
+        .new-card__price { font-size: 1.05rem; font-weight: 800; }
+        .new-card__price small { color: #737373; font-size: .72rem; font-weight: 700; }
+        .new-card__cta { display: flex; align-items: center; justify-content: space-between; margin-top: 1rem; padding: .75rem .9rem; color: #fff; background: #0a0a0a; font-size: .74rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+
         /* Accessories & wearables */
         .accessory-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 1.5rem; text-align: left; }
         .accessory-head .section-intro { margin: 0; }
@@ -288,7 +305,11 @@ background-image:
                     <div class="col-xl-7 col-lg-7">
                         <div class="py-lg-5 position-relative">
                             <div class="mb-4">
-                                <span class="hero-kicker">PHONES MADE ACCESSIBLE</span>
+                                @if($newArrivals->isNotEmpty())
+                                    <a href="#new-arrivals" class="hero-kicker text-decoration-none">NEW: IPHONE 18 PRO &amp; IPHONE DUO, AVAILABLE NOW</a>
+                                @else
+                                    <span class="hero-kicker">PHONES MADE ACCESSIBLE</span>
+                                @endif
                             </div>
                             <h1 class="landing-banner-heading mb-4">
                                 Your next phone, <span class="hero-highlight">made affordable.</span>
@@ -329,6 +350,39 @@ background-image:
         </section>
     </div>
     <!-- End:: Section-1 -->
+
+    <!-- Start:: New Arrivals Section -->
+    @if($newArrivals->isNotEmpty())
+        <section class="section text-center" id="new-arrivals">
+            <div class="container">
+                <p class="new-arrivals__kicker mb-3">Just landed</p>
+                <h2 class="mb-3">iPhone 18 Pro and iPhone Duo. Available now.</h2>
+                <p class="new-arrivals__copy">The newest iPhones are here, in E-SIM and physical SIM models. Choose yours and message our team to order.</p>
+                <div class="row g-3 justify-content-center new-arrivals__grid">
+                    @foreach($newArrivals as $arrival)
+                        <div class="col-lg-4 col-md-6">
+                            <a href="{{ route('phones.show', $arrival) }}" class="new-card">
+                                <div class="new-card__media">
+                                    @if(filled($arrival->image_path) && is_file(public_path($arrival->image_path)))
+                                        <img src="{{ asset($arrival->image_path) }}" alt="{{ $arrival->product->name }}" loading="lazy">
+                                    @else
+                                        <i class="ri-smartphone-line fs-1 text-muted"></i>
+                                    @endif
+                                </div>
+                                <div class="new-card__body">
+                                    <span class="new-card__tag">New · Available now</span>
+                                    <h3 class="new-card__name">{{ $arrival->product->name }}</h3>
+                                    <span class="new-card__price"><small>From</small> KES {{ number_format($arrival->price) }}</span>
+                                    <span class="new-card__cta"><span>Choose yours</span><i class="ri-arrow-right-line"></i></span>
+                                </div>
+                            </a>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        </section>
+    @endif
+    <!-- End:: New Arrivals Section -->
 
     <!-- Start:: Categories Section -->
     <section class="section section-bg" id="categories">
@@ -443,7 +497,7 @@ background-image:
             <!-- Delivery Info -->
             <div class="alert alert-info mb-4 text-start">
                 <i class="ri-truck-line me-2"></i>
-                <strong>Delivery details:</strong> Share your location with our team to confirm availability, charges and timing before payment.
+                <strong>Delivery details:</strong> Share your location with our team to confirm delivery charges and timing before payment.
                 <a href="{{ route('policies.show', 'delivery') }}" class="ms-1 fw-semibold">Read delivery guidance</a>
             </div>
 
@@ -826,7 +880,7 @@ background-image:
                             <div class="accordion accordion-customicon1 accordion-primary accordions-items-seperate"
                                 id="accordionFAQ1">
                                 @foreach([
-                                    ['id' => 'One', 'question' => 'What types of phones do you sell?', 'answer' => 'At Digital District Kenya, we offer a wide range of top-end smartphones including iPhones (10, 11, 12, 13, 14, 15, 16), Samsung Galaxy, and other premium devices. You can choose between Brand New, UK Used, or US Used phones.', 'show' => true],
+                                    ['id' => 'One', 'question' => 'What types of phones do you sell?', 'answer' => 'At Digital District Kenya, we offer a wide range of top-end smartphones including iPhones (from the iPhone X up to the new iPhone 18 Pro and iPhone Duo), Samsung Galaxy, and other premium devices. You can choose between Brand New, UK Used, or US Used phones.', 'show' => true],
                                     ['id' => 'Two', 'question' => 'Can I pay in installments (Lipa PolePole)?', 'answer' => 'Payment-plan estimates are shown for eligible catalogue items. Our team must confirm eligibility, requirements and the final schedule before payment.', 'show' => false],
                                     ['id' => 'Three', 'question' => 'Do your phones come with a warranty?', 'answer' => 'Warranty terms can vary by device and condition. Ask our team to confirm the exact written coverage for the phone you choose.', 'show' => false]
                                 ] as $faq)

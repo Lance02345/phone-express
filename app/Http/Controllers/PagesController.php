@@ -30,7 +30,7 @@ class PagesController extends Controller
 
     private const STORAGE_CATEGORIES = ['Smartphones', 'Tablets', 'Laptops', 'Desktops'];
 
-    private const AVAILABILITY_RANK = ['available' => 0, 'limited' => 1, 'unknown' => 2, 'out_of_stock' => 3];
+    private const AVAILABILITY_RANK = ['available' => 0, 'limited' => 1, 'out_of_stock' => 2];
 
     private const SORT_OPTIONS = [
         'newest' => ['field' => 'created_at', 'direction' => 'desc'],
@@ -239,11 +239,25 @@ class PagesController extends Controller
             'price_desc' => $query->orderByRaw($nullsLast('desc')),
             'name_asc' => $query->orderBy('products.name'),
             'newest' => $query->orderByDesc('products.created_at'),
-            // Shuffled once a day, so paging through "Featured" never repeats or skips a product.
-            default => $query->orderByRaw("md5(concat(products.id, '".now()->toDateString()."'))"),
+            default => $this->sortFeatured($query),
         };
 
         $query->orderBy('products.id');
+    }
+
+    /**
+     * New arrivals first, then shuffled once a day, so paging through "Featured" never repeats or skips a product.
+     */
+    private function sortFeatured(Builder $query): Builder
+    {
+        $newArrivals = config('catalogue.new_arrivals', []);
+
+        if ($newArrivals !== []) {
+            $placeholders = implode(',', array_fill(0, count($newArrivals), '?'));
+            $query->orderByRaw("case when products.name in ({$placeholders}) then 0 else 1 end", $newArrivals);
+        }
+
+        return $query->orderByRaw("md5(concat(products.id, '".now()->toDateString()."'))");
     }
 
     private function decorateProduct(Product $product, AvailabilityService $availability, PaymentPlanCalculator $paymentPlans, bool $isLipa): void

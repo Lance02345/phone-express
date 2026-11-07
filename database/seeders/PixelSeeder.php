@@ -20,7 +20,11 @@ class PixelSeeder extends Seeder
             ["name" => "Google Pixel 11 Pro XL 5G 256GB + 12GB RAM (Canyon/Fog)", "price" => 150000, "image_path" => "Images/google/pixel11proxl.jpg"],
             ["name" => "Google Pixel 11 Pro XL 5G 512GB + 12GB RAM", "price" => 169000, "image_path" => "Images/google/pixel11proxl.jpg"],
 
+            ["name" => "Google Pixel 6A 5G 128GB", "price" => 26000, "image_path" => "Images/google/pixel6a.jpg"],
+            ["name" => "Google Pixel 7A 5G 128GB", "price" => 29000, "image_path" => "Images/google/pixel7a.jpg"],
+            ["name" => "Google Pixel 6 Pro 5G 256GB", "price" => 38000, "image_path" => "Images/google/pixel6pro.jpg"],
             ["name" => "Google Pixel 7 Pro 5G 256GB", "price" => 38000, "image_path" => "Images/google/pixel7pro.jpg"],
+            ["name" => "Google Pixel 7 Pro 5G 512GB", "price" => 42000, "image_path" => "Images/google/pixel7pro.jpg"],
             ["name" => "Google Pixel 8A 5G 128GB", "price" => 34000, "image_path" => "Images/google/pixel8a.jpg"],
             ["name" => "Google Pixel 8 Pro 5G 256GB", "price" => 55000, "image_path" => "Images/google/pixel8pro.jpg"],
             ["name" => "Google Pixel 9A 5G 128GB", "price" => 49000, "image_path" => "Images/google/pixel9a.png"],

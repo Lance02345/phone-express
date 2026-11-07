@@ -15,6 +15,11 @@ class Product extends Model
 
     protected $casts = ['published_at' => 'datetime'];
 
+    public function isNewArrival(): bool
+    {
+        return in_array($this->name, config('catalogue.new_arrivals', []), true);
+    }
+
     public function brand(): BelongsTo
     {
         return $this->belongsTo(Brand::class);

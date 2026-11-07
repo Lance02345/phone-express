@@ -15,6 +15,7 @@
     .detail-placeholder i { display: block; margin-bottom: .7rem; color: #b0b0b0; font-size: 4rem; }
     .product-detail__content { padding: clamp(1.5rem, 4vw, 3.5rem); }
     .detail-brand { display: inline-flex; padding: .4rem .65rem; color: #fff; background: #0a0a0a; border-radius: 999px; font-size: .7rem; font-weight: 800; letter-spacing: .09em; text-transform: uppercase; }
+    .detail-new { display: inline-flex; margin-left: .35rem; padding: .4rem .65rem; color: #0a0a0a; background: #fff; border: 1px solid #0a0a0a; border-radius: 999px; font-size: .7rem; font-weight: 800; letter-spacing: .09em; text-transform: uppercase; }
     .detail-title { margin: 1rem 0; color: #0a0a0a; font-size: clamp(2rem, 4vw, 3.4rem); font-weight: 800; line-height: 1.08; letter-spacing: -.05em; }
     .detail-price { margin-bottom: 1.5rem; color: #0a0a0a; font-family: 'Manrope', sans-serif; font-size: 1.75rem; font-weight: 800; }
     .detail-options { margin: 0 0 1.5rem; }
@@ -90,6 +91,7 @@
                 <div class="col-lg-6">
                     <div class="product-detail__content">
                         <span class="detail-brand">{{ $brand }}</span>
+                        @if($phone->product->isNewArrival())<span class="detail-new">New · Available now</span>@endif
                         <h1 class="detail-title">{{ $phone->name }}</h1>
                         <p class="detail-price">{{ $phone->price > 0 ? 'KES ' . number_format($phone->price) : 'Price on request' }}</p>
 

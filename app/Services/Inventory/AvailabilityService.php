@@ -21,7 +21,7 @@ class AvailabilityService
         $freshLevels = $activeLevels->filter(fn (InventoryLevel $level) => $this->isFresh($level));
 
         if ($freshLevels->isEmpty()) {
-            return $this->unknown($activeLevels->isNotEmpty());
+            return $this->listed();
         }
 
         $exactLevels = $freshLevels->where('tracking_mode', 'exact');
@@ -67,7 +67,7 @@ class AvailabilityService
             $levels->contains('status', 'available') => 'available',
             $levels->contains('status', 'limited') => 'limited',
             $levels->every(fn (InventoryLevel $level) => $level->status === 'out_of_stock') => 'out_of_stock',
-            default => 'unknown',
+            default => 'available',
         };
 
         return [
@@ -76,13 +76,11 @@ class AvailabilityService
                 'available' => 'Available',
                 'limited' => 'Limited availability',
                 'out_of_stock' => 'Out of stock',
-                default => 'Confirm availability',
             },
             'message' => match ($status) {
                 'available' => 'A recent stock update shows this variant as available. Confirm before payment.',
                 'limited' => 'Availability is limited. Contact our team before making payment.',
                 'out_of_stock' => 'This variant is currently marked out of stock. Ask about alternatives.',
-                default => 'Our team needs to confirm the latest stock position.',
             },
             'available_quantity' => null,
             'observed_at' => $levels->max('observed_at')?->toIso8601String(),
@@ -90,16 +88,16 @@ class AvailabilityService
     }
 
     /**
+     * Everything listed on the site is available unless a recent stock update says otherwise.
+     *
      * @return array{status: string, label: string, message: string, available_quantity: null, observed_at: null}
      */
-    private function unknown(bool $hasStaleData): array
+    private function listed(): array
     {
         return [
-            'status' => 'unknown',
-            'label' => 'Confirm availability',
-            'message' => $hasStaleData
-                ? 'The last stock update is no longer current. Please confirm with our team.'
-                : 'Stock has not yet been connected for this variant. Please confirm with our team.',
+            'status' => 'available',
+            'label' => 'Available',
+            'message' => 'Available now. Message our team to arrange payment and delivery.',
             'available_quantity' => null,
             'observed_at' => null,
         ];

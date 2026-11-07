@@ -129,6 +129,7 @@ background-image:
     .media-badges { position: absolute; z-index: 2; top: .65rem; left: .65rem; right: .65rem; display: flex; justify-content: space-between; gap: .35rem; pointer-events: none; }
     .media-badge { padding: .32rem .55rem; border-radius: 999px; background: rgba(255,255,255,.92); color: #262626; font-size: .64rem; font-weight: 800; box-shadow: 0 2px 8px rgba(0,0,0,.06); }
     .media-badge--dark { margin-left: auto; background: #0a0a0a; color: #fff; }
+    .new-ribbon { position: absolute; z-index: 2; right: 0; bottom: 0; left: 0; padding: .4rem .5rem; color: #fff; background: #0a0a0a; font-size: .66rem; font-weight: 800; letter-spacing: .1em; text-align: center; text-transform: uppercase; }
     .product-content { display: flex; flex: 1; flex-direction: column; padding: .95rem .4rem .35rem; }
     .product-kicker { color: #6b6b6b; font-size: .64rem; font-weight: 800; letter-spacing: .09em; text-transform: uppercase; }
     .product-name { margin: .35rem 0 .6rem; color: #0a0a0a; font-size: .98rem; font-weight: 800; line-height: 1.35; letter-spacing: -.02em; }
@@ -317,6 +318,7 @@ background-image:
                                     @if($optionCount > 1)<span class="media-badge">{{ $optionCount }} options</span>@endif
                                     @if($product->lipa)<span class="media-badge media-badge--dark">Lipa Mdogo Mdogo</span>@endif
                                 </div>
+                                @if($product->isNewArrival())<span class="new-ribbon">New · Available now</span>@endif
                                 @if($product->image)
                                     <img src="{{ asset($product->image) }}" alt="{{ $product->name }}" loading="lazy">
                                 @else
