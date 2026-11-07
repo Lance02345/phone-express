@@ -180,13 +180,11 @@ background-image:
         }
 
         /* New arrivals */
-        .landing-main #new-arrivals { color: #fff; background: #0a0a0a !important; }
-        .landing-body #new-arrivals :is(h2, h3, h4) { color: #fff !important; }
-        .new-arrivals__kicker { color: rgba(255,255,255,.65); font-size: .72rem; font-weight: 800; letter-spacing: .3em; text-transform: uppercase; }
-        .new-arrivals__copy { max-width: 620px; margin: 0 auto; color: rgba(255,255,255,.72); font-size: 1.05rem; }
+        .new-arrivals__kicker { color: #0a0a0a; font-size: .72rem; font-weight: 800; letter-spacing: .3em; text-transform: uppercase; }
+        .new-arrivals__copy { max-width: 620px; margin: 0 auto; color: #444; font-size: 1.05rem; }
         .new-arrivals__grid { margin-top: 2.5rem; }
-        .new-card { display: flex; height: 100%; flex-direction: column; color: #0a0a0a; text-align: left; text-decoration: none; background: #fff; transition: transform .25s ease; }
-        .new-card:hover { color: #0a0a0a; transform: translateY(-4px); }
+        .new-card { display: flex; height: 100%; flex-direction: column; color: #0a0a0a; text-align: left; text-decoration: none; background: #fff; border: 1px solid #0a0a0a; transition: transform .25s ease, box-shadow .25s ease; }
+        .new-card:hover { color: #0a0a0a; transform: translate(-4px, -4px); box-shadow: 6px 6px 0 #0a0a0a; }
         .new-card__media { display: grid; aspect-ratio: 1 / 1; place-items: center; padding: 1.25rem; background: #f4f4f4; }
         .new-card__media img { width: 100%; height: 100%; object-fit: contain; mix-blend-mode: multiply; }
         .new-card__body { display: flex; flex: 1; flex-direction: column; padding: 1.1rem 1.25rem 1.25rem; }
@@ -306,7 +304,7 @@ background-image:
                         <div class="py-lg-5 position-relative">
                             <div class="mb-4">
                                 @if($newArrivals->isNotEmpty())
-                                    <a href="#new-arrivals" class="hero-kicker text-decoration-none">NEW: IPHONE 18 PRO &amp; IPHONE DUO, AVAILABLE NOW</a>
+                                    <a href="#new-arrivals" class="hero-kicker text-decoration-none">NEW: IPHONE 18 &amp; IPHONE DUO, AVAILABLE NOW</a>
                                 @else
                                     <span class="hero-kicker">PHONES MADE ACCESSIBLE</span>
                                 @endif
@@ -356,7 +354,7 @@ background-image:
         <section class="section text-center" id="new-arrivals">
             <div class="container">
                 <p class="new-arrivals__kicker mb-3">Just landed</p>
-                <h2 class="mb-3">iPhone 18 Pro and iPhone Duo. Available now.</h2>
+                <h2 class="mb-3">iPhone 18 and iPhone Duo. Available now.</h2>
                 <p class="new-arrivals__copy">The newest iPhones are here, in E-SIM and physical SIM models. Choose yours and message our team to order.</p>
                 <div class="row g-3 justify-content-center new-arrivals__grid">
                     @foreach($newArrivals as $arrival)
