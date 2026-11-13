@@ -8,7 +8,7 @@
 @section('content')
 @if(session('status'))<div class="alert alert-success">{{ session('status') }}</div>@endif
 @if($errors->has('invite'))<div class="alert alert-danger">{{ $errors->first('invite') }}</div>@endif
-<section class="dash-hero mb-4"><span class="dash-chip"><i class="ri-pulse-line"></i> LIVE OPERATIONS OVERVIEW</span><h1 class="mt-3 mb-2">Good {{ now()->hour < 12 ? 'morning' : (now()->hour < 18 ? 'afternoon' : 'evening') }}, {{ Str::before(auth()->user()->name, ' ') }}.</h1><p class="mb-0">See what customers are viewing and where catalogue attention is needed.</p></section>
+<section class="dash-hero mb-4"><span class="dash-chip"><i class="ri-pulse-line"></i> LIVE OPERATIONS OVERVIEW</span><h1 class="mt-3 mb-2">Good {{ now()->hour < 12 ? 'morning' : (now()->hour < 18 ? 'afternoon' : 'evening') }}, {{ Str::before(auth()->user()->name, ' ') }}.</h1><p class="mb-0">See what customers are viewing and where catalogue attention is needed.</p>@if(auth()->user()->role === 'admin')<a href="{{ route('staff.analytics.index') }}" class="btn btn-light btn-sm rounded-pill fw-bold mt-3"><i class="ri-bar-chart-2-line me-1"></i>Open website analytics</a>@endif</section>
 <div class="row g-3 mb-4">
 @foreach([
  ['ri-smartphone-line','Active variants',$counts['variants']],['ri-eye-line','All product views',$counts['views']],['ri-line-chart-line','Views in 7 days',$counts['views_7d']],['ri-archive-line','Missing stock data',$counts['missing_stock']],['ri-image-line','Missing images',$counts['missing_images']],['ri-price-tag-3-line','Price on request',$counts['quote_required']]

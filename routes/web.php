@@ -15,6 +15,8 @@ use App\Http\Controllers\PolicyController;
 use App\Http\Controllers\StaffAuthController;
 use App\Http\Controllers\StaffCatalogueController;
 use App\Http\Controllers\StaffDashboardController;
+use App\Http\Controllers\StaffAnalyticsController;
+use App\Http\Controllers\AnalyticsEventController;
 use App\Http\Controllers\StaffInvitationController;
 use App\Http\Controllers\StaffTeamController;
 use App\Http\Controllers\TablesController;
@@ -54,6 +56,7 @@ Route::get('index10', [DashboardsController::class, 'index10']);
 Route::get('index11', [DashboardsController::class, 'index11']);
 Route::get('index12', [DashboardsController::class, 'index12']);
 Route::get('phones/{phone}', [PhoneController::class, 'show'])->name('phones.show');
+Route::post('a/e', [AnalyticsEventController::class, 'store'])->middleware('throttle:120,1')->name('analytics.event');
 Route::get('help', [PolicyController::class, 'index'])->name('policies.index');
 Route::get('help/{policy:slug}', [PolicyController::class, 'show'])->name('policies.show');
 
@@ -74,6 +77,7 @@ Route::middleware(['auth', 'staff'])->prefix('staff')->name('staff.')->group(fun
         Route::patch('team/{user}/revoke', [StaffTeamController::class, 'revoke'])->name('team.revoke');
         Route::patch('team/{user}/restore', [StaffTeamController::class, 'restore'])->name('team.restore');
         Route::patch('invitations/{invitation}/revoke', [StaffTeamController::class, 'revokeInvitation'])->name('invitations.revoke');
+        Route::get('analytics', [StaffAnalyticsController::class, 'index'])->name('analytics.index');
         Route::get('catalogue', [StaffCatalogueController::class, 'index'])->name('catalogue.index');
         Route::get('catalogue/{variant}/edit', [StaffCatalogueController::class, 'edit'])->name('catalogue.edit');
         Route::put('catalogue/{variant}', [StaffCatalogueController::class, 'update'])->name('catalogue.update');

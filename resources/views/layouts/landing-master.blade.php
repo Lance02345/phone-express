@@ -391,5 +391,35 @@
             });
         </script>
 
+        @guest
+        <script>
+            // Click analytics: one tiny beacon per contact click (page views are recorded server-side).
+            (function () {
+                var endpoint = '{{ route('analytics.event', [], false) }}', token = '{{ csrf_token() }}';
+                function classify(a) {
+                    var href = a.getAttribute('href') || '';
+                    if (a.dataset.analyticsEvent) return a.dataset.analyticsEvent;
+                    if (/wa\.me|whatsapp\.com/i.test(href)) return 'whatsapp_click';
+                    if (/^tel:/i.test(href)) return 'call_click';
+                    if (/^mailto:/i.test(href)) return 'email_click';
+                    if (a.host && a.host !== location.host && /^https?:/i.test(a.protocol)) return 'outbound_click';
+                    return null;
+                }
+                document.addEventListener('click', function (e) {
+                    var a = e.target.closest && e.target.closest('a[href]');
+                    var name = a && classify(a);
+                    if (!name || !navigator.sendBeacon) return;
+                    var label = a.dataset.analyticsLabel || (name === 'outbound_click' ? a.host : (a.textContent || '').trim().replace(/\s+/g, ' ').slice(0, 120));
+                    var data = new FormData();
+                    data.append('_token', token);
+                    data.append('name', name);
+                    data.append('path', location.pathname);
+                    data.append('label', label);
+                    navigator.sendBeacon(endpoint, data);
+                }, { capture: true, passive: true });
+            })();
+        </script>
+        @endguest
+
 	</body>
 </html>
