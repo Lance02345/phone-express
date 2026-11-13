@@ -253,6 +253,8 @@ background-image:
         .dashboard-image-placeholder span { font-size: .75rem; font-weight: 700; }
         #testimonials { background: #fff !important; }
         .about-photo { width: 100%; height: 500px; object-fit: cover; border-radius: 24px !important; box-shadow: 0 24px 60px rgba(0,0,0,.12); }
+        /* Out-ranks the template's `.landing-body .customize-image img { width: 30.5rem }` (488px), which overflowed phone viewports. */
+        .landing-body .customize-image .about-photo { width: 100%; max-width: 100%; }
         .floating-whatsapp { position: fixed; z-index: 999; right: 22px; bottom: 22px; display: inline-flex; align-items: center; gap: .55rem; padding: .85rem 1rem; color: #fff; background: #0a0a0a; border: 1px solid rgba(255,255,255,.14); border-radius: 999px; box-shadow: 0 16px 38px rgba(0,0,0,.3); font-weight: 800; text-decoration: none; }
         .floating-whatsapp:hover { color: #fff; background: #262626; transform: translateY(-2px); }
         .stat-card, .testimonial-card, .contact-card, .landing-missions { border: 1px solid var(--border) !important; border-radius: 18px !important; box-shadow: 0 10px 34px rgba(0,0,0,.04) !important; }
