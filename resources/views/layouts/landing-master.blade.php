@@ -21,8 +21,9 @@
         <!-- BOOTSTRAP CSS -->
 	    <link  id="style" href="{{asset('build/assets/libs/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet">
 
-        <!-- ICONS CSS -->
-        <link href="{{asset('build/assets/icon-fonts/icons.css')}}" rel="stylesheet">
+        <!-- ICONS CSS: only the two packs the storefront uses (icons.css @imports six) -->
+        <link href="{{asset('build/assets/icon-fonts/RemixIcons/fonts/remixicon.css')}}" rel="stylesheet">
+        <link href="{{asset('build/assets/icon-fonts/boxicons/css/boxicons.css')}}" rel="stylesheet">
         
         <!-- APP SCSS -->
         @vite(['resources/sass/app.scss'])
