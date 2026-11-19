@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\Phone;
 use Illuminate\Database\Seeder;
 
 class HonorSeeder extends Seeder
@@ -21,11 +20,6 @@ class HonorSeeder extends Seeder
             ["name" => "Honor H400 Pro 512GB + 12GB RAM", "price" => 76000, "image_path" => "Images/honor/honorh400pro.jpg"],
         ];
 
-        foreach ($honors as $phone) {
-            Phone::updateOrCreate(
-                ['name' => $phone['name']],
-                ['price' => $phone['price'], 'image_path' => $phone['image_path']]
-            );
-        }
+        SeededPhones::save($honors);
     }
 }

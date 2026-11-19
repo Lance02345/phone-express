@@ -2,6 +2,7 @@
     $isLipa = ($filters['payment_method'] ?? 'full') === 'lipa';
     $categoryMeta = [
         'Smartphones' => ['Phones', 'ri-smartphone-line'],
+        'Feature Phones' => ['Mulika Mwizi', 'ri-phone-line'],
         'Tablets' => ['Tablets', 'ri-tablet-line'],
         'Laptops' => ['MacBooks', 'ri-macbook-line'],
         'Desktops' => ['Mac mini', 'ri-computer-line'],

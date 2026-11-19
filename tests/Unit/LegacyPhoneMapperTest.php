@@ -153,6 +153,15 @@ class LegacyPhoneMapperTest extends TestCase
         $this->assertSame('Poco X8 Pro', $poco['product_name']);
     }
 
+    public function test_it_classifies_feature_phones_without_a_storage_warning(): void
+    {
+        $mapped = $this->mapper->map($this->phone(80, 'Tecno T402', 3000, null));
+
+        $this->assertSame('Tecno', $mapped['brand']);
+        $this->assertSame('Feature Phones', $mapped['category']);
+        $this->assertNotContains('Storage could not be identified', $mapped['warnings']);
+    }
+
     private function phone(int $id, string $name, int $price, ?string $imagePath): Phone
     {
         $phone = new Phone([

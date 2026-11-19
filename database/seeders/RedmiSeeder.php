@@ -3,13 +3,26 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\Phone;
 
 class RedmiSeeder extends Seeder
 {
     public function run(): void
     {
         $redmis = [
+            // REDMI NOTE 17 SERIES
+            ["name" => "Redmi Note 17 Pro Max 5G 512GB + 8GB RAM", "price" => 66000, "image_path" => "Images/redmi/note17promax.jpg"],
+            ["name" => "Redmi Note 17 Pro Max 5G 256GB + 8GB RAM", "price" => 54000, "image_path" => "Images/redmi/note17promax.jpg"],
+            ["name" => "Redmi Note 17 Pro 512GB + 8GB RAM", "price" => 53000, "image_path" => "Images/redmi/note17pro.jpg"],
+            ["name" => "Redmi Note 17 Pro 256GB + 8GB RAM", "price" => 45300, "image_path" => "Images/redmi/note17pro.jpg"],
+            ["name" => "Redmi Note 17 256GB + 8GB RAM", "price" => 34500, "image_path" => "Images/redmi/note17.jpg"],
+            ["name" => "Redmi Note 17 256GB + 6GB RAM", "price" => 33000, "image_path" => "Images/redmi/note17.jpg"],
+            ["name" => "Redmi Note 17 128GB + 6GB RAM", "price" => 30500, "image_path" => "Images/redmi/note17.jpg"],
+
+            // REDMI 17 SERIES
+            ["name" => "Redmi 17 256GB + 6GB RAM", "price" => 29000, "image_path" => "Images/redmi/redmi17.jpg"],
+            ["name" => "Redmi 17 256GB + 4GB RAM", "price" => 26000, "image_path" => "Images/redmi/redmi17.jpg"],
+            ["name" => "Redmi 17 128GB + 4GB RAM", "price" => 21500, "image_path" => "Images/redmi/redmi17.jpg"],
+
             // REDMI NOTE 15 PRO+ SERIES
             ["name" => "Redmi Note 15 Pro+ 5G 512GB + 12GB RAM", "price" => 63500, "image_path" => "Images/redmi/note15proplus.jpg"],
             ["name" => "Redmi Note 15 Pro+ 5G 256GB + 8GB RAM", "price" => 52800, "image_path" => "Images/redmi/note15proplus.jpg"],
@@ -27,14 +40,15 @@ class RedmiSeeder extends Seeder
             ["name" => "Redmi 15 128GB + 6GB RAM", "price" => 19800, "image_path" => "Images/redmi/redmi15.jpg"],
 
             // REDMI 15C SERIES
-            ["name" => "Redmi 15C 256GB + 8GB RAM", "price" => 22500, "image_path" => "Images/redmi/redmi15c.jpg"],
+            ["name" => "Redmi 15C 256GB + 8GB RAM", "price" => 23000, "image_path" => "Images/redmi/redmi15c.jpg"],
             ["name" => "Redmi 15C 256GB + 4GB RAM", "price" => 19500, "image_path" => "Images/redmi/redmi15c.jpg"],
             ["name" => "Redmi 15C 128GB + 4GB RAM", "price" => 18600, "image_path" => "Images/redmi/redmi15c.jpg"],
 
             // REDMI A7 SERIES
             ["name" => "Redmi A7 128GB + 4GB RAM", "price" => 0, "image_path" => "Images/redmi/redmia7.webp"],
-            ["name" => "Redmi A7 Pro 64GB + 4GB RAM", "price" => 14500, "image_path" => "Images/redmi/redmia7pro.png"],
-            ["name" => "Redmi A7 64GB + 3GB RAM", "price" => 13600, "image_path" => "Images/redmi/redmia7.webp"],
+            ["name" => "Redmi A7 Pro 128GB + 4GB RAM", "price" => 19600, "image_path" => "Images/redmi/redmia7pro.png"],
+            ["name" => "Redmi A7 Pro 64GB + 4GB RAM", "price" => 18000, "image_path" => "Images/redmi/redmia7pro.png"],
+            ["name" => "Redmi A7 64GB + 3GB RAM", "price" => 17000, "image_path" => "Images/redmi/redmia7.webp"],
 
             // TABLETS
             ["name" => "Redmi Pad SE 8.7\" 128GB + 4GB RAM", "price" => 0, "image_path" => "Images/redmi/redmipadse.jpg"],
@@ -42,11 +56,6 @@ class RedmiSeeder extends Seeder
             ["name" => "Redmi Pad 2 4G 256GB + 8GB RAM", "price" => 0, "image_path" => "Images/redmi/redmipad2.jpg"],
         ];
 
-        foreach ($redmis as $phone) {
-            Phone::updateOrCreate(
-                ['name' => $phone['name']],
-                ['price' => $phone['price'], 'image_path' => $phone['image_path']]
-            );
-        }
+        SeededPhones::save($redmis);
     }
 }

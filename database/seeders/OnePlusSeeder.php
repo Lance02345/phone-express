@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\Phone;
 use Illuminate\Database\Seeder;
 
 class OnePlusSeeder extends Seeder
@@ -19,11 +18,6 @@ class OnePlusSeeder extends Seeder
             ["name" => "OnePlus 15 512GB + 16GB RAM", "price" => 125000, "image_path" => "Images/oneplus/oneplus15.jpg"],
         ];
 
-        foreach ($oneplus as $phone) {
-            Phone::updateOrCreate(
-                ['name' => $phone['name']],
-                ['price' => $phone['price'], 'image_path' => $phone['image_path']]
-            );
-        }
+        SeededPhones::save($oneplus);
     }
 }

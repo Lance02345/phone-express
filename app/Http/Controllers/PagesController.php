@@ -26,7 +26,7 @@ class PagesController extends Controller
         '200000+' => ['min' => 200000, 'max' => null],
     ];
 
-    public const CATEGORIES = ['Smartphones', 'Tablets', 'Laptops', 'Desktops', 'Watches', 'Audio', 'Accessories'];
+    public const CATEGORIES = ['Smartphones', 'Feature Phones', 'Tablets', 'Laptops', 'Desktops', 'Watches', 'Audio', 'Accessories'];
 
     private const STORAGE_CATEGORIES = ['Smartphones', 'Tablets', 'Laptops', 'Desktops'];
 

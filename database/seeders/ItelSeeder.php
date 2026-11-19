@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\Phone;
 use Illuminate\Database\Seeder;
 
 class ItelSeeder extends Seeder
@@ -17,11 +16,6 @@ class ItelSeeder extends Seeder
             ["name" => "Itel A06 64GB + 2GB RAM", "price" => 10500, "image_path" => "Images/itel/itela06.jpg"],
         ];
 
-        foreach ($itels as $phone) {
-            Phone::updateOrCreate(
-                ['name' => $phone['name']],
-                ['price' => $phone['price'], 'image_path' => $phone['image_path']]
-            );
-        }
+        SeededPhones::save($itels);
     }
 }

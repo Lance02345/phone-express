@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\Phone;
 
 class OppoSeeder extends Seeder
 {
@@ -47,11 +46,6 @@ class OppoSeeder extends Seeder
             ["name" => "Oppo A3x 128GB + 4GB RAM", "price" => 15700, "image_path" => "Images/oppo/a3x.jpg"],
         ];
 
-        foreach ($oppos as $phone) {
-            Phone::updateOrCreate(
-                ['name' => $phone['name']],
-                ['price' => $phone['price'], 'image_path' => $phone['image_path']]
-            );
-        }
+        SeededPhones::save($oppos);
     }
 }

@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\Phone;
 
 class TecnoSeeder extends Seeder
 {
@@ -18,8 +17,8 @@ class TecnoSeeder extends Seeder
             ["name" => "Tecno Phantom V Fold 5G AD10 256GB + 12GB RAM", "price" => 119500, "image_path" => "Images/tecno/phantomvfold.png"],
 
             // CAMON SERIES
-            ["name" => "Tecno Camon 50 Pro CN5C 256GB + 8GB RAM", "price" => 42000, "image_path" => "Images/tecno/camon50pro.png"],
-            ["name" => "Tecno Camon 50 CN5 256GB + 8GB RAM", "price" => 35000, "image_path" => "Images/tecno/camon50.png"],
+            ["name" => "Tecno Camon 50 Pro CN5C 256GB + 8GB RAM", "price" => 44000, "image_path" => "Images/tecno/camon50pro.png"],
+            ["name" => "Tecno Camon 50 CN5 256GB + 8GB RAM", "price" => 36000, "image_path" => "Images/tecno/camon50.png"],
             ["name" => "Tecno Camon 40 Pro CM6 256GB + 8GB RAM", "price" => 34500, "image_path" => "Images/tecno/camon40pro.jpg"],
 
             // SPARK SERIES
@@ -27,24 +26,31 @@ class TecnoSeeder extends Seeder
             ["name" => "Tecno Spark Slim KM7k 256GB + 8GB RAM", "price" => 0, "image_path" => "Images/tecno/sparkslim.png"],
             ["name" => "Tecno Spark 40 Pro+ KM7 256GB + 8GB RAM", "price" => 26700, "image_path" => "Images/tecno/spark40proplus.webp"],
             ["name" => "Tecno Spark 40 Pro KM6 128GB + 8GB RAM", "price" => 0, "image_path" => "Images/tecno/spark40pro.jpg"],
-            ["name" => "Tecno Spark 50 KM5 256GB + 4GB RAM", "price" => 21800, "image_path" => "Images/tecno/spark50.jpg"],
-            ["name" => "Tecno Spark 50 KN4 128GB + 4GB RAM", "price" => 19500, "image_path" => "Images/tecno/spark50.jpg"],
+            ["name" => "Tecno Spark 50 KN4 256GB + 4GB RAM", "price" => 23200, "image_path" => "Images/tecno/spark50.jpg"],
+            ["name" => "Tecno Spark 50 KN4 128GB + 4GB RAM", "price" => 21500, "image_path" => "Images/tecno/spark50.jpg"],
+
+            ["name" => "Tecno Spark 50 Pro KO5 256GB + 4GB RAM", "price" => 27000, "image_path" => "Images/tecno/spark50pro.jpg"],
+            ["name" => "Tecno Spark 50 Pro KO5 128GB + 4GB RAM", "price" => 23500, "image_path" => "Images/tecno/spark50pro.jpg"],
 
             // POP SERIES
-            ["name" => "Tecno Pop 20 KN3 128GB + 4GB RAM", "price" => 17200, "image_path" => "Images/tecno/pop20.png"],
+            ["name" => "Tecno Pop 20 KN3 128GB + 4GB RAM", "price" => 18000, "image_path" => "Images/tecno/pop20.png"],
             ["name" => "Tecno Pop 20 KN3 64GB + 4GB RAM", "price" => 15900, "image_path" => "Images/tecno/pop20.png"],
             ["name" => "Tecno Pop 10 KM4 64GB + 3GB RAM", "price" => 14100, "image_path" => "Images/tecno/pop10.jpg"],
 
+            ["name" => "Tecno Pop 20C KO2 64GB + 4GB RAM", "price" => 17000, "image_path" => "Images/tecno/pop20c.jpg"],
+
             // MEGAPAD SERIES
+            ["name" => "Tecno Megapad 2 T1103 128GB + 6GB RAM", "price" => 31000, "image_path" => "Images/tecno/megapad2.jpg"],
+            ["name" => "Tecno Megapad SE 2 T1002 128GB + 4GB RAM", "price" => 24500, "image_path" => "Images/tecno/megapadse2.jpg"],
             ["name" => "Tecno Megapad SE T1102 256GB + 8GB RAM", "price" => 0, "image_path" => "Images/tecno/megapad.png"],
             ["name" => "Tecno Megapad SE T1102 128GB + 4GB RAM", "price" => 0, "image_path" => "Images/tecno/megapad.png"],
+
+            // MULIKA MWIZI (FEATURE PHONES)
+            ["name" => "Tecno T102", "price" => 1700, "image_path" => "Images/tecno/t102.jpg"],
+            ["name" => "Tecno T372", "price" => 2700, "image_path" => "Images/tecno/t372.jpg"],
+            ["name" => "Tecno T402", "price" => 3000, "image_path" => "Images/tecno/t402.jpg"],
         ];
 
-        foreach ($tecnos as $phone) {
-            Phone::updateOrCreate(
-                ['name' => $phone['name']],
-                ['price' => $phone['price'], 'image_path' => $phone['image_path']]
-            );
-        }
+        SeededPhones::save($tecnos);
     }
 }

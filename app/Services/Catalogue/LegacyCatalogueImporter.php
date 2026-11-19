@@ -17,10 +17,14 @@ class LegacyCatalogueImporter
     public function __construct(private readonly LegacyPhoneMapper $mapper) {}
 
     /**
+     * @param  array<int, string>|null  $currentNames  phone names in the seeders right now; variants whose phone is
+     *                                                 not among them are hidden. Null leaves visibility unchanged.
      * @return array<string, mixed>
      */
-    public function run(bool $dryRun = true): array
+    public function run(bool $dryRun = true, ?array $currentNames = null): array
     {
+        $current = $currentNames === null ? null : array_flip($currentNames);
+
         $mappedPhones = Phone::query()->orderBy('id')->get()->map(
             fn (Phone $phone) => $this->mapper->map($phone)
         );
@@ -46,7 +50,9 @@ class LegacyCatalogueImporter
             return $report;
         }
 
-        DB::transaction(function () use ($mappedPhones): void {
+        $retired = 0;
+
+        DB::transaction(function () use ($mappedPhones, $current, &$retired): void {
             foreach ($mappedPhones as $item) {
                 $brand = Brand::updateOrCreate(
                     ['slug' => $item['brand_slug']],
@@ -73,6 +79,11 @@ class LegacyCatalogueImporter
                 );
 
                 if (! $variant->exists || ! $variant->is_manually_managed) {
+                    $isActive = $current === null
+                        ? (! $variant->exists || $variant->is_active)
+                        : isset($current[$item['label']]);
+                    $retired += $isActive ? 0 : 1;
+
                     $variant->fill([
                         'product_id' => $product->id,
                         'legacy_phone_id' => $item['legacy_phone_id'],
@@ -87,7 +98,7 @@ class LegacyCatalogueImporter
                         'currency' => $item['currency'],
                         'quote_required' => $item['quote_required'],
                         'payment_plan_eligible' => $item['payment_plan_eligible'],
-                        'is_active' => true,
+                        'is_active' => $isActive,
                     ])->save();
                 }
 
@@ -112,6 +123,7 @@ class LegacyCatalogueImporter
         Cache::forget('catalogue_category_counts_v3');
         Cache::forget('catalogue_category_counts_v4');
 
+        $report['retired'] = $retired;
         $report['persisted'] = [
             'brands' => Brand::count(),
             'categories' => Category::count(),

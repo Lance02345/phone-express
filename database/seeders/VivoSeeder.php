@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\Phone;
 
 class VivoSeeder extends Seeder
 {
@@ -40,11 +39,6 @@ class VivoSeeder extends Seeder
             ["name" => "Vivo X300 Pro 512GB + 16GB RAM", "price" => 152000, "image_path" => "Images/vivo/vivox300pro.webp"],
         ];
 
-        foreach ($vivos as $phone) {
-            Phone::updateOrCreate(
-                ['name' => $phone['name']],
-                ['price' => $phone['price'], 'image_path' => $phone['image_path']]
-            );
-        }
+        SeededPhones::save($vivos);
     }
 }

@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\Phone;
 
 class SamsungSeeder extends Seeder
 {
@@ -11,16 +10,20 @@ class SamsungSeeder extends Seeder
     {
         $samsungs = [
             // BRAND NEW (12 MONTHS WARRANTY)
-            ["name" => "Samsung Galaxy A17 128GB + 4GB RAM", "price" => 24500, "image_path" => "Images/samsung/samsunga17.jpg"],
+            ["name" => "Samsung Galaxy A16 128GB + 4GB RAM", "price" => 22500, "image_path" => "Images/samsung/samsunga16.jpg"],
+            ["name" => "Samsung Galaxy A17 128GB + 4GB RAM", "price" => 25000, "image_path" => "Images/samsung/samsunga17.jpg"],
             ["name" => "Samsung Galaxy A17 128GB + 6GB RAM", "price" => 28000, "image_path" => "Images/samsung/samsunga17.jpg"],
-            ["name" => "Samsung Galaxy A17 4G 256GB + 8GB RAM", "price" => 34000, "image_path" => "Images/samsung/samsunga17.jpg"],
+            ["name" => "Samsung Galaxy A17 4G 256GB + 8GB RAM", "price" => 34500, "image_path" => "Images/samsung/samsunga17.jpg"],
             ["name" => "Samsung Galaxy A17 5G 256GB + 8GB RAM", "price" => 37500, "image_path" => "Images/samsung/samsunga17.jpg"],
-            ["name" => "Samsung Galaxy A26 128GB + 6GB RAM", "price" => 33000, "image_path" => "Images/samsung/samsunga26.jpg"],
-            ["name" => "Samsung Galaxy A26 256GB + 8GB RAM", "price" => 38000, "image_path" => "Images/samsung/samsunga26.jpg"],
-            ["name" => "Samsung Galaxy A27 128GB + 8GB RAM", "price" => 35000, "image_path" => "Images/samsung/samsunga27.jpg"],
-            ["name" => "Samsung Galaxy A27 256GB + 8GB RAM", "price" => 39000, "image_path" => "Images/samsung/samsunga27.jpg"],
-            ["name" => "Samsung Galaxy A36 256GB + 8GB RAM", "price" => 40000, "image_path" => "Images/samsung/samsunga36.jpg"],
-            ["name" => "Samsung Galaxy A56 256GB + 12GB RAM", "price" => 52000, "image_path" => "Images/samsung/samsunga56.jpg"],
+            ["name" => "Samsung Galaxy A26 128GB + 6GB RAM", "price" => 36000, "image_path" => "Images/samsung/samsunga26.jpg"],
+            ["name" => "Samsung Galaxy A26 256GB + 8GB RAM", "price" => 39500, "image_path" => "Images/samsung/samsunga26.jpg"],
+            ["name" => "Samsung Galaxy A27 128GB + 8GB RAM", "price" => 35500, "image_path" => "Images/samsung/samsunga27.jpg"],
+            ["name" => "Samsung Galaxy A27 256GB + 8GB RAM", "price" => 42000, "image_path" => "Images/samsung/samsunga27.jpg"],
+            ["name" => "Samsung Galaxy A36 256GB + 8GB RAM", "price" => 41000, "image_path" => "Images/samsung/samsunga36.jpg"],
+            ["name" => "Samsung Galaxy A37 256GB + 8GB RAM", "price" => 47000, "image_path" => "Images/samsung/samsunga37.jpg"],
+            ["name" => "Samsung Galaxy A56 256GB + 8GB RAM", "price" => 50000, "image_path" => "Images/samsung/samsunga56.jpg"],
+            ["name" => "Samsung Galaxy A56 256GB + 12GB RAM", "price" => 53000, "image_path" => "Images/samsung/samsunga56.jpg"],
+            ["name" => "Samsung Galaxy A57 256GB + 8GB RAM", "price" => 55500, "image_path" => "Images/samsung/samsunga57.jpg"],
             ["name" => "Samsung Galaxy S25FE 5G 128GB + 8GB RAM", "price" => 65000, "image_path" => "Images/samsung/samsungs25fe.jpg"],
             ["name" => "Samsung Galaxy S25FE 5G 256GB + 8GB RAM", "price" => 74000, "image_path" => "Images/samsung/samsungs25fe.jpg"],
             ["name" => "Samsung Galaxy S25 5G 256GB + 12GB RAM", "price" => 86000, "image_path" => "Images/samsung/samsungs25.jpg"],
@@ -140,11 +143,6 @@ class SamsungSeeder extends Seeder
             ["name" => "Samsung Galaxy Fold 7 512GB", "price" => 157000, "image_path" => "Images/samsung/samsungfold7.jpg"],
         ];
 
-        foreach ($samsungs as $phone) {
-            Phone::updateOrCreate(
-                ['name' => $phone['name']],
-                ['price' => $phone['price'], 'image_path' => $phone['image_path']]
-            );
-        }
+        SeededPhones::save($samsungs);
     }
 }

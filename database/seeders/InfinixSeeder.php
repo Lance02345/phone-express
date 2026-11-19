@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\Phone;
 
 class InfinixSeeder extends Seeder
 {
@@ -36,11 +35,6 @@ class InfinixSeeder extends Seeder
             ["name" => "Infinix XPAD X1101B 256GB + 4GB RAM (SIM Card)", "price" => 19500, "image_path" => "Images/infinix/xpad.jpg"],
         ];
 
-        foreach ($infinix as $phone) {
-            Phone::updateOrCreate(
-                ['name' => $phone['name']],
-                ['price' => $phone['price'], 'image_path' => $phone['image_path']]
-            );
-        }
+        SeededPhones::save($infinix);
     }
 }

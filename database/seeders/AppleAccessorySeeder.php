@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\Phone;
 use Illuminate\Database\Seeder;
 
 class AppleAccessorySeeder extends Seeder
@@ -40,11 +39,6 @@ class AppleAccessorySeeder extends Seeder
             ["name" => "Magic Keyboard for iPad Pro M4/M5 13-inch", "price" => 50000, "image_path" => "Images/apple/magickeyboard.jpg"],
         ];
 
-        foreach ($accessories as $phone) {
-            Phone::updateOrCreate(
-                ['name' => $phone['name']],
-                ['price' => $phone['price'], 'image_path' => $phone['image_path']]
-            );
-        }
+        SeededPhones::save($accessories);
     }
 }

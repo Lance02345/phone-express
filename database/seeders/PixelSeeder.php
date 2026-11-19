@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\Phone;
 
 class PixelSeeder extends Seeder
 {
@@ -32,11 +31,6 @@ class PixelSeeder extends Seeder
             ["name" => "Google Pixel 9 Pro 5G 256GB", "price" => 68000, "image_path" => "Images/google/pixel9pro.png"],
         ];
 
-        foreach ($pixels as $phone) {
-            Phone::updateOrCreate(
-                ['name' => $phone['name']],
-                ['price' => $phone['price'], 'image_path' => $phone['image_path']]
-            );
-        }
+        SeededPhones::save($pixels);
     }
 }

@@ -105,6 +105,10 @@ class LegacyPhoneMapper
             return 'Desktops';
         }
 
+        if (preg_match('/^(?:Tecno|Itel) T\d{3}\b/i', $name) === 1) {
+            return 'Feature Phones';
+        }
+
         if (preg_match('/\bWatch\d*\b/i', $name) === 1) {
             return 'Watches';
         }

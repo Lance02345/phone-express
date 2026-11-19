@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\Phone;
 use Illuminate\Database\Seeder;
 
 class XiaomiSeeder extends Seeder
@@ -15,11 +14,6 @@ class XiaomiSeeder extends Seeder
             ["name" => "Poco X8 Pro 512GB + 12GB RAM", "price" => 63000, "image_path" => "Images/xiaomi/pocox8pro.jpg"],
         ];
 
-        foreach ($xiaomis as $phone) {
-            Phone::updateOrCreate(
-                ['name' => $phone['name']],
-                ['price' => $phone['price'], 'image_path' => $phone['image_path']]
-            );
-        }
+        SeededPhones::save($xiaomis);
     }
 }
