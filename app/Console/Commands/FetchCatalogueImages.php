@@ -25,6 +25,9 @@ class FetchCatalogueImages extends Command
 
     private const MAX_SIDE = 1000;
 
+    // Margin kept around a trimmed product, as a share of its longest side.
+    private const TRIM_PADDING = 0.06;
+
     private const MIN_SIDE = 300;
 
     // Skip huge originals rather than exhaust memory decoding them.
@@ -224,7 +227,8 @@ class FetchCatalogueImages extends Command
     }
 
     /**
-     * Resize, flatten onto white where needed, and write the image in the format its path asks for.
+     * Trim plain white or transparent margins, resize, flatten onto white where needed, and write the image
+     * in the format its path asks for.
      */
     private function store(string $bytes, string $path): bool
     {
@@ -238,7 +242,17 @@ class FetchCatalogueImages extends Command
             return false;
         }
 
-        [$width, $height] = [imagesx($source), imagesy($source)];
+        if (! imageistruecolor($source)) {
+            imagepalettetotruecolor($source);
+        }
+
+        // Product shots often sit small inside a large empty frame; keep the product plus an even margin.
+        [$boxX, $boxY, $boxWidth, $boxHeight] = $this->contentBox($source);
+        $padding = $boxWidth === imagesx($source) && $boxHeight === imagesy($source)
+            ? 0
+            : (int) round(max($boxWidth, $boxHeight) * self::TRIM_PADDING);
+
+        [$width, $height] = [$boxWidth + 2 * $padding, $boxHeight + 2 * $padding];
         $scale = min(1, self::MAX_SIDE / max($width, $height));
         [$newWidth, $newHeight] = [(int) round($width * $scale), (int) round($height * $scale)];
 
@@ -253,7 +267,11 @@ class FetchCatalogueImages extends Command
             imagefill($image, 0, 0, imagecolorallocate($image, 255, 255, 255));
         }
 
-        imagecopyresampled($image, $source, 0, 0, 0, 0, $newWidth, $newHeight, $width, $height);
+        imagecopyresampled(
+            $image, $source,
+            (int) round($padding * $scale), (int) round($padding * $scale), $boxX, $boxY,
+            (int) round($boxWidth * $scale), (int) round($boxHeight * $scale), $boxWidth, $boxHeight
+        );
 
         $target = public_path($path);
         File::ensureDirectoryExists(dirname($target));
@@ -268,6 +286,47 @@ class FetchCatalogueImages extends Command
         imagedestroy($image);
 
         return $written;
+    }
+
+    /**
+     * The smallest box holding everything that is not near-white or transparent, as [x, y, width, height].
+     * Returns the whole image when there is no worthwhile margin to remove.
+     *
+     * @return array{0: int, 1: int, 2: int, 3: int}
+     */
+    private function contentBox(\GdImage $image): array
+    {
+        [$width, $height] = [imagesx($image), imagesy($image)];
+        $step = max(1, intdiv(max($width, $height), 800));
+        [$left, $top, $right, $bottom] = [$width, $height, -1, -1];
+
+        for ($y = 0; $y < $height; $y += $step) {
+            for ($x = 0; $x < $width; $x += $step) {
+                $pixel = imagecolorat($image, $x, $y);
+                $alpha = ($pixel >> 24) & 0x7F;
+                $darkest = min(($pixel >> 16) & 0xFF, ($pixel >> 8) & 0xFF, $pixel & 0xFF);
+
+                if ($alpha < 100 && $darkest < 240) {
+                    [$left, $top, $right, $bottom] = [min($left, $x), min($top, $y), max($right, $x), max($bottom, $y)];
+                }
+            }
+        }
+
+        if ($right < 0) {
+            return [0, 0, $width, $height];
+        }
+
+        $left = max(0, $left - $step);
+        $top = max(0, $top - $step);
+        $boxWidth = min($width, $right + $step + 1) - $left;
+        $boxHeight = min($height, $bottom + $step + 1) - $top;
+
+        // Not worth it for a margin under ~8% of the image.
+        if ($boxWidth * $boxHeight > 0.85 * $width * $height) {
+            return [0, 0, $width, $height];
+        }
+
+        return [$left, $top, $boxWidth, $boxHeight];
     }
 
     /**
